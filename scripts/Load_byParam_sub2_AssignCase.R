@@ -1,17 +1,18 @@
-Storm_Load <- Storm[-which(Storm$paramClass=="Measurement"),]    ###remove all the flow data and conventional parameters
-Storm_Load <- Storm_Load[-which(Storm_Load$Sample_Matrix=="Sediment"),]     ###remove sediment samples
+#####
+# Process the Storm data frame (created by Plot_ByParam_ver9_Apr2014.r)
+#  to make loads for each parameter (parameter group?) per event.
+#####
+
+Storm_Load <- Storm[-which(Storm$paramClass=="Measurement"),]                ### remove all the flow data and conventional parameters
+Storm_Load <- Storm_Load[-which(Storm_Load$Sample_Matrix=="Sediment"),]      ### remove sediment samples
+Storm_Load <- Storm_Load[which(Storm_Load$new_Result_Units=="ug/L"),]        ### ensure all remaining samples are in appropriate units
 
 Storm_Load$Field_Collection_End_Date<-as.Date(Storm_Load$Field_Collection_End_Date,"%m/%d/%Y")
 Storm_Load$sample.year<-as.numeric(format(Storm_Load$Field_Collection_End_Date,"%Y"))
 
-
-
 ##calculate sample event loads
 Storm$sample_loads<-((Storm$sample_event_flow_volume*Storm$new_Result_Value)*1000)/1e-09      ###DRAFT unverified calculates load in Kg
 Storm$load_units<-Storm$new_Result_Units
-
-
-
 
 Parameter.string <- paste(Storm$Parameter, " ", tolower(Storm$new_Fraction_Analyzed), " (", Storm$new_Result_Units, ")", sep="")
 
