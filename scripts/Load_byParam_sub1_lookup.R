@@ -150,8 +150,8 @@ Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start)",
               )
 
 ### Create a list of samples with missing storm or sample volumes
-noStorm <- Storm[which(is.na(test$storm_event_flow_volume)), ]
-noSample <- test[which(is.na(test$sample_event_flow_volume)), ]
+noStorm  <- Storm[which(is.na(Storm$storm_event_flow_volume)), ]
+noSample <- Storm[which(is.na(Storm$sample_event_flow_volume)), ]
 
 ## print out a check to see if it works
 Storm[1:100, "storm_event_flow_volume"]

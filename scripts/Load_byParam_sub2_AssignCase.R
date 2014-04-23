@@ -1,26 +1,48 @@
 #####
-# Process the Storm data frame (created by Plot_ByParam_ver9_Apr2014.r)
+# Process the Storm data frame (created by Plot_ByParam_ver9_Apr2014.r
+#  and further proceesed by Load_byParam_sub1_lookup.R)
 #  to make loads for each parameter (parameter group?) per event.
 #####
 
-Storm_Load <- Storm[-which(Storm$paramClass=="Measurement"),]                ### remove all the flow data and conventional parameters
-Storm_Load <- Storm_Load[-which(Storm_Load$Sample_Matrix=="Sediment"),]      ### remove sediment samples
-Storm_Load <- Storm_Load[which(Storm_Load$new_Result_Units=="ug/L"),]        ### ensure all remaining samples are in appropriate units
+storm_load <- Storm[-which(Storm$paramClass=="Measurement"),]                ### remove all the flow data and conventional parameters
+storm_load <- storm_load[-which(storm_load$Sample_Matrix=="Sediment"),]      ### remove sediment samples
+storm_load <- storm_load[which(storm_load$new_Result_Units=="ug/L"),]        ### ensure all remaining samples are in appropriate units
 
-Storm_Load$Field_Collection_End_Date<-as.Date(Storm_Load$Field_Collection_End_Date,"%m/%d/%Y")
-Storm_Load$sample.year<-as.numeric(format(Storm_Load$Field_Collection_End_Date,"%Y"))
+storm_load$Field_Collection_End_Date<-as.Date(storm_load$Field_Collection_End_Date,"%m/%d/%Y")
+storm_load$sample.year<-as.numeric(format(storm_load$Field_Collection_End_Date,"%Y"))
 
-##calculate sample event loads
-Storm$sample_loads<-((Storm$sample_event_flow_volume*Storm$new_Result_Value)*1000)/1e-09      ###DRAFT unverified calculates load in Kg
-Storm$load_units<-Storm$new_Result_Units
+### calculate sample event loads -------------------------
+# Unit conversion note - sample and storm volumes are in m3.  Desired load units are Kg.
+#  All samples should be in ug/L.  Muliply ug/L by 1000 to get ug/m3.  Then divide
+#  the resulting load by 1e9 (1,000,000,000) to convert ug to Kg.
+storm_load$sample_loads <- ((storm_load$sample_event_flow_volume*storm_load$new_Result_Value)*1000)/1e-09
+storm_load$storm_loads  <- ((storm_load$storm_event_flow_volume*storm_load$new_Result_Value)*1000)/1e-09
+storm_load$load_units   <- "Kg"
 
-Parameter.string <- paste(Storm$Parameter, " ", tolower(Storm$new_Fraction_Analyzed), " (", Storm$new_Result_Units, ")", sep="")
+# Update Parameter_string to remove load units (which should now be identical for all parameters)
+storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
 
-####THIS IS SIMPLY A COPY OF THE SCRIPT FOR CALCULATING DATA SUMMARIES FROM CONCENTRATIONS AND NEEDS EDITING FOR LOADS
+noStorm  <- storm_load[which(is.na(storm_load$storm_loads)), ]
+noSample <- storm_load[which(is.na(storm_load$sample_loads)), ]
 
+loadCount <- aggregate(storm_load$sample_loads, list(parameter=storm_load$Parameter_string, location=storm_load$Location_ID), length)
+loadNA    <- aggregate(storm_load$sample_loads, list(parameter=storm_load$Parameter_string, location=storm_load$Location_ID), function(x) sum(is.na(x)))
+
+write.csv(loadNA, paste(outputDirectory, "loadNA.csv", sep="/"))
+write.csv(loadCount, paste(outputDirectory, "loadCount.csv", sep="/"))
+
+### Future reference - plots
+
+#layout(matrix(c(1:2), 2, 1, byrow=TRUE))
+#cuLoad <- storm_load[which(storm_load$Parameter_string == "Copper"),]
+#boxplot(x = cuLoad$sample_loads, horizontal = TRUE, log = "x")
+#plot(x = cuLoad$sample_loads, y = rep(1, nrow(cuLoad)), pch = -124, col = rgb(0,0,0,0.15), log = "x")
+
+
+###THIS IS SIMPLY A COPY OF THE SCRIPT FOR CALCULATING DATA SUMMARIES FROM CONCENTRATIONS AND NEEDS EDITING FOR LOADS -------------------------
           
-GroupList <-    unique(Storm_Load[,c("Parameter.string", "paramGroup", "Parameter", "new_Fraction_Analyzed", "new_Result_Units")])
-ParamList <- as.vector(sort(unique(Storm_Load$Parameter.string)))
+GroupList <- unique(storm_load[,c("Parameter.string", "paramGroup", "Parameter", "new_Fraction_Analyzed", "new_Result_Units")])
+ParamList <- as.vector(sort(unique(storm_load$Parameter.string)))
 
 ### Store Detection counts in a matrix for export.
 Case.list <- data.frame(Parameter=character(),

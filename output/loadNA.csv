@@ -1,0 +1,1289 @@
+"","loads","location","x"
+"1","2-Methylnaphthalene","GM34921",0
+"2","2,4-D","GM34921",0
+"3","Acenaphthene","GM34921",0
+"4","Acenaphthylene","GM34921",0
+"5","Anthracene","GM34921",0
+"6","Benz(a)anthracene","GM34921",0
+"7","Benzo(a)pyrene","GM34921",0
+"8","Benzo(b)fluoranthene","GM34921",0
+"9","Benzo(g,h,i)perylene","GM34921",0
+"10","Benzo(k)fluoranthene","GM34921",0
+"11","Bis(2-ethylhexyl) phthalate","GM34921",0
+"12","Butyl benzyl phthalate","GM34921",0
+"13","Cadmium","GM34921",0
+"14","Cadmium dissolved","GM34921",0
+"15","Chloride","GM34921",0
+"16","Chlorpyrifos","GM34921",0
+"17","Chrysene","GM34921",0
+"18","Copper","GM34921",0
+"19","Copper dissolved","GM34921",0
+"20","CPAH","GM34921",30
+"21","Di-N-Octyl Phthalate","GM34921",0
+"22","Diazinon","GM34921",0
+"23","Dibenzo(a,h)anthracene","GM34921",0
+"24","Dibutyl phthalate","GM34921",0
+"25","Dichlobenil","GM34921",0
+"26","Diesel Range Organics","GM34921",4
+"27","Diethyl phthalate","GM34921",0
+"28","Dimethyl phthalate","GM34921",0
+"29","Fluoranthene","GM34921",0
+"30","Fluorene","GM34921",0
+"31","Gasoline Range Organics","GM34921",4
+"32","Hardness as CaCO3","GM34921",0
+"33","Heavy Fuel Oil","GM34921",4
+"34","HPAH","GM34921",29
+"35","Indeno(1,2,3-cd)pyrene","GM34921",0
+"36","Lead","GM34921",0
+"37","Lead dissolved","GM34921",0
+"38","LPAH","GM34921",30
+"39","Malathion","GM34921",0
+"40","Mecoprop","GM34921",0
+"41","Mercury","GM34921",0
+"42","Mercury dissolved","GM34921",0
+"43","Naphthalene","GM34921",0
+"44","Nitrite-Nitrate dissolved","GM34921",0
+"45","Pentachlorophenol","GM34921",0
+"46","Phenanthrene","GM34921",0
+"47","Prometon","GM34921",0
+"48","Pyrene","GM34921",0
+"49","Surfactants","GM34921",0
+"50","Total Benzofluoranthenes","GM34921",30
+"51","Total Kjeldahl Nitrogen","GM34921",0
+"52","Total PAH","GM34921",30
+"53","Total Phosphorus","GM34921",0
+"54","Total Phosphorus dissolved","GM34921",0
+"55","Total Phthalate","GM34921",30
+"56","Total Suspended Solids","GM34921",0
+"57","Total TPHDx","GM34921",21
+"58","Triclopyr","GM34921",0
+"59","Zinc","GM34921",0
+"60","Zinc dissolved","GM34921",0
+"61","2-Methylnaphthalene","KICCOMS8D_OUT",0
+"62","2,4-D","KICCOMS8D_OUT",0
+"63","Acenaphthene","KICCOMS8D_OUT",0
+"64","Acenaphthylene","KICCOMS8D_OUT",0
+"65","Anthracene","KICCOMS8D_OUT",0
+"66","Aresenic dissolved","KICCOMS8D_OUT",0
+"67","Benz(a)anthracene","KICCOMS8D_OUT",0
+"68","Benzo(a)pyrene","KICCOMS8D_OUT",0
+"69","Benzo(b)fluoranthene","KICCOMS8D_OUT",0
+"70","Benzo(g,h,i)perylene","KICCOMS8D_OUT",0
+"71","Benzo(k)fluoranthene","KICCOMS8D_OUT",0
+"72","Benzofluoranthenes, Total","KICCOMS8D_OUT",0
+"73","Bis(2-ethylhexyl) phthalate","KICCOMS8D_OUT",0
+"74","Butyl benzyl phthalate","KICCOMS8D_OUT",0
+"75","Cadmium","KICCOMS8D_OUT",0
+"76","Cadmium dissolved","KICCOMS8D_OUT",0
+"77","Calcium","KICCOMS8D_OUT",0
+"78","Chloride","KICCOMS8D_OUT",0
+"79","Chlorpyrifos","KICCOMS8D_OUT",0
+"80","Chrysene","KICCOMS8D_OUT",0
+"81","Copper","KICCOMS8D_OUT",0
+"82","Copper dissolved","KICCOMS8D_OUT",0
+"83","CPAH","KICCOMS8D_OUT",30
+"84","Di-N-Octyl Phthalate","KICCOMS8D_OUT",0
+"85","Diazinon","KICCOMS8D_OUT",0
+"86","Dibenzo(a,h)anthracene","KICCOMS8D_OUT",0
+"87","Dibutyl phthalate","KICCOMS8D_OUT",0
+"88","Dichlobenil","KICCOMS8D_OUT",0
+"89","Diesel Range Organics","KICCOMS8D_OUT",15
+"90","Diethyl phthalate","KICCOMS8D_OUT",0
+"91","Dimethyl phthalate","KICCOMS8D_OUT",0
+"92","Fluoranthene","KICCOMS8D_OUT",0
+"93","Fluorene","KICCOMS8D_OUT",0
+"94","Gasoline Range Organics","KICCOMS8D_OUT",15
+"95","Hardness as CaCO3","KICCOMS8D_OUT",0
+"96","Heavy Fuel Oil","KICCOMS8D_OUT",1
+"97","HPAH","KICCOMS8D_OUT",30
+"98","Indeno(1,2,3-cd)pyrene","KICCOMS8D_OUT",0
+"99","Lead","KICCOMS8D_OUT",0
+"100","Lead dissolved","KICCOMS8D_OUT",0
+"101","LPAH","KICCOMS8D_OUT",30
+"102","Lube Oil","KICCOMS8D_OUT",15
+"103","Magnesium","KICCOMS8D_OUT",0
+"104","Malathion","KICCOMS8D_OUT",0
+"105","Mecoprop","KICCOMS8D_OUT",0
+"106","Mercury","KICCOMS8D_OUT",0
+"107","Mercury dissolved","KICCOMS8D_OUT",0
+"108","Naphthalene","KICCOMS8D_OUT",0
+"109","Nitrite-Nitrate","KICCOMS8D_OUT",0
+"110","Ortho-phosphate dissolved","KICCOMS8D_OUT",0
+"111","p-Cresol","KICCOMS8D_OUT",0
+"112","Pentachlorophenol","KICCOMS8D_OUT",0
+"113","Phenanthrene","KICCOMS8D_OUT",0
+"114","Phenol","KICCOMS8D_OUT",0
+"115","Prometon","KICCOMS8D_OUT",0
+"116","Pyrene","KICCOMS8D_OUT",0
+"117","Surfactants","KICCOMS8D_OUT",0
+"118","Total Benzofluoranthenes","KICCOMS8D_OUT",30
+"119","Total Kjeldahl Nitrogen","KICCOMS8D_OUT",0
+"120","Total PAH","KICCOMS8D_OUT",30
+"121","Total Phosphorus","KICCOMS8D_OUT",0
+"122","Total Phthalate","KICCOMS8D_OUT",30
+"123","Total Suspended Solids","KICCOMS8D_OUT",0
+"124","Total TPHDx","KICCOMS8D_OUT",36
+"125","Triclopyr","KICCOMS8D_OUT",0
+"126","Zinc","KICCOMS8D_OUT",0
+"127","Zinc dissolved","KICCOMS8D_OUT",0
+"128","2-Methylnaphthalene","KICHDRS8D_OUT",0
+"129","2,4-D","KICHDRS8D_OUT",0
+"130","Acenaphthene","KICHDRS8D_OUT",0
+"131","Acenaphthylene","KICHDRS8D_OUT",0
+"132","Anthracene","KICHDRS8D_OUT",0
+"133","Benz(a)anthracene","KICHDRS8D_OUT",0
+"134","Benzo(a)pyrene","KICHDRS8D_OUT",0
+"135","Benzo(b)fluoranthene","KICHDRS8D_OUT",0
+"136","Benzo(g,h,i)perylene","KICHDRS8D_OUT",0
+"137","Benzo(k)fluoranthene","KICHDRS8D_OUT",0
+"138","Benzofluoranthenes, Total","KICHDRS8D_OUT",0
+"139","Bis(2-ethylhexyl) phthalate","KICHDRS8D_OUT",0
+"140","Butyl benzyl phthalate","KICHDRS8D_OUT",0
+"141","Cadmium","KICHDRS8D_OUT",0
+"142","Cadmium dissolved","KICHDRS8D_OUT",0
+"143","Calcium","KICHDRS8D_OUT",0
+"144","Chloride","KICHDRS8D_OUT",0
+"145","Chlorpyrifos","KICHDRS8D_OUT",0
+"146","Chrysene","KICHDRS8D_OUT",0
+"147","Copper","KICHDRS8D_OUT",0
+"148","Copper dissolved","KICHDRS8D_OUT",0
+"149","CPAH","KICHDRS8D_OUT",20
+"150","Di-N-Octyl Phthalate","KICHDRS8D_OUT",0
+"151","Diazinon","KICHDRS8D_OUT",0
+"152","Dibenzo(a,h)anthracene","KICHDRS8D_OUT",0
+"153","Dibutyl phthalate","KICHDRS8D_OUT",0
+"154","Dichlobenil","KICHDRS8D_OUT",0
+"155","Diesel Range Organics","KICHDRS8D_OUT",16
+"156","Diethyl phthalate","KICHDRS8D_OUT",0
+"157","Dimethyl phthalate","KICHDRS8D_OUT",0
+"158","Fluoranthene","KICHDRS8D_OUT",0
+"159","Fluorene","KICHDRS8D_OUT",0
+"160","Gasoline Range Organics","KICHDRS8D_OUT",16
+"161","Hardness as CaCO3","KICHDRS8D_OUT",0
+"162","HPAH","KICHDRS8D_OUT",20
+"163","Indeno(1,2,3-cd)pyrene","KICHDRS8D_OUT",0
+"164","Lead","KICHDRS8D_OUT",0
+"165","Lead dissolved","KICHDRS8D_OUT",0
+"166","LPAH","KICHDRS8D_OUT",20
+"167","Lube Oil","KICHDRS8D_OUT",16
+"168","Magnesium","KICHDRS8D_OUT",0
+"169","Malathion","KICHDRS8D_OUT",0
+"170","Mecoprop","KICHDRS8D_OUT",0
+"171","Mercury","KICHDRS8D_OUT",0
+"172","Mercury dissolved","KICHDRS8D_OUT",0
+"173","Naphthalene","KICHDRS8D_OUT",0
+"174","Nitrite-Nitrate","KICHDRS8D_OUT",0
+"175","Ortho-phosphate dissolved","KICHDRS8D_OUT",0
+"176","p-Cresol","KICHDRS8D_OUT",0
+"177","Pentachlorophenol","KICHDRS8D_OUT",0
+"178","Phenanthrene","KICHDRS8D_OUT",0
+"179","Phenol","KICHDRS8D_OUT",0
+"180","Prometon","KICHDRS8D_OUT",0
+"181","Pyrene","KICHDRS8D_OUT",0
+"182","Surfactants","KICHDRS8D_OUT",0
+"183","Total Benzofluoranthenes","KICHDRS8D_OUT",20
+"184","Total Kjeldahl Nitrogen","KICHDRS8D_OUT",0
+"185","Total PAH","KICHDRS8D_OUT",20
+"186","Total Phosphorus","KICHDRS8D_OUT",0
+"187","Total Phthalate","KICHDRS8D_OUT",20
+"188","Total Suspended Solids","KICHDRS8D_OUT",0
+"189","Total TPHDx","KICHDRS8D_OUT",30
+"190","Triclopyr","KICHDRS8D_OUT",0
+"191","Zinc","KICHDRS8D_OUT",0
+"192","Zinc dissolved","KICHDRS8D_OUT",0
+"193","2-Methylnaphthalene","KICLDRS8D_OUT",2
+"194","2,4-D","KICLDRS8D_OUT",2
+"195","Acenaphthene","KICLDRS8D_OUT",2
+"196","Acenaphthylene","KICLDRS8D_OUT",2
+"197","Anthracene","KICLDRS8D_OUT",2
+"198","Aresenic dissolved","KICLDRS8D_OUT",0
+"199","Benz(a)anthracene","KICLDRS8D_OUT",2
+"200","Benzo(a)pyrene","KICLDRS8D_OUT",2
+"201","Benzo(b)fluoranthene","KICLDRS8D_OUT",1
+"202","Benzo(g,h,i)perylene","KICLDRS8D_OUT",2
+"203","Benzo(k)fluoranthene","KICLDRS8D_OUT",1
+"204","Benzofluoranthenes, Total","KICLDRS8D_OUT",1
+"205","Bis(2-ethylhexyl) phthalate","KICLDRS8D_OUT",2
+"206","Butyl benzyl phthalate","KICLDRS8D_OUT",2
+"207","Cadmium","KICLDRS8D_OUT",2
+"208","Cadmium dissolved","KICLDRS8D_OUT",2
+"209","Calcium","KICLDRS8D_OUT",2
+"210","Chloride","KICLDRS8D_OUT",2
+"211","Chlorpyrifos","KICLDRS8D_OUT",2
+"212","Chrysene","KICLDRS8D_OUT",2
+"213","Copper","KICLDRS8D_OUT",2
+"214","Copper dissolved","KICLDRS8D_OUT",2
+"215","CPAH","KICLDRS8D_OUT",28
+"216","Di-N-Octyl Phthalate","KICLDRS8D_OUT",2
+"217","Diazinon","KICLDRS8D_OUT",2
+"218","Dibenzo(a,h)anthracene","KICLDRS8D_OUT",2
+"219","Dibutyl phthalate","KICLDRS8D_OUT",2
+"220","Dichlobenil","KICLDRS8D_OUT",2
+"221","Diesel Range Organics","KICLDRS8D_OUT",14
+"222","Diethyl phthalate","KICLDRS8D_OUT",2
+"223","Dimethyl phthalate","KICLDRS8D_OUT",2
+"224","Fluoranthene","KICLDRS8D_OUT",2
+"225","Fluorene","KICLDRS8D_OUT",2
+"226","Gasoline Range Organics","KICLDRS8D_OUT",14
+"227","Hardness as CaCO3","KICLDRS8D_OUT",2
+"228","HPAH","KICLDRS8D_OUT",28
+"229","Indeno(1,2,3-cd)pyrene","KICLDRS8D_OUT",2
+"230","Lead","KICLDRS8D_OUT",2
+"231","Lead dissolved","KICLDRS8D_OUT",2
+"232","LPAH","KICLDRS8D_OUT",28
+"233","Lube Oil","KICLDRS8D_OUT",14
+"234","Magnesium","KICLDRS8D_OUT",2
+"235","Malathion","KICLDRS8D_OUT",2
+"236","Mecoprop","KICLDRS8D_OUT",2
+"237","Mercury","KICLDRS8D_OUT",0
+"238","Mercury dissolved","KICLDRS8D_OUT",0
+"239","Naphthalene","KICLDRS8D_OUT",2
+"240","Nitrite-Nitrate","KICLDRS8D_OUT",2
+"241","Ortho-phosphate dissolved","KICLDRS8D_OUT",2
+"242","p-Cresol","KICLDRS8D_OUT",0
+"243","Pentachlorophenol","KICLDRS8D_OUT",2
+"244","Phenanthrene","KICLDRS8D_OUT",2
+"245","Phenol","KICLDRS8D_OUT",0
+"246","Prometon","KICLDRS8D_OUT",2
+"247","Pyrene","KICLDRS8D_OUT",2
+"248","Surfactants","KICLDRS8D_OUT",2
+"249","Total Benzofluoranthenes","KICLDRS8D_OUT",28
+"250","Total Kjeldahl Nitrogen","KICLDRS8D_OUT",2
+"251","Total PAH","KICLDRS8D_OUT",28
+"252","Total Phosphorus","KICLDRS8D_OUT",2
+"253","Total Phthalate","KICLDRS8D_OUT",28
+"254","Total Suspended Solids","KICLDRS8D_OUT",2
+"255","Total TPHDx","KICLDRS8D_OUT",23
+"256","Triclopyr","KICLDRS8D_OUT",2
+"257","Zinc","KICLDRS8D_OUT",2
+"258","Zinc dissolved","KICLDRS8D_OUT",2
+"259","2-Methylnaphthalene","LDR010",0
+"260","2,4-D","LDR010",0
+"261","Acenaphthene","LDR010",0
+"262","Acenaphthylene","LDR010",0
+"263","Anthracene","LDR010",0
+"264","Benz(a)anthracene","LDR010",0
+"265","Benzo(a)pyrene","LDR010",0
+"266","Benzo(b)fluoranthene","LDR010",0
+"267","Benzo(g,h,i)perylene","LDR010",0
+"268","Benzo(k)fluoranthene","LDR010",0
+"269","Bis(2-ethylhexyl) phthalate","LDR010",0
+"270","Butyl benzyl phthalate","LDR010",0
+"271","Cadmium","LDR010",0
+"272","Cadmium dissolved","LDR010",0
+"273","Chloride","LDR010",0
+"274","Chlorpyrifos","LDR010",0
+"275","Chrysene","LDR010",0
+"276","Copper","LDR010",0
+"277","Copper dissolved","LDR010",0
+"278","CPAH","LDR010",24
+"279","Di-N-Octyl Phthalate","LDR010",0
+"280","Diazinon","LDR010",0
+"281","Dibenzo(a,h)anthracene","LDR010",0
+"282","Dibutyl phthalate","LDR010",0
+"283","Dichlobenil","LDR010",0
+"284","Diesel Range Organics","LDR010",6
+"285","Diethyl phthalate","LDR010",0
+"286","Dimethyl phthalate","LDR010",0
+"287","Fluoranthene","LDR010",0
+"288","Fluorene","LDR010",0
+"289","Gasoline Range Organics","LDR010",6
+"290","Hardness as CaCO3","LDR010",0
+"291","Heavy Fuel Oil","LDR010",6
+"292","HPAH","LDR010",24
+"293","Indeno(1,2,3-cd)pyrene","LDR010",0
+"294","Lead","LDR010",0
+"295","Lead dissolved","LDR010",0
+"296","LPAH","LDR010",24
+"297","Malathion","LDR010",0
+"298","Mecoprop","LDR010",0
+"299","Mercury","LDR010",0
+"300","Mercury dissolved","LDR010",0
+"301","Naphthalene","LDR010",0
+"302","Nitrite-Nitrate dissolved","LDR010",0
+"303","Pentachlorophenol","LDR010",0
+"304","Phenanthrene","LDR010",0
+"305","Prometon","LDR010",0
+"306","Pyrene","LDR010",0
+"307","Surfactants","LDR010",0
+"308","Total Benzofluoranthenes","LDR010",24
+"309","Total Kjeldahl Nitrogen","LDR010",0
+"310","Total PAH","LDR010",24
+"311","Total Phosphorus","LDR010",0
+"312","Total Phosphorus dissolved","LDR010",0
+"313","Total Phthalate","LDR010",24
+"314","Total Suspended Solids","LDR010",0
+"315","Total TPHDx","LDR010",19
+"316","Triclopyr","LDR010",0
+"317","Zinc","LDR010",0
+"318","Zinc dissolved","LDR010",0
+"319","2-Methylnaphthalene","MH5171",1
+"320","2,4-D","MH5171",1
+"321","Acenaphthene","MH5171",1
+"322","Acenaphthylene","MH5171",1
+"323","Anthracene","MH5171",1
+"324","Benz(a)anthracene","MH5171",1
+"325","Benzo(a)pyrene","MH5171",1
+"326","Benzo(b)fluoranthene","MH5171",1
+"327","Benzo(g,h,i)perylene","MH5171",1
+"328","Benzo(k)fluoranthene","MH5171",1
+"329","Bis(2-ethylhexyl) phthalate","MH5171",1
+"330","Butyl benzyl phthalate","MH5171",1
+"331","Cadmium","MH5171",1
+"332","Cadmium dissolved","MH5171",1
+"333","Chloride","MH5171",1
+"334","Chlorpyrifos","MH5171",1
+"335","Chrysene","MH5171",1
+"336","Copper","MH5171",1
+"337","Copper dissolved","MH5171",1
+"338","CPAH","MH5171",28
+"339","Di-N-Octyl Phthalate","MH5171",1
+"340","Diazinon","MH5171",1
+"341","Dibenzo(a,h)anthracene","MH5171",1
+"342","Dibutyl phthalate","MH5171",1
+"343","Dichlobenil","MH5171",1
+"344","Diesel Range Organics","MH5171",4
+"345","Diethyl phthalate","MH5171",1
+"346","Dimethyl phthalate","MH5171",1
+"347","Fluoranthene","MH5171",1
+"348","Fluorene","MH5171",1
+"349","Gasoline Range Organics","MH5171",4
+"350","Hardness as CaCO3","MH5171",1
+"351","Heavy Fuel Oil","MH5171",4
+"352","HPAH","MH5171",28
+"353","Indeno(1,2,3-cd)pyrene","MH5171",1
+"354","Lead","MH5171",1
+"355","Lead dissolved","MH5171",1
+"356","LPAH","MH5171",28
+"357","Malathion","MH5171",1
+"358","Mecoprop","MH5171",1
+"359","Mercury","MH5171",0
+"360","Mercury dissolved","MH5171",0
+"361","Naphthalene","MH5171",1
+"362","Nitrite-Nitrate dissolved","MH5171",1
+"363","Pentachlorophenol","MH5171",1
+"364","Phenanthrene","MH5171",1
+"365","Prometon","MH5171",1
+"366","Pyrene","MH5171",1
+"367","Surfactants","MH5171",1
+"368","Total Benzofluoranthenes","MH5171",28
+"369","Total Kjeldahl Nitrogen","MH5171",1
+"370","Total PAH","MH5171",28
+"371","Total Phosphorus","MH5171",1
+"372","Total Phosphorus dissolved","MH5171",1
+"373","Total Phthalate","MH5171",28
+"374","Total Suspended Solids","MH5171",1
+"375","Total TPHDx","MH5171",18
+"376","Triclopyr","MH5171",1
+"377","Zinc","MH5171",1
+"378","Zinc dissolved","MH5171",1
+"379","1-Methylnaphthalene","PIECOMM_OUT",2
+"380","2-Methylnaphthalene","PIECOMM_OUT",2
+"381","2,4-D","PIECOMM_OUT",8
+"382","Acenaphthene","PIECOMM_OUT",2
+"383","Acenaphthylene","PIECOMM_OUT",2
+"384","Anthracene","PIECOMM_OUT",2
+"385","Benz(a)anthracene","PIECOMM_OUT",2
+"386","Benzo(a)pyrene","PIECOMM_OUT",2
+"387","Benzo(b)fluoranthene","PIECOMM_OUT",2
+"388","Benzo(g,h,i)perylene","PIECOMM_OUT",2
+"389","Benzo(k)fluoranthene","PIECOMM_OUT",2
+"390","Bis(2-ethylhexyl) phthalate","PIECOMM_OUT",2
+"391","Butyl benzyl phthalate","PIECOMM_OUT",2
+"392","Cadmium","PIECOMM_OUT",2
+"393","Cadmium dissolved","PIECOMM_OUT",2
+"394","Chloride","PIECOMM_OUT",2
+"395","Chlorpyrifos","PIECOMM_OUT",8
+"396","Chrysene","PIECOMM_OUT",2
+"397","Copper","PIECOMM_OUT",8
+"398","Copper dissolved","PIECOMM_OUT",2
+"399","CPAH","PIECOMM_OUT",22
+"400","Di-N-Octyl Phthalate","PIECOMM_OUT",2
+"401","Diazinon","PIECOMM_OUT",8
+"402","Dibenzo(a,h)anthracene","PIECOMM_OUT",2
+"403","Dibutyl phthalate","PIECOMM_OUT",2
+"404","Dichlobenil","PIECOMM_OUT",8
+"405","Diesel Range Organics","PIECOMM_OUT",9
+"406","Diethyl phthalate","PIECOMM_OUT",2
+"407","Dimethyl phthalate","PIECOMM_OUT",2
+"408","Fluoranthene","PIECOMM_OUT",2
+"409","Fluorene","PIECOMM_OUT",2
+"410","Gasoline Range Organics","PIECOMM_OUT",9
+"411","Hardness as CaCO3","PIECOMM_OUT",2
+"412","Heavy Fuel Oil","PIECOMM_OUT",9
+"413","HPAH","PIECOMM_OUT",22
+"414","Indeno(1,2,3-cd)pyrene","PIECOMM_OUT",2
+"415","Lead","PIECOMM_OUT",2
+"416","Lead dissolved","PIECOMM_OUT",2
+"417","LPAH","PIECOMM_OUT",22
+"418","Malathion","PIECOMM_OUT",8
+"419","Mecoprop","PIECOMM_OUT",8
+"420","Mercury","PIECOMM_OUT",2
+"421","Mercury dissolved","PIECOMM_OUT",2
+"422","Naphthalene","PIECOMM_OUT",2
+"423","Nitrite-Nitrate","PIECOMM_OUT",2
+"424","Pentachlorophenol","PIECOMM_OUT",2
+"425","Phenanthrene","PIECOMM_OUT",2
+"426","Prometon","PIECOMM_OUT",8
+"427","Pyrene","PIECOMM_OUT",2
+"428","Surfactants","PIECOMM_OUT",2
+"429","Total Benzofluoranthenes","PIECOMM_OUT",22
+"430","Total Kjeldahl Nitrogen","PIECOMM_OUT",2
+"431","Total PAH","PIECOMM_OUT",22
+"432","Total Phosphorus","PIECOMM_OUT",10
+"433","Total Phthalate","PIECOMM_OUT",22
+"434","Total Suspended Solids","PIECOMM_OUT",8
+"435","Total TPHDx","PIECOMM_OUT",20
+"436","Triclopyr","PIECOMM_OUT",8
+"437","Zinc","PIECOMM_OUT",2
+"438","Zinc dissolved","PIECOMM_OUT",2
+"439","1-Methylnaphthalene","PIEHIRES_OUT",0
+"440","2-Methylnaphthalene","PIEHIRES_OUT",0
+"441","2,4-D","PIEHIRES_OUT",7
+"442","Acenaphthene","PIEHIRES_OUT",0
+"443","Acenaphthylene","PIEHIRES_OUT",0
+"444","Anthracene","PIEHIRES_OUT",0
+"445","Benz(a)anthracene","PIEHIRES_OUT",0
+"446","Benzo(a)pyrene","PIEHIRES_OUT",0
+"447","Benzo(b)fluoranthene","PIEHIRES_OUT",0
+"448","Benzo(g,h,i)perylene","PIEHIRES_OUT",0
+"449","Benzo(k)fluoranthene","PIEHIRES_OUT",0
+"450","Bis(2-ethylhexyl) phthalate","PIEHIRES_OUT",0
+"451","Butyl benzyl phthalate","PIEHIRES_OUT",0
+"452","Cadmium","PIEHIRES_OUT",0
+"453","Cadmium dissolved","PIEHIRES_OUT",0
+"454","Chloride","PIEHIRES_OUT",0
+"455","Chlorpyrifos","PIEHIRES_OUT",7
+"456","Chrysene","PIEHIRES_OUT",0
+"457","Copper","PIEHIRES_OUT",7
+"458","Copper dissolved","PIEHIRES_OUT",0
+"459","CPAH","PIEHIRES_OUT",8
+"460","Di-N-Octyl Phthalate","PIEHIRES_OUT",0
+"461","Diazinon","PIEHIRES_OUT",7
+"462","Dibenzo(a,h)anthracene","PIEHIRES_OUT",0
+"463","Dibutyl phthalate","PIEHIRES_OUT",0
+"464","Dichlobenil","PIEHIRES_OUT",7
+"465","Diesel Range Organics","PIEHIRES_OUT",10
+"466","Diethyl phthalate","PIEHIRES_OUT",0
+"467","Dimethyl phthalate","PIEHIRES_OUT",0
+"468","Fluoranthene","PIEHIRES_OUT",0
+"469","Fluorene","PIEHIRES_OUT",0
+"470","Gasoline Range Organics","PIEHIRES_OUT",10
+"471","Hardness as CaCO3","PIEHIRES_OUT",0
+"472","Heavy Fuel Oil","PIEHIRES_OUT",10
+"473","HPAH","PIEHIRES_OUT",8
+"474","Indeno(1,2,3-cd)pyrene","PIEHIRES_OUT",0
+"475","Lead","PIEHIRES_OUT",0
+"476","Lead dissolved","PIEHIRES_OUT",0
+"477","LPAH","PIEHIRES_OUT",8
+"478","Malathion","PIEHIRES_OUT",7
+"479","Mecoprop","PIEHIRES_OUT",7
+"480","Mercury","PIEHIRES_OUT",0
+"481","Mercury dissolved","PIEHIRES_OUT",0
+"482","Naphthalene","PIEHIRES_OUT",0
+"483","Nitrite-Nitrate","PIEHIRES_OUT",0
+"484","Pentachlorophenol","PIEHIRES_OUT",0
+"485","Phenanthrene","PIEHIRES_OUT",0
+"486","Prometon","PIEHIRES_OUT",7
+"487","Pyrene","PIEHIRES_OUT",0
+"488","Surfactants","PIEHIRES_OUT",0
+"489","Total Benzofluoranthenes","PIEHIRES_OUT",8
+"490","Total Kjeldahl Nitrogen","PIEHIRES_OUT",0
+"491","Total PAH","PIEHIRES_OUT",8
+"492","Total Phosphorus","PIEHIRES_OUT",7
+"493","Total Phthalate","PIEHIRES_OUT",8
+"494","Total Suspended Solids","PIEHIRES_OUT",7
+"495","Total TPHDx","PIEHIRES_OUT",13
+"496","Triclopyr","PIEHIRES_OUT",7
+"497","Zinc","PIEHIRES_OUT",0
+"498","Zinc dissolved","PIEHIRES_OUT",0
+"499","1-Methylnaphthalene","PIELORES_OUT",0
+"500","2-Methylnaphthalene","PIELORES_OUT",0
+"501","2,4-D","PIELORES_OUT",8
+"502","Acenaphthene","PIELORES_OUT",0
+"503","Acenaphthylene","PIELORES_OUT",0
+"504","Anthracene","PIELORES_OUT",0
+"505","Benz(a)anthracene","PIELORES_OUT",0
+"506","Benzo(a)pyrene","PIELORES_OUT",0
+"507","Benzo(b)fluoranthene","PIELORES_OUT",0
+"508","Benzo(g,h,i)perylene","PIELORES_OUT",0
+"509","Benzo(k)fluoranthene","PIELORES_OUT",0
+"510","Bis(2-ethylhexyl) phthalate","PIELORES_OUT",0
+"511","Butyl benzyl phthalate","PIELORES_OUT",0
+"512","Cadmium","PIELORES_OUT",0
+"513","Cadmium dissolved","PIELORES_OUT",0
+"514","Chloride","PIELORES_OUT",0
+"515","Chlorpyrifos","PIELORES_OUT",8
+"516","Chrysene","PIELORES_OUT",0
+"517","Copper","PIELORES_OUT",8
+"518","Copper dissolved","PIELORES_OUT",0
+"519","CPAH","PIELORES_OUT",14
+"520","Di-N-Octyl Phthalate","PIELORES_OUT",0
+"521","Diazinon","PIELORES_OUT",8
+"522","Dibenzo(a,h)anthracene","PIELORES_OUT",0
+"523","Dibutyl phthalate","PIELORES_OUT",0
+"524","Dichlobenil","PIELORES_OUT",8
+"525","Diesel Range Organics","PIELORES_OUT",8
+"526","Diethyl phthalate","PIELORES_OUT",0
+"527","Dimethyl phthalate","PIELORES_OUT",0
+"528","Fluoranthene","PIELORES_OUT",0
+"529","Fluorene","PIELORES_OUT",0
+"530","Gasoline Range Organics","PIELORES_OUT",8
+"531","Hardness as CaCO3","PIELORES_OUT",0
+"532","Heavy Fuel Oil","PIELORES_OUT",8
+"533","HPAH","PIELORES_OUT",14
+"534","Indeno(1,2,3-cd)pyrene","PIELORES_OUT",0
+"535","Lead","PIELORES_OUT",0
+"536","Lead dissolved","PIELORES_OUT",0
+"537","LPAH","PIELORES_OUT",14
+"538","Malathion","PIELORES_OUT",8
+"539","Mecoprop","PIELORES_OUT",8
+"540","Mercury","PIELORES_OUT",0
+"541","Mercury dissolved","PIELORES_OUT",0
+"542","Naphthalene","PIELORES_OUT",0
+"543","Nitrite-Nitrate","PIELORES_OUT",0
+"544","Pentachlorophenol","PIELORES_OUT",0
+"545","Phenanthrene","PIELORES_OUT",0
+"546","Prometon","PIELORES_OUT",8
+"547","Pyrene","PIELORES_OUT",0
+"548","Surfactants","PIELORES_OUT",0
+"549","Total Benzofluoranthenes","PIELORES_OUT",14
+"550","Total Kjeldahl Nitrogen","PIELORES_OUT",0
+"551","Total PAH","PIELORES_OUT",14
+"552","Total Phosphorus","PIELORES_OUT",8
+"553","Total Phthalate","PIELORES_OUT",14
+"554","Total Suspended Solids","PIELORES_OUT",8
+"555","Total TPHDx","PIELORES_OUT",18
+"556","Triclopyr","PIELORES_OUT",8
+"557","Zinc","PIELORES_OUT",0
+"558","Zinc dissolved","PIELORES_OUT",0
+"559","1-Methylnaphthalene","POSOUTFALL_6057",0
+"560","2-Methylnaphthalene","POSOUTFALL_6057",0
+"561","2,4-D","POSOUTFALL_6057",0
+"562","Acenaphthene","POSOUTFALL_6057",0
+"563","Acenaphthylene","POSOUTFALL_6057",0
+"564","Anthracene","POSOUTFALL_6057",0
+"565","Benz(a)anthracene","POSOUTFALL_6057",0
+"566","Benzo(a)pyrene","POSOUTFALL_6057",0
+"567","Benzo(b)fluoranthene","POSOUTFALL_6057",0
+"568","Benzo(g,h,i)perylene","POSOUTFALL_6057",0
+"569","Benzo(k)fluoranthene","POSOUTFALL_6057",0
+"570","Benzofluoranthenes, Total","POSOUTFALL_6057",0
+"571","Bis(2-ethylhexyl) phthalate","POSOUTFALL_6057",0
+"572","Butyl benzyl phthalate","POSOUTFALL_6057",0
+"573","Cadmium","POSOUTFALL_6057",0
+"574","Cadmium dissolved","POSOUTFALL_6057",0
+"575","Calcium","POSOUTFALL_6057",0
+"576","Calcium dissolved","POSOUTFALL_6057",0
+"577","Chloride","POSOUTFALL_6057",0
+"578","Chlorpyrifos","POSOUTFALL_6057",0
+"579","Chrysene","POSOUTFALL_6057",0
+"580","Copper","POSOUTFALL_6057",0
+"581","Copper dissolved","POSOUTFALL_6057",0
+"582","CPAH","POSOUTFALL_6057",49
+"583","Di-N-Octyl Phthalate","POSOUTFALL_6057",0
+"584","Diazinon","POSOUTFALL_6057",0
+"585","Dibenzo(a,h)anthracene","POSOUTFALL_6057",0
+"586","Dibutyl phthalate","POSOUTFALL_6057",0
+"587","Dichlobenil","POSOUTFALL_6057",0
+"588","Diesel Fuel","POSOUTFALL_6057",3
+"589","Diesel Range Organics","POSOUTFALL_6057",0
+"590","Diethyl phthalate","POSOUTFALL_6057",0
+"591","Dimethyl phthalate","POSOUTFALL_6057",0
+"592","Fluoranthene","POSOUTFALL_6057",0
+"593","Fluorene","POSOUTFALL_6057",0
+"594","Gasoline Range Organics","POSOUTFALL_6057",3
+"595","Hardness as CaCO3","POSOUTFALL_6057",0
+"596","HPAH","POSOUTFALL_6057",49
+"597","Indeno(1,2,3-cd)pyrene","POSOUTFALL_6057",0
+"598","Lead","POSOUTFALL_6057",0
+"599","Lead dissolved","POSOUTFALL_6057",0
+"600","LPAH","POSOUTFALL_6057",49
+"601","Magnesium","POSOUTFALL_6057",0
+"602","Magnesium dissolved","POSOUTFALL_6057",0
+"603","Malathion","POSOUTFALL_6057",0
+"604","Mecoprop","POSOUTFALL_6057",0
+"605","Mercury","POSOUTFALL_6057",0
+"606","Mercury dissolved","POSOUTFALL_6057",0
+"607","Motor Oil","POSOUTFALL_6057",3
+"608","Naphthalene","POSOUTFALL_6057",0
+"609","Nitrite-Nitrate","POSOUTFALL_6057",0
+"610","Nitrite-Nitrate dissolved","POSOUTFALL_6057",0
+"611","Ortho-phosphate dissolved","POSOUTFALL_6057",0
+"612","Pentachlorophenol","POSOUTFALL_6057",0
+"613","Phenanthrene","POSOUTFALL_6057",0
+"614","Prometon","POSOUTFALL_6057",0
+"615","Pyrene","POSOUTFALL_6057",0
+"616","Surfactants","POSOUTFALL_6057",0
+"617","Total Benzofluoranthenes","POSOUTFALL_6057",49
+"618","Total Kjeldahl Nitrogen","POSOUTFALL_6057",0
+"619","Total PAH","POSOUTFALL_6057",49
+"620","Total Phosphorus","POSOUTFALL_6057",0
+"621","Total Phosphorus dissolved","POSOUTFALL_6057",0
+"622","Total Phthalate","POSOUTFALL_6057",49
+"623","Total Suspended Solids","POSOUTFALL_6057",0
+"624","Total TPHDx","POSOUTFALL_6057",47
+"625","Triclopyr","POSOUTFALL_6057",0
+"626","Zinc","POSOUTFALL_6057",0
+"627","Zinc dissolved","POSOUTFALL_6057",0
+"628","1-Methylnaphthalene","POT564S8D_OUT",4
+"629","2-Methylnaphthalene","POT564S8D_OUT",4
+"630","2,4-D","POT564S8D_OUT",4
+"631","Acenaphthene","POT564S8D_OUT",4
+"632","Acenaphthylene","POT564S8D_OUT",4
+"633","Anthracene","POT564S8D_OUT",4
+"634","Benz(a)anthracene","POT564S8D_OUT",4
+"635","Benzo(a)pyrene","POT564S8D_OUT",4
+"636","Benzo(b)fluoranthene","POT564S8D_OUT",4
+"637","Benzo(g,h,i)perylene","POT564S8D_OUT",4
+"638","Benzo(k)fluoranthene","POT564S8D_OUT",4
+"639","Bis(2-ethylhexyl) phthalate","POT564S8D_OUT",3
+"640","Butyl benzyl phthalate","POT564S8D_OUT",4
+"641","Cadmium","POT564S8D_OUT",4
+"642","Cadmium dissolved","POT564S8D_OUT",4
+"643","Chloride","POT564S8D_OUT",1
+"644","Chlorpyrifos","POT564S8D_OUT",4
+"645","Chrysene","POT564S8D_OUT",4
+"646","Copper","POT564S8D_OUT",4
+"647","Copper dissolved","POT564S8D_OUT",4
+"648","CPAH","POT564S8D_OUT",33
+"649","Di-N-Octyl Phthalate","POT564S8D_OUT",4
+"650","Diazinon","POT564S8D_OUT",4
+"651","Dibenzo(a,h)anthracene","POT564S8D_OUT",4
+"652","Dibutyl phthalate","POT564S8D_OUT",4
+"653","Dichlobenil","POT564S8D_OUT",4
+"654","Diesel Fuel","POT564S8D_OUT",14
+"655","Diethyl phthalate","POT564S8D_OUT",4
+"656","Dimethyl phthalate","POT564S8D_OUT",4
+"657","Fluoranthene","POT564S8D_OUT",4
+"658","Fluorene","POT564S8D_OUT",4
+"659","Hardness as CaCO3","POT564S8D_OUT",4
+"660","HPAH","POT564S8D_OUT",33
+"661","Indeno(1,2,3-cd)pyrene","POT564S8D_OUT",4
+"662","Lead","POT564S8D_OUT",4
+"663","Lead dissolved","POT564S8D_OUT",4
+"664","LPAH","POT564S8D_OUT",33
+"665","Malathion","POT564S8D_OUT",4
+"666","Mecoprop","POT564S8D_OUT",4
+"667","Mercury","POT564S8D_OUT",4
+"668","Mercury dissolved","POT564S8D_OUT",4
+"669","Naphthalene","POT564S8D_OUT",4
+"670","Nitrite-Nitrate","POT564S8D_OUT",4
+"671","Oil and grease","POT564S8D_OUT",14
+"672","Ortho-phosphate","POT564S8D_OUT",4
+"673","Pentachlorophenol","POT564S8D_OUT",4
+"674","Phenanthrene","POT564S8D_OUT",4
+"675","Prometon","POT564S8D_OUT",4
+"676","Pyrene","POT564S8D_OUT",4
+"677","Surfactants","POT564S8D_OUT",4
+"678","Total Benzofluoranthenes","POT564S8D_OUT",33
+"679","Total Kjeldahl Nitrogen","POT564S8D_OUT",4
+"680","Total PAH","POT564S8D_OUT",33
+"681","Total Phosphorus","POT564S8D_OUT",4
+"682","Total Phthalate","POT564S8D_OUT",33
+"683","Total Suspended Solids","POT564S8D_OUT",4
+"684","Total TPHDx","POT564S8D_OUT",35
+"685","TPHGx","POT564S8D_OUT",14
+"686","Triclopyr","POT564S8D_OUT",4
+"687","Zinc","POT564S8D_OUT",4
+"688","Zinc dissolved","POT564S8D_OUT",4
+"689","1-Methylnaphthalene","SEAC1S8D_OUT",0
+"690","2-Methylnaphthalene","SEAC1S8D_OUT",0
+"691","2,4-D","SEAC1S8D_OUT",0
+"692","Acenaphthene","SEAC1S8D_OUT",0
+"693","Acenaphthylene","SEAC1S8D_OUT",0
+"694","Ammonia","SEAC1S8D_OUT",0
+"695","Anthracene","SEAC1S8D_OUT",0
+"696","Benz(a)anthracene","SEAC1S8D_OUT",0
+"697","Benzo(a)pyrene","SEAC1S8D_OUT",0
+"698","Benzo(b)fluoranthene","SEAC1S8D_OUT",0
+"699","Benzo(g,h,i)perylene","SEAC1S8D_OUT",0
+"700","Benzo(k)fluoranthene","SEAC1S8D_OUT",0
+"701","Benzofluoranthenes, Total","SEAC1S8D_OUT",0
+"702","Bis(2-ethylhexyl) phthalate","SEAC1S8D_OUT",0
+"703","Butyl benzyl phthalate","SEAC1S8D_OUT",0
+"704","Cadmium","SEAC1S8D_OUT",0
+"705","Cadmium dissolved","SEAC1S8D_OUT",0
+"706","Calcium","SEAC1S8D_OUT",0
+"707","Chloride","SEAC1S8D_OUT",0
+"708","Chlorpyrifos","SEAC1S8D_OUT",0
+"709","Chrysene","SEAC1S8D_OUT",0
+"710","Copper","SEAC1S8D_OUT",0
+"711","Copper dissolved","SEAC1S8D_OUT",0
+"712","CPAH","SEAC1S8D_OUT",33
+"713","Di-N-Octyl Phthalate","SEAC1S8D_OUT",0
+"714","Diazinon","SEAC1S8D_OUT",0
+"715","Dibenzo(a,h)anthracene","SEAC1S8D_OUT",0
+"716","Dibutyl phthalate","SEAC1S8D_OUT",0
+"717","Dichlobenil","SEAC1S8D_OUT",0
+"718","Diesel Range Organics","SEAC1S8D_OUT",5
+"719","Diethyl phthalate","SEAC1S8D_OUT",0
+"720","Dimethyl phthalate","SEAC1S8D_OUT",0
+"721","Fluoranthene","SEAC1S8D_OUT",0
+"722","Fluorene","SEAC1S8D_OUT",0
+"723","Gasoline Range Organics","SEAC1S8D_OUT",3
+"724","Hardness as CaCO3","SEAC1S8D_OUT",0
+"725","HPAH","SEAC1S8D_OUT",33
+"726","Indeno(1,2,3-cd)pyrene","SEAC1S8D_OUT",0
+"727","Lead","SEAC1S8D_OUT",0
+"728","Lead dissolved","SEAC1S8D_OUT",0
+"729","LPAH","SEAC1S8D_OUT",33
+"730","Magnesium","SEAC1S8D_OUT",0
+"731","Malathion","SEAC1S8D_OUT",0
+"732","Mecoprop","SEAC1S8D_OUT",0
+"733","Mercury","SEAC1S8D_OUT",0
+"734","Mercury dissolved","SEAC1S8D_OUT",0
+"735","Motor Oil","SEAC1S8D_OUT",2
+"736","Naphthalene","SEAC1S8D_OUT",0
+"737","Nitrite-Nitrate","SEAC1S8D_OUT",0
+"738","Ortho-phosphate","SEAC1S8D_OUT",0
+"739","Ortho-Phosphate dissolved","SEAC1S8D_OUT",0
+"740","PCB-aroclor 1016","SEAC1S8D_OUT",0
+"741","PCB-aroclor 1221","SEAC1S8D_OUT",0
+"742","PCB-aroclor 1232","SEAC1S8D_OUT",0
+"743","PCB-aroclor 1242","SEAC1S8D_OUT",0
+"744","PCB-aroclor 1248","SEAC1S8D_OUT",0
+"745","PCB-aroclor 1254","SEAC1S8D_OUT",0
+"746","PCB-aroclor 1260","SEAC1S8D_OUT",0
+"747","Pentachlorophenol","SEAC1S8D_OUT",0
+"748","Phenanthrene","SEAC1S8D_OUT",0
+"749","Prometon","SEAC1S8D_OUT",0
+"750","Pyrene","SEAC1S8D_OUT",0
+"751","Surfactants","SEAC1S8D_OUT",0
+"752","Total Benzofluoranthenes","SEAC1S8D_OUT",33
+"753","Total Kjeldahl Nitrogen","SEAC1S8D_OUT",0
+"754","Total PAH","SEAC1S8D_OUT",33
+"755","Total PCB","SEAC1S8D_OUT",8
+"756","Total Phosphorus","SEAC1S8D_OUT",0
+"757","Total Phthalate","SEAC1S8D_OUT",33
+"758","Total Suspended Solids","SEAC1S8D_OUT",0
+"759","Total TPHDx","SEAC1S8D_OUT",36
+"760","Triclopyr","SEAC1S8D_OUT",0
+"761","Zinc","SEAC1S8D_OUT",0
+"762","Zinc dissolved","SEAC1S8D_OUT",0
+"763","1-Methylnaphthalene","SEAI1S8D_OUT",0
+"764","2-Methylnaphthalene","SEAI1S8D_OUT",0
+"765","2,4-D","SEAI1S8D_OUT",0
+"766","Acenaphthene","SEAI1S8D_OUT",0
+"767","Acenaphthylene","SEAI1S8D_OUT",0
+"768","Ammonia","SEAI1S8D_OUT",0
+"769","Anthracene","SEAI1S8D_OUT",0
+"770","Benz(a)anthracene","SEAI1S8D_OUT",0
+"771","Benzo(a)pyrene","SEAI1S8D_OUT",0
+"772","Benzo(b)fluoranthene","SEAI1S8D_OUT",0
+"773","Benzo(g,h,i)perylene","SEAI1S8D_OUT",0
+"774","Benzo(k)fluoranthene","SEAI1S8D_OUT",0
+"775","Benzofluoranthenes, Total","SEAI1S8D_OUT",0
+"776","Bis(2-ethylhexyl) phthalate","SEAI1S8D_OUT",0
+"777","Butyl benzyl phthalate","SEAI1S8D_OUT",0
+"778","Cadmium","SEAI1S8D_OUT",0
+"779","Cadmium dissolved","SEAI1S8D_OUT",0
+"780","Calcium","SEAI1S8D_OUT",0
+"781","Chloride","SEAI1S8D_OUT",0
+"782","Chlorpyrifos","SEAI1S8D_OUT",0
+"783","Chrysene","SEAI1S8D_OUT",0
+"784","Copper","SEAI1S8D_OUT",0
+"785","Copper dissolved","SEAI1S8D_OUT",0
+"786","CPAH","SEAI1S8D_OUT",32
+"787","Di-N-Octyl Phthalate","SEAI1S8D_OUT",0
+"788","Diazinon","SEAI1S8D_OUT",0
+"789","Dibenzo(a,h)anthracene","SEAI1S8D_OUT",0
+"790","Dibutyl phthalate","SEAI1S8D_OUT",0
+"791","Dichlobenil","SEAI1S8D_OUT",0
+"792","Diesel Range Organics","SEAI1S8D_OUT",1
+"793","Diethyl phthalate","SEAI1S8D_OUT",0
+"794","Dimethyl phthalate","SEAI1S8D_OUT",0
+"795","Fluoranthene","SEAI1S8D_OUT",0
+"796","Fluorene","SEAI1S8D_OUT",0
+"797","Gasoline Range Organics","SEAI1S8D_OUT",1
+"798","Hardness as CaCO3","SEAI1S8D_OUT",0
+"799","HPAH","SEAI1S8D_OUT",32
+"800","Indeno(1,2,3-cd)pyrene","SEAI1S8D_OUT",0
+"801","Lead","SEAI1S8D_OUT",0
+"802","Lead dissolved","SEAI1S8D_OUT",0
+"803","LPAH","SEAI1S8D_OUT",32
+"804","Magnesium","SEAI1S8D_OUT",0
+"805","Malathion","SEAI1S8D_OUT",0
+"806","Mecoprop","SEAI1S8D_OUT",0
+"807","Mercury","SEAI1S8D_OUT",0
+"808","Mercury dissolved","SEAI1S8D_OUT",0
+"809","Motor Oil","SEAI1S8D_OUT",2
+"810","Naphthalene","SEAI1S8D_OUT",0
+"811","Nitrite-Nitrate","SEAI1S8D_OUT",0
+"812","Ortho-phosphate","SEAI1S8D_OUT",0
+"813","Ortho-Phosphate dissolved","SEAI1S8D_OUT",0
+"814","PCB-aroclor 1016","SEAI1S8D_OUT",0
+"815","PCB-aroclor 1221","SEAI1S8D_OUT",0
+"816","PCB-aroclor 1232","SEAI1S8D_OUT",0
+"817","PCB-aroclor 1242","SEAI1S8D_OUT",0
+"818","PCB-aroclor 1248","SEAI1S8D_OUT",0
+"819","PCB-aroclor 1254","SEAI1S8D_OUT",0
+"820","PCB-aroclor 1260","SEAI1S8D_OUT",0
+"821","Pentachlorophenol","SEAI1S8D_OUT",0
+"822","Phenanthrene","SEAI1S8D_OUT",0
+"823","Prometon","SEAI1S8D_OUT",0
+"824","Pyrene","SEAI1S8D_OUT",0
+"825","Surfactants","SEAI1S8D_OUT",0
+"826","Total Benzofluoranthenes","SEAI1S8D_OUT",32
+"827","Total Kjeldahl Nitrogen","SEAI1S8D_OUT",0
+"828","Total PAH","SEAI1S8D_OUT",32
+"829","Total PCB","SEAI1S8D_OUT",9
+"830","Total Phosphorus","SEAI1S8D_OUT",0
+"831","Total Phthalate","SEAI1S8D_OUT",32
+"832","Total Suspended Solids","SEAI1S8D_OUT",0
+"833","Total TPHDx","SEAI1S8D_OUT",34
+"834","Triclopyr","SEAI1S8D_OUT",0
+"835","Zinc","SEAI1S8D_OUT",0
+"836","Zinc dissolved","SEAI1S8D_OUT",0
+"837","1-Methylnaphthalene","SEAR1S8D_OUT",0
+"838","2-Methylnaphthalene","SEAR1S8D_OUT",0
+"839","2,4-D","SEAR1S8D_OUT",0
+"840","Acenaphthene","SEAR1S8D_OUT",0
+"841","Acenaphthylene","SEAR1S8D_OUT",0
+"842","Ammonia","SEAR1S8D_OUT",0
+"843","Anthracene","SEAR1S8D_OUT",0
+"844","Benz(a)anthracene","SEAR1S8D_OUT",0
+"845","Benzo(a)pyrene","SEAR1S8D_OUT",0
+"846","Benzo(b)fluoranthene","SEAR1S8D_OUT",0
+"847","Benzo(g,h,i)perylene","SEAR1S8D_OUT",0
+"848","Benzo(k)fluoranthene","SEAR1S8D_OUT",0
+"849","Benzofluoranthenes, Total","SEAR1S8D_OUT",0
+"850","Bis(2-ethylhexyl) phthalate","SEAR1S8D_OUT",0
+"851","Butyl benzyl phthalate","SEAR1S8D_OUT",0
+"852","Cadmium","SEAR1S8D_OUT",0
+"853","Cadmium dissolved","SEAR1S8D_OUT",0
+"854","Calcium","SEAR1S8D_OUT",0
+"855","Chloride","SEAR1S8D_OUT",0
+"856","Chlorpyrifos","SEAR1S8D_OUT",0
+"857","Chrysene","SEAR1S8D_OUT",0
+"858","Copper","SEAR1S8D_OUT",0
+"859","Copper dissolved","SEAR1S8D_OUT",0
+"860","CPAH","SEAR1S8D_OUT",34
+"861","Di-N-Octyl Phthalate","SEAR1S8D_OUT",0
+"862","Diazinon","SEAR1S8D_OUT",0
+"863","Dibenzo(a,h)anthracene","SEAR1S8D_OUT",0
+"864","Dibutyl phthalate","SEAR1S8D_OUT",0
+"865","Dichlobenil","SEAR1S8D_OUT",0
+"866","Diesel Range Organics","SEAR1S8D_OUT",2
+"867","Diethyl phthalate","SEAR1S8D_OUT",0
+"868","Dimethyl phthalate","SEAR1S8D_OUT",0
+"869","Fluoranthene","SEAR1S8D_OUT",0
+"870","Fluorene","SEAR1S8D_OUT",0
+"871","Gasoline Range Organics","SEAR1S8D_OUT",2
+"872","Hardness as CaCO3","SEAR1S8D_OUT",0
+"873","HPAH","SEAR1S8D_OUT",34
+"874","Indeno(1,2,3-cd)pyrene","SEAR1S8D_OUT",0
+"875","Lead","SEAR1S8D_OUT",0
+"876","Lead dissolved","SEAR1S8D_OUT",0
+"877","LPAH","SEAR1S8D_OUT",34
+"878","Magnesium","SEAR1S8D_OUT",0
+"879","Malathion","SEAR1S8D_OUT",0
+"880","Mecoprop","SEAR1S8D_OUT",0
+"881","Mercury","SEAR1S8D_OUT",0
+"882","Mercury dissolved","SEAR1S8D_OUT",0
+"883","Motor Oil","SEAR1S8D_OUT",1
+"884","Naphthalene","SEAR1S8D_OUT",0
+"885","Nitrite-Nitrate","SEAR1S8D_OUT",0
+"886","Ortho-phosphate","SEAR1S8D_OUT",0
+"887","Ortho-Phosphate dissolved","SEAR1S8D_OUT",0
+"888","PCB-aroclor 1016","SEAR1S8D_OUT",0
+"889","PCB-aroclor 1221","SEAR1S8D_OUT",0
+"890","PCB-aroclor 1232","SEAR1S8D_OUT",0
+"891","PCB-aroclor 1242","SEAR1S8D_OUT",0
+"892","PCB-aroclor 1248","SEAR1S8D_OUT",0
+"893","PCB-aroclor 1254","SEAR1S8D_OUT",0
+"894","PCB-aroclor 1260","SEAR1S8D_OUT",0
+"895","Pentachlorophenol","SEAR1S8D_OUT",0
+"896","Phenanthrene","SEAR1S8D_OUT",0
+"897","Prometon","SEAR1S8D_OUT",0
+"898","Pyrene","SEAR1S8D_OUT",0
+"899","Surfactants","SEAR1S8D_OUT",0
+"900","Total Benzofluoranthenes","SEAR1S8D_OUT",34
+"901","Total Kjeldahl Nitrogen","SEAR1S8D_OUT",0
+"902","Total PAH","SEAR1S8D_OUT",34
+"903","Total PCB","SEAR1S8D_OUT",10
+"904","Total Phosphorus","SEAR1S8D_OUT",0
+"905","Total Phthalate","SEAR1S8D_OUT",34
+"906","Total Suspended Solids","SEAR1S8D_OUT",0
+"907","Total TPHDx","SEAR1S8D_OUT",37
+"908","Triclopyr","SEAR1S8D_OUT",0
+"909","Zinc","SEAR1S8D_OUT",0
+"910","Zinc dissolved","SEAR1S8D_OUT",0
+"911","1-Methylnaphthalene","SNO_COM",0
+"912","2-Methylnaphthalene","SNO_COM",3
+"913","2,4-D","SNO_COM",3
+"914","Acenaphthene","SNO_COM",3
+"915","Acenaphthylene","SNO_COM",3
+"916","Anthracene","SNO_COM",3
+"917","Benzene","SNO_COM",8
+"918","Benzo(a)pyrene","SNO_COM",3
+"919","Benzo(b)fluoranthene","SNO_COM",3
+"920","Benzo(g,h,i)perylene","SNO_COM",3
+"921","Benzo(k)fluoranthene","SNO_COM",3
+"922","Bis(2-ethylhexyl) phthalate","SNO_COM",3
+"923","BTEX","SNO_COM",36
+"924","Butyl benzyl phthalate","SNO_COM",3
+"925","Cadmium","SNO_COM",3
+"926","Cadmium dissolved","SNO_COM",3
+"927","Calcium","SNO_COM",3
+"928","Chloride","SNO_COM",2
+"929","Chlorpyrifos","SNO_COM",3
+"930","Chrysene","SNO_COM",3
+"931","Copper","SNO_COM",3
+"932","Copper dissolved","SNO_COM",2
+"933","CPAH","SNO_COM",39
+"934","Di-N-Octyl Phthalate","SNO_COM",3
+"935","Diazinon","SNO_COM",3
+"936","Dibenzo(a,h)anthracene","SNO_COM",3
+"937","Dibutyl phthalate","SNO_COM",3
+"938","Dichlobenil","SNO_COM",3
+"939","Diesel Range Organics","SNO_COM",8
+"940","Diethyl phthalate","SNO_COM",3
+"941","Dimethyl phthalate","SNO_COM",3
+"942","Ethylbenzene","SNO_COM",8
+"943","Fluoranthene","SNO_COM",3
+"944","Fluorene","SNO_COM",3
+"945","Gasoline Range Organics","SNO_COM",8
+"946","Hardness as CaCO3","SNO_COM",3
+"947","Heavy Fuel Oil","SNO_COM",8
+"948","HPAH","SNO_COM",39
+"949","Indeno(1,2,3-cd)pyrene","SNO_COM",3
+"950","Lead","SNO_COM",3
+"951","Lead dissolved","SNO_COM",3
+"952","LPAH","SNO_COM",39
+"953","Magnesium","SNO_COM",3
+"954","Malathion","SNO_COM",3
+"955","Mecoprop","SNO_COM",3
+"956","Mercury","SNO_COM",2
+"957","Mercury dissolved","SNO_COM",2
+"958","Naphthalene","SNO_COM",3
+"959","Nitrite-Nitrate","SNO_COM",3
+"960","Ortho-phosphate dissolved","SNO_COM",3
+"961","Pentachlorophenol","SNO_COM",3
+"962","Phenanthrene","SNO_COM",3
+"963","Prometon","SNO_COM",3
+"964","Pyrene","SNO_COM",3
+"965","Surfactants","SNO_COM",3
+"966","Toluene","SNO_COM",8
+"967","Total Benzofluoranthenes","SNO_COM",39
+"968","Total Kjeldahl Nitrogen","SNO_COM",3
+"969","Total PAH","SNO_COM",39
+"970","Total Phosphorus","SNO_COM",3
+"971","Total Phthalate","SNO_COM",39
+"972","Total Suspended Solids","SNO_COM",3
+"973","Total TPHDx","SNO_COM",36
+"974","Total Xylenes","SNO_COM",8
+"975","Triclopyr","SNO_COM",3
+"976","Zinc","SNO_COM",3
+"977","Zinc dissolved","SNO_COM",2
+"978","1-Methylnaphthalene","SNO_HDR",0
+"979","2-Methylnaphthalene","SNO_HDR",1
+"980","2,4-D","SNO_HDR",1
+"981","Acenaphthene","SNO_HDR",1
+"982","Acenaphthylene","SNO_HDR",1
+"983","Anthracene","SNO_HDR",1
+"984","Benzene","SNO_HDR",7
+"985","Benzo(a)pyrene","SNO_HDR",1
+"986","Benzo(b)fluoranthene","SNO_HDR",1
+"987","Benzo(g,h,i)perylene","SNO_HDR",1
+"988","Benzo(k)fluoranthene","SNO_HDR",1
+"989","Bis(2-ethylhexyl) phthalate","SNO_HDR",1
+"990","BTEX","SNO_HDR",38
+"991","Butyl benzyl phthalate","SNO_HDR",1
+"992","Cadmium","SNO_HDR",1
+"993","Cadmium dissolved","SNO_HDR",0
+"994","Calcium","SNO_HDR",1
+"995","Chloride","SNO_HDR",1
+"996","Chlorpyrifos","SNO_HDR",1
+"997","Chrysene","SNO_HDR",1
+"998","Copper","SNO_HDR",1
+"999","Copper dissolved","SNO_HDR",1
+"1000","CPAH","SNO_HDR",38
+"1001","Di-N-Octyl Phthalate","SNO_HDR",1
+"1002","Diazinon","SNO_HDR",1
+"1003","Dibenzo(a,h)anthracene","SNO_HDR",1
+"1004","Dibutyl phthalate","SNO_HDR",1
+"1005","Dichlobenil","SNO_HDR",1
+"1006","Diesel Range Organics","SNO_HDR",7
+"1007","Diethyl phthalate","SNO_HDR",1
+"1008","Dimethyl phthalate","SNO_HDR",1
+"1009","Ethylbenzene","SNO_HDR",7
+"1010","Fluoranthene","SNO_HDR",1
+"1011","Fluorene","SNO_HDR",1
+"1012","Gasoline Range Organics","SNO_HDR",7
+"1013","Hardness as CaCO3","SNO_HDR",1
+"1014","Heavy Fuel Oil","SNO_HDR",7
+"1015","HPAH","SNO_HDR",38
+"1016","Indeno(1,2,3-cd)pyrene","SNO_HDR",1
+"1017","Lead","SNO_HDR",1
+"1018","Lead dissolved","SNO_HDR",1
+"1019","LPAH","SNO_HDR",38
+"1020","Magnesium","SNO_HDR",1
+"1021","Malathion","SNO_HDR",1
+"1022","Mecoprop","SNO_HDR",1
+"1023","Mercury","SNO_HDR",0
+"1024","Mercury dissolved","SNO_HDR",0
+"1025","Naphthalene","SNO_HDR",1
+"1026","Nitrite-Nitrate","SNO_HDR",1
+"1027","Ortho-phosphate dissolved","SNO_HDR",1
+"1028","Pentachlorophenol","SNO_HDR",1
+"1029","Phenanthrene","SNO_HDR",1
+"1030","Prometon","SNO_HDR",1
+"1031","Pyrene","SNO_HDR",1
+"1032","Surfactants","SNO_HDR",1
+"1033","Toluene","SNO_HDR",7
+"1034","Total Benzofluoranthenes","SNO_HDR",38
+"1035","Total Kjeldahl Nitrogen","SNO_HDR",1
+"1036","Total PAH","SNO_HDR",38
+"1037","Total Phosphorus","SNO_HDR",1
+"1038","Total Phthalate","SNO_HDR",38
+"1039","Total Suspended Solids","SNO_HDR",1
+"1040","Total TPHDx","SNO_HDR",38
+"1041","Total Xylenes","SNO_HDR",7
+"1042","Triclopyr","SNO_HDR",1
+"1043","Zinc","SNO_HDR",1
+"1044","Zinc dissolved","SNO_HDR",1
+"1045","1-Methylnaphthalene","SNO_LDR",4
+"1046","2-Methylnaphthalene","SNO_LDR",7
+"1047","2,4-D","SNO_LDR",7
+"1048","Acenaphthene","SNO_LDR",7
+"1049","Acenaphthylene","SNO_LDR",7
+"1050","Anthracene","SNO_LDR",7
+"1051","Benzene","SNO_LDR",17
+"1052","Benzo(a)pyrene","SNO_LDR",7
+"1053","Benzo(b)fluoranthene","SNO_LDR",7
+"1054","Benzo(g,h,i)perylene","SNO_LDR",7
+"1055","Benzo(k)fluoranthene","SNO_LDR",7
+"1056","Bis(2-ethylhexyl) phthalate","SNO_LDR",7
+"1057","BTEX","SNO_LDR",46
+"1058","Butyl benzyl phthalate","SNO_LDR",7
+"1059","Cadmium","SNO_LDR",7
+"1060","Cadmium dissolved","SNO_LDR",7
+"1061","Calcium","SNO_LDR",7
+"1062","Chloride","SNO_LDR",7
+"1063","Chlorpyrifos","SNO_LDR",7
+"1064","Chrysene","SNO_LDR",7
+"1065","Copper","SNO_LDR",7
+"1066","Copper dissolved","SNO_LDR",4
+"1067","CPAH","SNO_LDR",46
+"1068","Di-N-Octyl Phthalate","SNO_LDR",7
+"1069","Diazinon","SNO_LDR",7
+"1070","Dibenzo(a,h)anthracene","SNO_LDR",7
+"1071","Dibutyl phthalate","SNO_LDR",7
+"1072","Dichlobenil","SNO_LDR",7
+"1073","Diesel Range Organics","SNO_LDR",17
+"1074","Diethyl phthalate","SNO_LDR",7
+"1075","Dimethyl phthalate","SNO_LDR",7
+"1076","Ethylbenzene","SNO_LDR",17
+"1077","Fluoranthene","SNO_LDR",7
+"1078","Fluorene","SNO_LDR",7
+"1079","Gasoline Range Organics","SNO_LDR",17
+"1080","Hardness as CaCO3","SNO_LDR",7
+"1081","Heavy Fuel Oil","SNO_LDR",16
+"1082","HPAH","SNO_LDR",46
+"1083","Indeno(1,2,3-cd)pyrene","SNO_LDR",7
+"1084","Lead","SNO_LDR",7
+"1085","Lead dissolved","SNO_LDR",6
+"1086","LPAH","SNO_LDR",46
+"1087","Magnesium","SNO_LDR",7
+"1088","Malathion","SNO_LDR",7
+"1089","Mecoprop","SNO_LDR",7
+"1090","Mercury","SNO_LDR",2
+"1091","Mercury dissolved","SNO_LDR",2
+"1092","Naphthalene","SNO_LDR",7
+"1093","Nitrite-Nitrate","SNO_LDR",7
+"1094","Ortho-phosphate dissolved","SNO_LDR",7
+"1095","Pentachlorophenol","SNO_LDR",7
+"1096","Phenanthrene","SNO_LDR",7
+"1097","Prometon","SNO_LDR",7
+"1098","Pyrene","SNO_LDR",7
+"1099","Surfactants","SNO_LDR",7
+"1100","Toluene","SNO_LDR",17
+"1101","Total Benzofluoranthenes","SNO_LDR",46
+"1102","Total Kjeldahl Nitrogen","SNO_LDR",7
+"1103","Total PAH","SNO_LDR",46
+"1104","Total Phosphorus","SNO_LDR",7
+"1105","Total Phthalate","SNO_LDR",46
+"1106","Total Suspended Solids","SNO_LDR",7
+"1107","Total TPHDx","SNO_LDR",46
+"1108","Total Xylenes","SNO_LDR",17
+"1109","Triclopyr","SNO_LDR",7
+"1110","Zinc","SNO_LDR",7
+"1111","Zinc dissolved","SNO_LDR",4
+"1112","2-Methylnaphthalene","TAC001S8D_OF235",6
+"1113","2,4-D","TAC001S8D_OF235",4
+"1114","Acenaphthene","TAC001S8D_OF235",6
+"1115","Acenaphthylene","TAC001S8D_OF235",6
+"1116","Anthracene","TAC001S8D_OF235",6
+"1117","Benz(a)anthracene","TAC001S8D_OF235",6
+"1118","Benzo(a)pyrene","TAC001S8D_OF235",6
+"1119","Benzo(b,k)fluoranthene","TAC001S8D_OF235",6
+"1120","Benzo(g,h,i)perylene","TAC001S8D_OF235",6
+"1121","Bis(2-ethylhexyl) phthalate","TAC001S8D_OF235",6
+"1122","Butyl benzyl phthalate","TAC001S8D_OF235",6
+"1123","Cadmium","TAC001S8D_OF235",6
+"1124","Cadmium dissolved","TAC001S8D_OF235",6
+"1125","Chloride","TAC001S8D_OF235",3
+"1126","Chlorpyrifos","TAC001S8D_OF235",6
+"1127","Chrysene","TAC001S8D_OF235",6
+"1128","Copper","TAC001S8D_OF235",6
+"1129","Copper dissolved","TAC001S8D_OF235",6
+"1130","CPAH","TAC001S8D_OF235",42
+"1131","Di-N-Octyl Phthalate","TAC001S8D_OF235",6
+"1132","Diazinon","TAC001S8D_OF235",6
+"1133","Dibenzo(a,h)anthracene","TAC001S8D_OF235",6
+"1134","Dibutyl phthalate","TAC001S8D_OF235",6
+"1135","Dichlobenil","TAC001S8D_OF235",6
+"1136","Diesel Range Organics","TAC001S8D_OF235",10
+"1137","Diethyl phthalate","TAC001S8D_OF235",6
+"1138","Dimethyl phthalate","TAC001S8D_OF235",6
+"1139","Fluoranthene","TAC001S8D_OF235",6
+"1140","Fluorene","TAC001S8D_OF235",6
+"1141","Gasoline Range Organics","TAC001S8D_OF235",10
+"1142","Hardness as CaCO3","TAC001S8D_OF235",6
+"1143","Heavy Fuel Oil","TAC001S8D_OF235",10
+"1144","HPAH","TAC001S8D_OF235",42
+"1145","Indeno(1,2,3-cd)pyrene","TAC001S8D_OF235",6
+"1146","Lead","TAC001S8D_OF235",6
+"1147","Lead dissolved","TAC001S8D_OF235",6
+"1148","LPAH","TAC001S8D_OF235",42
+"1149","Malathion","TAC001S8D_OF235",6
+"1150","Mecoprop","TAC001S8D_OF235",4
+"1151","Mercury","TAC001S8D_OF235",6
+"1152","Mercury dissolved","TAC001S8D_OF235",6
+"1153","Naphthalene","TAC001S8D_OF235",6
+"1154","Nitrite-Nitrate","TAC001S8D_OF235",3
+"1155","Ortho-phosphate dissolved","TAC001S8D_OF235",4
+"1156","Pentachlorophenol","TAC001S8D_OF235",4
+"1157","Phenanthrene","TAC001S8D_OF235",6
+"1158","Prometon","TAC001S8D_OF235",6
+"1159","Pyrene","TAC001S8D_OF235",6
+"1160","Surfactants","TAC001S8D_OF235",5
+"1161","Total Benzofluoranthenes","TAC001S8D_OF235",42
+"1162","Total Kjeldahl Nitrogen","TAC001S8D_OF235",3
+"1163","Total PAH","TAC001S8D_OF235",42
+"1164","Total Phosphorus","TAC001S8D_OF235",3
+"1165","Total Phthalate","TAC001S8D_OF235",42
+"1166","Total Suspended Solids","TAC001S8D_OF235",5
+"1167","Total TPHDx","TAC001S8D_OF235",21
+"1168","Triclopyr","TAC001S8D_OF235",4
+"1169","Zinc","TAC001S8D_OF235",6
+"1170","Zinc dissolved","TAC001S8D_OF235",6
+"1171","2-Methylnaphthalene","TAC003S8D_OF245",2
+"1172","2,4-D","TAC003S8D_OF245",2
+"1173","Acenaphthene","TAC003S8D_OF245",2
+"1174","Acenaphthylene","TAC003S8D_OF245",2
+"1175","Anthracene","TAC003S8D_OF245",2
+"1176","Benz(a)anthracene","TAC003S8D_OF245",2
+"1177","Benzo(a)pyrene","TAC003S8D_OF245",2
+"1178","Benzo(b,k)fluoranthene","TAC003S8D_OF245",2
+"1179","Benzo(g,h,i)perylene","TAC003S8D_OF245",2
+"1180","Bis(2-ethylhexyl) phthalate","TAC003S8D_OF245",2
+"1181","Butyl benzyl phthalate","TAC003S8D_OF245",2
+"1182","Cadmium","TAC003S8D_OF245",2
+"1183","Cadmium dissolved","TAC003S8D_OF245",2
+"1184","Chloride","TAC003S8D_OF245",1
+"1185","Chlorpyrifos","TAC003S8D_OF245",2
+"1186","Chrysene","TAC003S8D_OF245",2
+"1187","Copper","TAC003S8D_OF245",2
+"1188","Copper dissolved","TAC003S8D_OF245",2
+"1189","CPAH","TAC003S8D_OF245",32
+"1190","Di-N-Octyl Phthalate","TAC003S8D_OF245",2
+"1191","Diazinon","TAC003S8D_OF245",2
+"1192","Dibenzo(a,h)anthracene","TAC003S8D_OF245",2
+"1193","Dibutyl phthalate","TAC003S8D_OF245",2
+"1194","Dichlobenil","TAC003S8D_OF245",2
+"1195","Diesel Range Organics","TAC003S8D_OF245",6
+"1196","Diethyl phthalate","TAC003S8D_OF245",2
+"1197","Dimethyl phthalate","TAC003S8D_OF245",2
+"1198","Fluoranthene","TAC003S8D_OF245",2
+"1199","Fluorene","TAC003S8D_OF245",2
+"1200","Gasoline Range Organics","TAC003S8D_OF245",7
+"1201","Hardness as CaCO3","TAC003S8D_OF245",2
+"1202","Heavy Fuel Oil","TAC003S8D_OF245",6
+"1203","HPAH","TAC003S8D_OF245",32
+"1204","Indeno(1,2,3-cd)pyrene","TAC003S8D_OF245",2
+"1205","Lead","TAC003S8D_OF245",2
+"1206","Lead dissolved","TAC003S8D_OF245",2
+"1207","LPAH","TAC003S8D_OF245",32
+"1208","Malathion","TAC003S8D_OF245",2
+"1209","Mecoprop","TAC003S8D_OF245",2
+"1210","Mercury","TAC003S8D_OF245",2
+"1211","Mercury dissolved","TAC003S8D_OF245",2
+"1212","Naphthalene","TAC003S8D_OF245",2
+"1213","Nitrite-Nitrate","TAC003S8D_OF245",1
+"1214","Ortho-phosphate dissolved","TAC003S8D_OF245",1
+"1215","Pentachlorophenol","TAC003S8D_OF245",2
+"1216","Phenanthrene","TAC003S8D_OF245",2
+"1217","Prometon","TAC003S8D_OF245",2
+"1218","Pyrene","TAC003S8D_OF245",2
+"1219","Surfactants","TAC003S8D_OF245",1
+"1220","Total Benzofluoranthenes","TAC003S8D_OF245",32
+"1221","Total Kjeldahl Nitrogen","TAC003S8D_OF245",1
+"1222","Total PAH","TAC003S8D_OF245",32
+"1223","Total Phosphorus","TAC003S8D_OF245",1
+"1224","Total Phthalate","TAC003S8D_OF245",32
+"1225","Total Suspended Solids","TAC003S8D_OF245",2
+"1226","Total TPHDx","TAC003S8D_OF245",20
+"1227","Triclopyr","TAC003S8D_OF245",2
+"1228","Zinc","TAC003S8D_OF245",2
+"1229","Zinc dissolved","TAC003S8D_OF245",2
+"1230","2-Methylnaphthalene","TFWFD1",2
+"1231","2,4-D","TFWFD1",2
+"1232","Acenaphthene","TFWFD1",2
+"1233","Acenaphthylene","TFWFD1",2
+"1234","Anthracene","TFWFD1",2
+"1235","Benz(a)anthracene","TFWFD1",2
+"1236","Benzo(a)pyrene","TFWFD1",2
+"1237","Benzo(b,k)fluoranthene","TFWFD1",2
+"1238","Benzo(g,h,i)perylene","TFWFD1",2
+"1239","Bis(2-ethylhexyl) phthalate","TFWFD1",2
+"1240","Butyl benzyl phthalate","TFWFD1",2
+"1241","Cadmium","TFWFD1",2
+"1242","Cadmium dissolved","TFWFD1",2
+"1243","Chloride","TFWFD1",2
+"1244","Chlorpyrifos","TFWFD1",2
+"1245","Chrysene","TFWFD1",2
+"1246","Copper","TFWFD1",2
+"1247","Copper dissolved","TFWFD1",2
+"1248","CPAH","TFWFD1",52
+"1249","Di-N-Octyl Phthalate","TFWFD1",2
+"1250","Diazinon","TFWFD1",2
+"1251","Dibenzo(a,h)anthracene","TFWFD1",2
+"1252","Dibutyl phthalate","TFWFD1",2
+"1253","Dichlobenil","TFWFD1",2
+"1254","Diesel Range Organics","TFWFD1",18
+"1255","Diethyl phthalate","TFWFD1",2
+"1256","Dimethyl phthalate","TFWFD1",2
+"1257","Fluoranthene","TFWFD1",2
+"1258","Fluorene","TFWFD1",2
+"1259","Gasoline Range Organics","TFWFD1",18
+"1260","Hardness as CaCO3","TFWFD1",2
+"1261","Heavy Fuel Oil","TFWFD1",18
+"1262","HPAH","TFWFD1",52
+"1263","Indeno(1,2,3-cd)pyrene","TFWFD1",2
+"1264","Lead","TFWFD1",2
+"1265","Lead dissolved","TFWFD1",2
+"1266","LPAH","TFWFD1",52
+"1267","Malathion","TFWFD1",2
+"1268","Mecoprop","TFWFD1",2
+"1269","Mercury","TFWFD1",2
+"1270","Mercury dissolved","TFWFD1",2
+"1271","Naphthalene","TFWFD1",2
+"1272","Nitrite-Nitrate","TFWFD1",2
+"1273","Ortho-phosphate dissolved","TFWFD1",2
+"1274","Pentachlorophenol","TFWFD1",2
+"1275","Phenanthrene","TFWFD1",2
+"1276","Prometon","TFWFD1",2
+"1277","Pyrene","TFWFD1",2
+"1278","Surfactants","TFWFD1",1
+"1279","Total Benzofluoranthenes","TFWFD1",52
+"1280","Total Kjeldahl Nitrogen","TFWFD1",2
+"1281","Total PAH","TFWFD1",52
+"1282","Total Phosphorus","TFWFD1",2
+"1283","Total Phthalate","TFWFD1",52
+"1284","Total Suspended Solids","TFWFD1",2
+"1285","Total TPHDx","TFWFD1",31
+"1286","Triclopyr","TFWFD1",2
+"1287","Zinc","TFWFD1",2
+"1288","Zinc dissolved","TFWFD1",2
