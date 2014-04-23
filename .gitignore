@@ -4,8 +4,10 @@
 # Example code in package build process
 *-Ex.R
 
-# R data files from past sessions
+# R data files and project files from past sessions
 .Rdata
+*.Rproj
+.Rproj.user
 
 # PDFs and other output files
 *.pdf
