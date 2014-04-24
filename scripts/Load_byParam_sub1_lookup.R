@@ -6,9 +6,11 @@
 
 require(sqldf)
 
-### convert from text to date format:
+### convert from text to date format.  Also replace end date NAs with the start date value.
 Storm$Field_Collection_Start_Date <- as.Date(Storm$Field_Collection_Start_Date, "%m/%d/%Y")
 Storm$Field_Collection_End_Date   <- as.Date(Storm$Field_Collection_End_Date, "%m/%d/%Y")
+
+Storm$Field_Collection_End_Date[is.na(Storm$Field_Collection_End_Date)] <- Storm$Field_Collection_Start_Date[is.na(Storm$Field_Collection_End_Date)]
 
 ### Dates as numbers (days since 1970/01/01), to make things simple for the SQL:
 Storm$start <- as.numeric(Storm$Field_Collection_Start_Date)
@@ -153,9 +155,9 @@ Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start)",
 noStorm  <- Storm[which(is.na(Storm$storm_event_flow_volume)), ]
 noSample <- Storm[which(is.na(Storm$sample_event_flow_volume)), ]
 
-## print out a check to see if it works
-Storm[1:100, "storm_event_flow_volume"]
-Storm[1:100, "sample_event_flow_volume"]
+### print out a check to see if it works
+#Storm[1:100, "storm_event_flow_volume"]
+#Storm[1:100, "sample_event_flow_volume"]
 
 ### Eventually you'll want to write the results out as a csv I think?
 #write.csv(...

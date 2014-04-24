@@ -13,10 +13,10 @@ storm_load$sample.year<-as.numeric(format(storm_load$Field_Collection_End_Date,"
 
 ### calculate sample event loads -------------------------
 # Unit conversion note - sample and storm volumes are in m3.  Desired load units are Kg.
-#  All samples should be in ug/L.  Muliply ug/L by 1000 to get ug/m3.  Then divide
+#  All samples should be in ug/L.  Multiply ug/L by 1000 to get ug/m3.  Then divide
 #  the resulting load by 1e9 (1,000,000,000) to convert ug to Kg.
-storm_load$sample_loads <- ((storm_load$sample_event_flow_volume*storm_load$new_Result_Value)*1000)/1e-09
-storm_load$storm_loads  <- ((storm_load$storm_event_flow_volume*storm_load$new_Result_Value)*1000)/1e-09
+storm_load$sample_loads <- (storm_load$sample_event_flow_volume*(storm_load$new_Result_Value*1000))/1e+09
+storm_load$storm_loads  <- (storm_load$storm_event_flow_volume*(storm_load$new_Result_Value*1000))/1e+09
 storm_load$load_units   <- "Kg"
 
 # Update Parameter_string to remove load units (which should now be identical for all parameters)

@@ -1,4 +1,4 @@
-"","loads","location","x"
+"","parameter","location","x"
 "1","2-Methylnaphthalene","GM34921",30
 "2","2,4-D","GM34921",30
 "3","Acenaphthene","GM34921",30
@@ -276,7 +276,7 @@
 "275","Chrysene","LDR010",24
 "276","Copper","LDR010",24
 "277","Copper dissolved","LDR010",24
-"278","CPAH","LDR010",24
+"278","CPAH","LDR010",30
 "279","Di-N-Octyl Phthalate","LDR010",24
 "280","Diazinon","LDR010",24
 "281","Dibenzo(a,h)anthracene","LDR010",24
@@ -290,11 +290,11 @@
 "289","Gasoline Range Organics","LDR010",18
 "290","Hardness as CaCO3","LDR010",24
 "291","Heavy Fuel Oil","LDR010",18
-"292","HPAH","LDR010",24
+"292","HPAH","LDR010",30
 "293","Indeno(1,2,3-cd)pyrene","LDR010",24
 "294","Lead","LDR010",24
 "295","Lead dissolved","LDR010",24
-"296","LPAH","LDR010",24
+"296","LPAH","LDR010",30
 "297","Malathion","LDR010",24
 "298","Mecoprop","LDR010",24
 "299","Mercury","LDR010",3
@@ -306,12 +306,12 @@
 "305","Prometon","LDR010",24
 "306","Pyrene","LDR010",24
 "307","Surfactants","LDR010",24
-"308","Total Benzofluoranthenes","LDR010",24
+"308","Total Benzofluoranthenes","LDR010",30
 "309","Total Kjeldahl Nitrogen","LDR010",24
-"310","Total PAH","LDR010",24
+"310","Total PAH","LDR010",30
 "311","Total Phosphorus","LDR010",24
 "312","Total Phosphorus dissolved","LDR010",24
-"313","Total Phthalate","LDR010",24
+"313","Total Phthalate","LDR010",30
 "314","Total Suspended Solids","LDR010",24
 "315","Total TPHDx","LDR010",19
 "316","Triclopyr","LDR010",24
@@ -646,7 +646,7 @@
 "645","Chrysene","POT564S8D_OUT",33
 "646","Copper","POT564S8D_OUT",33
 "647","Copper dissolved","POT564S8D_OUT",33
-"648","CPAH","POT564S8D_OUT",33
+"648","CPAH","POT564S8D_OUT",36
 "649","Di-N-Octyl Phthalate","POT564S8D_OUT",33
 "650","Diazinon","POT564S8D_OUT",32
 "651","Dibenzo(a,h)anthracene","POT564S8D_OUT",33
@@ -658,11 +658,11 @@
 "657","Fluoranthene","POT564S8D_OUT",33
 "658","Fluorene","POT564S8D_OUT",33
 "659","Hardness as CaCO3","POT564S8D_OUT",33
-"660","HPAH","POT564S8D_OUT",33
+"660","HPAH","POT564S8D_OUT",36
 "661","Indeno(1,2,3-cd)pyrene","POT564S8D_OUT",33
 "662","Lead","POT564S8D_OUT",33
 "663","Lead dissolved","POT564S8D_OUT",33
-"664","LPAH","POT564S8D_OUT",33
+"664","LPAH","POT564S8D_OUT",36
 "665","Malathion","POT564S8D_OUT",32
 "666","Mecoprop","POT564S8D_OUT",32
 "667","Mercury","POT564S8D_OUT",33
@@ -676,11 +676,11 @@
 "675","Prometon","POT564S8D_OUT",32
 "676","Pyrene","POT564S8D_OUT",33
 "677","Surfactants","POT564S8D_OUT",33
-"678","Total Benzofluoranthenes","POT564S8D_OUT",33
+"678","Total Benzofluoranthenes","POT564S8D_OUT",36
 "679","Total Kjeldahl Nitrogen","POT564S8D_OUT",30
-"680","Total PAH","POT564S8D_OUT",33
+"680","Total PAH","POT564S8D_OUT",36
 "681","Total Phosphorus","POT564S8D_OUT",29
-"682","Total Phthalate","POT564S8D_OUT",33
+"682","Total Phthalate","POT564S8D_OUT",36
 "683","Total Suspended Solids","POT564S8D_OUT",33
 "684","Total TPHDx","POT564S8D_OUT",35
 "685","TPHGx","POT564S8D_OUT",35
