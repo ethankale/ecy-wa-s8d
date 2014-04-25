@@ -4,6 +4,8 @@
 #  to make loads for each parameter (parameter group?) per event.
 #####
 
+require(reshape)
+
 storm_load <- Storm[-which(Storm$paramClass=="Measurement"),]                ### remove all the flow data and conventional parameters
 storm_load <- storm_load[-which(storm_load$Sample_Matrix=="Sediment"),]      ### remove sediment samples
 storm_load <- storm_load[which(storm_load$new_Result_Units=="ug/L"),]        ### ensure all remaining samples are in appropriate units
@@ -21,7 +23,7 @@ storm_load$load_units   <- "Kg"
 # Update Parameter_string to remove load units (which should now be identical for all parameters)
 storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
 
-# Get various summaries of data, including missing loads
+### Get various summaries of data, including missing loads  -------------------------
 noStorm <- storm_load[which(is.na(storm_load$sample_loads) | is.na(storm_load$storm_loads)), ]
 
 loadCount <- aggregate(storm_load$sample_loads, list(parameter=storm_load$Parameter_string, location=storm_load$Location_ID), length)
@@ -39,6 +41,84 @@ loadSummary <- aggregate(storm_load$sample_loads,
 write.csv(loadNA, paste(outputDirectory, "loadNA.csv", sep="/"))
 write.csv(loadCount, paste(outputDirectory, "loadCount.csv", sep="/"))
 write.csv(loadSummary, paste(outputDirectory, "loadSummary.csv", sep="/"))
+
+### Compare sample volumes to storm volumes  -------------------------
+events <- sqldf(c("CREATE INDEX s1 ON storm_event_flows(Location_ID, start, end)",
+                 "CREATE INDEX s2 ON sample_event_flows(Location_ID, start, end)",
+                 "SELECT storm_event_flows.Location_ID,
+                    storm_event_flows.start, storm_event_flows.end, storm_event_flows.new_Result_Value as storm_volume,
+                    sample_event_flows.new_Result_Value AS sample_volume
+                FROM storm_event_flows
+                LEFT OUTER JOIN sample_event_flows 
+                  ON sample_event_flows.Location_ID = storm_event_flows.Location_ID
+                    AND sample_event_flows.start >= storm_event_flows.start
+                    AND sample_event_flows.end <= storm_event_flows.end"
+                 )
+                )
+
+events$startDate  <- as.Date(events$start, origin = "1970-01-01")
+events$endDate    <- as.Date(events$end, origin = "1970-01-01")
+
+events$year       <- as.numeric(format(events$startDate, format="%Y"))
+events$month      <- as.numeric(format(events$startDate, format="%m"))
+events$season     <- ifelse(events$month <= 5 | events$month >= 10, "rainy", "dry")
+
+events$volumePerc <- (events$sample_volume / events$storm_volume) * 100
+
+# Summarize by location, year, etc.
+pdf(paste(outputDirectory, "event_percents.pdf", sep="/"), width=11, height=8.5)
+
+mar.default = c(5, 4, 4, 2) + 0.1
+
+plot(x    = events$storm_volume,
+     y    = events$volumePerc,
+     log  = "xy",
+     xlab = "Storm volume",
+     ylab = "Sample volume as percentage of storm volume",
+     main = "Sample vs. Storm Volumes (by Storm Volume)"
+     )
+
+par(mar = mar.default + c(0, 8, 0, 0))
+boxplot(volumePerc ~ Location_ID, 
+        data = events, 
+        horizontal = TRUE, 
+        las  = 1,
+        xlab = "Sample volume as percent of storm volume",
+        main = "Sample vs. Storm Volumes (by Location)"
+        )
+
+par(mar = mar.default)
+boxplot(volumePerc ~ season, 
+        data = events, 
+        horizontal = TRUE, 
+        las  = 1,
+        xlab = "Sample volume as percent of storm volume",
+        main = "Sample vs. Storm Volumes (by Season)"
+)
+
+boxplot(volumePerc ~ year, 
+        data = events, 
+        horizontal = TRUE, 
+        las  = 1,
+        xlab = "Sample volume as percent of storm volume",
+        main = "Sample vs. Storm Volumes (by Year)"
+)
+
+dev.off()
+
+# Tabular format
+eventSummary <- cast(data    = events, 
+                     formula = Location_ID ~ year, 
+                     value   = "volumePerc",
+                     fun.aggregate = 
+                       function(x) c(
+                         min   = min(x),
+                         max   = max(x),
+                         count = length(x)
+                       )
+                     )
+
+write.csv(eventSummary, paste(outputDirectory, "eventSummary.csv", sep="/"))
 
 ### Future reference - plots
 

@@ -11,7 +11,7 @@ scriptDirectory <- paste(dataDirectory, "scripts", sep="/")
 outputDirectory <- paste(dataDirectory, "output", sep="/")
 
 ### set up name of the input csv file.
-csvFile <- paste(dataDirectory, "FinalMasterFile_4-15-2014.csv", sep="/")
+csvFile <- paste(dataDirectory, "FinalMasterFile_4-24-2014.csv", sep="/")
 
 ### set a flag to decide whether to generate a pdf file.  If this flag is false, then create emf files instead.
 output_types <- c("Screen", "PDF", "EMF")  ### recognized output types, don't change these please
