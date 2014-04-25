@@ -8,7 +8,6 @@ storm_load <- Storm[-which(Storm$paramClass=="Measurement"),]                ###
 storm_load <- storm_load[-which(storm_load$Sample_Matrix=="Sediment"),]      ### remove sediment samples
 storm_load <- storm_load[which(storm_load$new_Result_Units=="ug/L"),]        ### ensure all remaining samples are in appropriate units
 
-storm_load$Field_Collection_End_Date<-as.Date(storm_load$Field_Collection_End_Date,"%m/%d/%Y")
 storm_load$sample.year<-as.numeric(format(storm_load$Field_Collection_End_Date,"%Y"))
 
 ### calculate sample event loads -------------------------
@@ -22,18 +21,28 @@ storm_load$load_units   <- "Kg"
 # Update Parameter_string to remove load units (which should now be identical for all parameters)
 storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
 
-noStorm  <- storm_load[which(is.na(storm_load$storm_loads)), ]
-noSample <- storm_load[which(is.na(storm_load$sample_loads)), ]
+# Get various summaries of data, including missing loads
+noStorm <- storm_load[which(is.na(storm_load$sample_loads) | is.na(storm_load$storm_loads)), ]
 
 loadCount <- aggregate(storm_load$sample_loads, list(parameter=storm_load$Parameter_string, location=storm_load$Location_ID), length)
 loadNA    <- aggregate(storm_load$sample_loads, list(parameter=storm_load$Parameter_string, location=storm_load$Location_ID), function(x) sum(is.na(x)))
 
+loadSummary <- aggregate(storm_load$sample_loads, 
+                         list(parameter=storm_load$Parameter_string, location=storm_load$Location_ID), 
+                         function(load) c(
+                                          NAs   = sum(is.na(load)), 
+                                          count = length(load), 
+                                          quant = quantile(load, na.rm=TRUE)
+                                          )
+                         )
+
 write.csv(loadNA, paste(outputDirectory, "loadNA.csv", sep="/"))
 write.csv(loadCount, paste(outputDirectory, "loadCount.csv", sep="/"))
+write.csv(loadSummary, paste(outputDirectory, "loadSummary.csv", sep="/"))
 
 ### Future reference - plots
 
-#layout(matrix(c(1:2), 2, 1, byrow=TRUE))
+#layout(matrix(c(1:2), 4, 1, byrow=TRUE))
 #cuLoad <- storm_load[which(storm_load$Parameter_string == "Copper"),]
 #boxplot(x = cuLoad$sample_loads, horizontal = TRUE, log = "x")
 #plot(x = cuLoad$sample_loads, y = rep(1, nrow(cuLoad)), pch = -124, col = rgb(0,0,0,0.15), log = "x")

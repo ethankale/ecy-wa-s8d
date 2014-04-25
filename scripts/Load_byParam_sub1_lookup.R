@@ -151,9 +151,51 @@ Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start)",
                     AND Storm.end <= storm_event_flows.end")
               )
 
-### Create a list of samples with missing storm or sample volumes
-noStorm  <- Storm[which(is.na(Storm$storm_event_flow_volume)), ]
-noSample <- Storm[which(is.na(Storm$sample_event_flow_volume)), ]
+# Second function to match storm & sample loads with parameter, this time casting a 
+#  wider net for those that did not match at first.  Match those storms or events
+#  where EITHER the begin or end date is within the event span.
+Storm$partial_match <- "N"
+
+# Pull values without matching storms into a separate dataframe, remove from Storm
+noStorm <- Storm[which(is.na(Storm$storm_event_flow_volume) | is.na(Storm$sample_event_flow_volume)), ]
+Storm   <- Storm[-which(is.na(Storm$storm_event_flow_volume) | is.na(Storm$sample_event_flow_volume)), ]
+
+# Find & append events where either the beginning or end date of the sample is within the event span
+partStormMatch <- sqldf(c("CREATE INDEX s1 ON noStorm(Location_ID, start)",
+                          "CREATE INDEX s2 ON storm_event_flows(Location_ID, start, end)",
+                          "CREATE INDEX s3 ON sample_event_flows(Location_ID, start, end)",
+                          "SELECT noStorm.*, 
+                            storm_event_flows.new_Result_Value AS storm_event_flow_volume_part,
+                            sample_event_flows.new_Result_Value AS sample_event_flow_volume_part
+                          FROM noStorm
+                          LEFT OUTER JOIN sample_event_flows 
+                            ON noStorm.Location_ID = sample_event_flows.Location_ID
+                            AND (
+                              (noStorm.start >= sample_event_flows.start
+                                AND noStorm.start <= sample_event_flows.end)
+                              OR (noStorm.end >= sample_event_flows.start
+                                AND noStorm.end <= sample_event_flows.end)
+                            )
+                          LEFT OUTER JOIN storm_event_flows 
+                            ON noStorm.Location_ID = storm_event_flows.Location_ID
+                              AND (
+                                (noStorm.start >= storm_event_flows.start
+                                  AND noStorm.start <= storm_event_flows.end)
+                                OR (noStorm.end >= storm_event_flows.start
+                                  AND noStorm.end <= storm_event_flows.end)
+                              )"
+                          )
+                        )
+
+# Make columns in partStormMatch the same as Storm
+partStormMatch$storm_event_flow_volume  <- partStormMatch$storm_event_flow_volume_part
+partStormMatch$sample_event_flow_volume <- partStormMatch$sample_event_flow_volume_part
+
+partStormMatch <- partStormMatch[,!names(partStormMatch) %in% c("storm_event_flow_volume_part", "sample_event_flow_volume_part")]
+partStormMatch$partial_match <- "Y"
+
+# Add the partial (flagged) matches back to the regular matches.
+Storm <- rbind(Storm, partStormMatch)
 
 ### print out a check to see if it works
 #Storm[1:100, "storm_event_flow_volume"]

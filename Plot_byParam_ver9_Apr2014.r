@@ -84,7 +84,7 @@ for (i in 1:length(ParamList)) {
 
   ParamData <- Storm[which(Storm$Parameter.string == ParamList[i]), ]
   ParamData$new_Result_Value[which(ParamData$new_Result_Value==0)]<- 0.01
-  ylimits <-  c(min(ParamData$new_Result_Value)/2, max(ParamData$new_Result_Value)*2)
+  suppressWarnings(ylimits <-  c(min(ParamData$new_Result_Value)/2, max(ParamData$new_Result_Value)*2))
 
   # Plot data, with the type of plotting depending on the quality of the data
   if(Case.list$case.code[i] %in% c("A", "B")) {
