@@ -39,15 +39,15 @@
              )
 
   # Loop through each type of land use & plot
-  for (i in 1:nrow(landuseInfo)) {
+  for (j in 1:nrow(landuseInfo)) {
     
     # Pull out landuse subset & useful data
-    data       <- ParamData[which(as.character(ParamData$Type) == as.character(landuseInfo[i,1])),] 
+    data       <- ParamData[which(as.character(ParamData$Type) == as.character(landuseInfo[j,1])),] 
     nonDetects <- data[which(data$nonDetect_Flag == 1),]
     Detects    <- data[which(data$nonDetect_Flag == 0),]
     
     numRows    <- nrow(data)
-    margin     <- landuseInfo[i,2]
+    margin     <- landuseInfo[j,2]
     
     # Create the horizontal "jittering" for the plot (only if enough rows exist)
     if ( numRows > 0) {
@@ -64,8 +64,12 @@
       # Create the vertical rows that represent non-detects
       if (nrow(nonDetects) > 0 ) {
         jitterX_ND <- jitterX[1:nrow(nonDetects)]
-        segments(y0=rep(min(ylimits),nrow(nonDetects)), x0=jitterX_ND, y1=nonDetects$new_Result_Value, 
-                 x1=jitterX_ND, col=3+nonDetects$WetSeason)
+        segments(y0=rep(min(ylimits),
+                        nrow(nonDetects)), 
+                 x0=jitterX_ND, 
+                 y1=nonDetects$new_Result_Value, 
+                 x1=jitterX_ND, 
+                 col=3+nonDetects$WetSeason)
       }
       
       # Create the dots that represent the detected values
@@ -75,9 +79,11 @@
       } 
       
       # Create label values
-      detCount[i]      <- sum(data$nonDetect_Flag == FALSE)
-      nd[i]            <- nrow(data[which(data$nonDetect_Flag == TRUE),])
-      percentCensor[i] <- nrow(nd)
+      detCount[j]      <- sum(data$nonDetect_Flag == FALSE)
+      nd[j]            <- nrow(data[which(data$nonDetect_Flag == TRUE),])
+      percentCensor[j] <- nrow(nd)
+      
+      nd               <- c()
     }
   }
 

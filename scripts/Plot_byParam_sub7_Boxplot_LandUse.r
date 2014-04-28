@@ -11,7 +11,7 @@ ndMax   <- c()
 numRows <- c()
 detCounts <- c()
 
-i = 1
+j = 1
 
 # Clean the data before plotting
 for (use in lu) {
@@ -19,17 +19,17 @@ for (use in lu) {
   detcount <- sum(data$nonDetect_Flag == FALSE)
   nd       <- data[which(data$nonDetect_Flag == TRUE),]
   
-  ndMax[i]    <- max(nd$new_Result_Value)
-  ndMin[i]    <- min(nd$new_Result_Value)
-  numRows[i]  <- nrow(nd)
-  detCounts[i]<- detcount
+  ndMax[j]    <- max(nd$new_Result_Value)
+  ndMin[j]    <- min(nd$new_Result_Value)
+  numRows[j]  <- nrow(nd)
+  detCounts[j]<- detcount
   
   # Remove land uses with few detections from plotting
   if (detcount < 5 && any(BoxData$Type == use)) {
     BoxData <- BoxData[-which(BoxData$Type == use),]
   }
   
-  i <- i+1
+  j <- j+1
 }
 
 nonDetects <- BoxData[which(BoxData$nonDetect_Flag == TRUE),]
@@ -56,13 +56,13 @@ if (nrow(BoxData) == 0 ) {
            main   = ""
   )
   
-  # Plot the maximum non-detect
-  for (i in 1:length(ndMax)) {
-    if (is.finite(ndMax[i])) {
-      rect(xleft   = -0.5+i, 
-           xright  = 0.5+i, 
+  # Plot the maximum non-detect for each land use (gray rectangles)
+  for (k in 1:length(ndMax)) {
+    if (is.finite(ndMax[k])) {
+      rect(xleft   = -0.5+k, 
+           xright  = 0.5+k, 
            ybottom = ylimits[1], 
-           ytop    = ndMax[i], 
+           ytop    = ndMax[k], 
            col     = "gray93", 
            border  = "white"
       )
@@ -89,20 +89,20 @@ if (nrow(BoxData) == 0 ) {
   )
 
   # Plot the non-detect limits
-  for (i in 1:length(ndMin)) {
-    if (is.finite(ndMin[i])) {
+  for (k in 1:length(ndMin)) {
+    if (is.finite(ndMin[k])) {
       
       # Minimum limit
-      lines(x   = c(-0.5+i, 0.5+i), 
-            y   = c(ndMin[i], ndMin[i]), 
+      lines(x   = c(-0.5+k, 0.5+k), 
+            y   = c(ndMin[k], ndMin[k]), 
             lwd = 1, 
             col = "red", 
             lty = "solid"
       )
       
       # Maximum limit
-      lines(x   = c(-0.5+i, 0.5+i), 
-            y   = c(ndMax[i], ndMax[i]), 
+      lines(x   = c(-0.5+k, 0.5+k), 
+            y   = c(ndMax[k], ndMax[k]), 
             lwd = 1, 
             col = "red", 
             lty = "dashed"
@@ -111,9 +111,20 @@ if (nrow(BoxData) == 0 ) {
   }
   
 } else {
-  boxplot( new_Result_Value ~ Type, data= BoxData, xaxt="n", border=colorList, 
-       log="y", xlim=xlimits, ylim=ylimits, ylab=ParamList[i], las=2, cex.axis=0.8, xaxs="i", yaxs="i", 
-       main="\nBoxplot\nby Land Use", cex.axis=0.8)
+  boxplot( new_Result_Value ~ Type, 
+           data = BoxData, 
+           xaxt = "n", 
+           border=colorList, 
+           log  = "y", 
+           xlim = xlimits, 
+           ylim = ylimits, 
+           ylab = ParamList[i], 
+           las  = 2, 
+           cex.axis=0.8, 
+           xaxs = "i", 
+           yaxs = "i", 
+           main = "\nBoxplot\nby Land Use", 
+           cex.axis=0.8)
 }
 
 ### Axis labels and legend:

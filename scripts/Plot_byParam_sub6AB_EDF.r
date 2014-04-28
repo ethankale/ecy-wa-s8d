@@ -52,14 +52,14 @@ if (ncol(plot_data) > 3) {
     )
   
   # Plot each land use line individually
-  for (i in 1:nrow(landuseLines)) {
+  for (j in 1:nrow(landuseLines)) {
   
-    data <- which(as.character(plot_data$LandUse) == as.character(landuseLines[i,1]))
+    data <- which(as.character(plot_data$LandUse) == as.character(landuseLines[j,1]))
     lines(x = plot_data[data, "prob"],
           y = plot_data[data, "obs"],
           type = "s",
-          lty  = as.character(landuseLines[i,3]),
-          col  = as.character(landuseLines[i,2]),
+          lty  = as.character(landuseLines$lty[j]),
+          col  = as.character(landuseLines$col[j]),
           lwd  = 1
           )
   }

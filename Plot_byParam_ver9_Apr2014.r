@@ -6,7 +6,7 @@
 #scriptDirectory <- paste(dataDirectory, "R\\", sep="")
 #outputDirectory <- paste(scriptDirectory, "Output\\", sep="")
 
-dataDirectory <- getwd()
+dataDirectory   <- getwd()
 scriptDirectory <- paste(dataDirectory, "scripts", sep="/")
 outputDirectory <- paste(dataDirectory, "output", sep="/")
 
@@ -16,8 +16,6 @@ csvFile <- paste(dataDirectory, "FinalMasterFile_4-24-2014.csv", sep="/")
 ### set a flag to decide whether to generate a pdf file.  If this flag is false, then create emf files instead.
 output_types <- c("Screen", "PDF", "EMF")  ### recognized output types, don't change these please
 output_selected <- output_types[2]         ### to change the output type, change this number between 1-3
-
-
 
 #####
 ###----------------------Commands to do the plots-------------------------------------------------
@@ -77,21 +75,26 @@ colnames(Det_Store) <- c("#Det_Ind", "#Det_Com", "#Det_HRes", "#Det_LowRes",
 ##i <- 56  ## dissolved copper Case A example
 ##i <- 50  ## Chlorpyrifos water Case C example
 ##i <- 69  ## %gravel
+##i <- 5   ## 2-Nitrophenol sediment  (ug/Kg)
 for (i in 1:length(ParamList)) {
+  # VERY IMPORTANT - the value of "i" refers to the parameter being plotted throughout
+  #  this loop.  DO NOT set the value of "i" within any of the subscripts.
+  
   if (output_selected == "EMF") {
     emf(paste(outputDirectory, "EMF\\", i, ".emf", sep=""), height=windowHeight, width=windowWidth)
   }
 
   ParamData <- Storm[which(Storm$Parameter.string == ParamList[i]), ]
   ParamData$new_Result_Value[which(ParamData$new_Result_Value==0)]<- 0.01
-  suppressWarnings(ylimits <-  c(min(ParamData$new_Result_Value)/2, max(ParamData$new_Result_Value)*2))
+  ylimits <-  c(min(ParamData$new_Result_Value)/2, max(ParamData$new_Result_Value)*2)
 
   # Plot data, with the type of plotting depending on the quality of the data
   if(Case.list$case.code[i] %in% c("A", "B")) {
     
+    # Detect & non-detect by land use type plot
     source( paste(scriptDirectory, "Plot_byParam_sub3AB_jitterPlot.r", sep="/"))
     
-    # Chance of exceedance plots
+    # Chance of exceedance plot
     if(Case.list$num.Detects[i] >= 5) {
       source( paste(scriptDirectory, "Plot_byParam_sub4_QQPlot.r", sep="/"))
     } else {
@@ -99,7 +102,7 @@ for (i in 1:length(ParamList)) {
       text(x=5,y=5,"Not Plotted\n(Fewer than 5 detections)")
     }
     
-    # Non-detection limits plots
+    # Non-detection limits plot
     source( paste(scriptDirectory, "Plot_byParam_sub5_CensorLevels.r", sep="/"))
     
     # Emperical distribution plots
@@ -118,6 +121,7 @@ for (i in 1:length(ParamList)) {
       text(x=5,y=5,"Not Plotted\n(Less than 5 detections)")
     }
 
+    # Boxplot by season, with non-detect ranges marked.
     if(Case.list$num.Detects[i] >= 5) {
       source( paste(scriptDirectory, "Plot_byParam_sub8_BoxPlot_Season.r", sep="/"))
     } else {
