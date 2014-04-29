@@ -16,38 +16,18 @@ Storm$Field_Collection_End_Date[is.na(Storm$Field_Collection_End_Date)] <- Storm
 Storm$start <- as.numeric(Storm$Field_Collection_Start_Date)
 Storm$end   <- as.numeric(Storm$Field_Collection_End_Date)
 
-#table(Storm$Parameter)
+### Create a separate table of just storm flows. -------------------------
+fields <- c("Location_ID", 
+            "Permittee",
+            "Field_Collection_Start_Date", 
+            "Field_Collection_End_Date", 
+            "start",
+            "end",
+            "WetSeason",
+            "new_Result_Value")
 
-####test whether the sample volume is greater than the storm
-#sample_storm<-Storm[,c("Parameter","Location_ID","Field_Collection_Start_Date","new_Result_Value")]
-#sample_storm<-subset(Storm, Parameter=="Storm Event Flow Volume" | Parameter=="Sampled-Event Flow Volume",select=c("Parameter","Location_ID","Field_Collection_Start_Date","new_Result_Value"))
-#location.start<- paste(sample_storm$Location_ID," ",sample_storm$Field_Collection_Start_Date,sep="")
-#sample_storm<- cbind(sample_storm,location.start)
-#storm.test<-reshape(data=sample_storm, v.names="new_Result_Value", idvar="location.start", timevar="Parameter", direction="wide")
-#colnames(storm.test)[4]<-"Sample_event_flow"
-#colnames(storm.test)[5]<-"Storm_event_flow"
-#storm.test<-na.omit(storm.test)   ##ditch the rows with NAs
-#Big_sample<-storm.test[storm.test$Sample_event_flow > storm.test$Storm_event_flow,]
-
-
-### Create a separate table of just storm flows.  
-storm_event_flows  <- Storm[which(Storm$Parameter == "Storm Event Flow Volume"),
-                            c("Location_ID", 
-                              "Field_Collection_Start_Date", 
-                              "Field_Collection_End_Date", 
-                              "start",
-                              "end",
-                              "new_Result_Value")
-                            ]
-
-sample_event_flows <- Storm[which(Storm$Parameter == "Sampled-Event Flow Volume"),
-                            c("Location_ID", 
-                              "Field_Collection_Start_Date", 
-                              "Field_Collection_End_Date", 
-                              "start",
-                              "end",
-                              "new_Result_Value")
-                            ]
+storm_event_flows  <- Storm[which(Storm$Parameter == "Storm Event Flow Volume"), fields]
+sample_event_flows <- Storm[which(Storm$Parameter == "Sampled-Event Flow Volume"), fields]
 
 ### Calculate storm length.  Print out and remove any storms longer than 6 days:
 storm_event_flows$storm_length <- storm_event_flows$Field_Collection_End_Date - 
@@ -61,11 +41,11 @@ sample_event_flows[which(sample_event_flows$storm_length > 6),]
 sample_event_flows <- sample_event_flows[-which(sample_event_flows$storm_length > 6),]
 
 ### Order the sample and storm tables by start date, and add an ID
-storm_event_flows <- storm_event_flows[with(storm_event_flows, order(Location_ID, Field_Collection_Start_Date)), ]
+storm_event_flows <- storm_event_flows[with(storm_event_flows, order(Permittee, Location_ID, Field_Collection_Start_Date)), ]
 idList <- seq(from=1, to=nrow(storm_event_flows), by = 1)
 storm_event_flows$id <- idList
 
-sample_event_flows <- sample_event_flows[with(sample_event_flows, order(Location_ID, Field_Collection_Start_Date)), ]
+sample_event_flows <- sample_event_flows[with(sample_event_flows, order(Permittee, Location_ID, Field_Collection_Start_Date)), ]
 idList <- seq(from=1, to=nrow(sample_event_flows), by = 1)
 sample_event_flows$id <- idList
 

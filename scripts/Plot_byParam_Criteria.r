@@ -10,16 +10,18 @@ require(reshape)
 
 ##### Function - Return WA state numeric Do Not Exceed criteria for a given parameter -------------------------
 #
+# parameter is a character vector
+# standard is a string in the list ("acute", "chronic", "hh")
+# pH is a numeric vector
+# hardness is a numeric vector
+#
 # Reference is WAC-173-201A-240.
 # By default returns accute, but can specify a standard of "chronic" or "hh" (human health).
 # Returns NA if there are no matching criteria; returns an error if pH or hardness is required
 #  and is not supplied.
 
-criteria <- function(parameter, standard, pH, hardness) {
+criteria <- function(parameter, standard="acute", pH, hardness) {
 
-  
-  if(missing(standard)) {standard = "acute"}
-  
   if(missing(parameter)) {
     stop("Parameter required, at a minimum.")
   }
@@ -27,6 +29,7 @@ criteria <- function(parameter, standard, pH, hardness) {
   missingpH   <- paste("For parameter", parameter, "pH is required.")
   missingHard <- paste("For parameter", parameter, "hardness is required.")
   criterion   <- ""
+  criteriaList <- c()
   
   # Acute standards, from WAC 173-201A-240
   if (standard == "acute") {
@@ -35,7 +38,7 @@ criteria <- function(parameter, standard, pH, hardness) {
       if(missing(pH)) {stop(missingpH)}
       criterion <- (0.275/(1+(10^(7.204-pH))))+(39/(1+(10^(pH-7.204)))*1000)
     
-    } else if (parameter == "Aresenic water dissolved (ug/L)") {
+    } else if (parameter == "Arsenic water dissolved (ug/L)") {
       criterion <- 360
     
     } else if (parameter == "Cadmium water  (ug/L)"){
@@ -44,7 +47,7 @@ criteria <- function(parameter, standard, pH, hardness) {
     
     } else if (parameter == "Cadmium water dissolved (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- (0.944)*(exp(1.128*(log(hardness))-3.828))
+      criterion <- (1.136672 - ((log(hardness)) * 0.041838)) * (0.944)*(exp(1.128*(log(hardness))-3.828))
   
     } else if (parameter == "Chloride water  (ug/L)"){
       criterion <- 860
@@ -54,18 +57,18 @@ criteria <- function(parameter, standard, pH, hardness) {
   
     } else if (parameter == "Copper water  (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- (0.960)*(exp(0.9422(log(hardness)) - 1.464))/0.96
+      criterion <- (0.960) * (exp(0.9422 * (log(hardness)) - 1.464))/0.96
   
     } else if (parameter == "Copper water dissolved (ug/L)"){
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.960 * (exp(0.9422(log(hardness)) - 1.464))
+      criterion <- 0.960 * (exp(0.9422 * (log(hardness)) - 1.464))
       
     } else if (parameter == "Diazinon water  (ug/L)") {
       criteria <- 0.3397
             
     } else if (parameter == "Lead water  (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.791 * (exp(1.273 *(log(hardness)) - 1.460)) / (1.46203 - (log(hardness) * (0.145712)))
+      criterion <- 0.791 * (exp(1.273 * (log(hardness)) - 1.460)) / (1.46203 - (log(hardness) * (0.145712)))
   
     } else if (parameter == "Lead water dissolved (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
@@ -79,7 +82,7 @@ criteria <- function(parameter, standard, pH, hardness) {
       
     } else if (parameter == "Pentachlorophenol water  (ug/L)") {
       if(missing(pH)) {stop(missingpH)}
-      criterion <- exp((1.005*pH) - 4.830)
+      criterion <- exp((1.005 * pH) - 4.830)
   
     } else if (parameter == "Total PCB water  (ug/L)") {
       criterion <- 2
@@ -97,7 +100,7 @@ criteria <- function(parameter, standard, pH, hardness) {
     # Chronic standards, from WAC 173-201A-240
   } else if (standard == "chronic"){
     
-    if (parameter == "Aresenic water dissolved (ug/L)") {
+    if (parameter == "Arsenic water dissolved (ug/L)") {
       criterion <- 190
       
     } else if (parameter == "Cadmium water  (ug/L)"){
@@ -221,12 +224,13 @@ criteria <- function(parameter, standard, pH, hardness) {
   
   }
   
-  return(criterion)
+  return(as.numeric(criterion))
   
 }
 
 ##### Add columns to "Storm" dataframe for pH and hardness. -------------------------
 
+# Add hardness, and average repeated values in the same day & location
 hardnessTable <- Storm[which(Storm$Parameter_string == "Hardness as CaCO3 water  (ug/L)"),
                         c("Location_ID", 
                           "Field_Collection_Start_Date", 
@@ -235,8 +239,9 @@ hardnessTable <- Storm[which(Storm$Parameter_string == "Hardness as CaCO3 water 
                           "end",
                           "new_Result_Value")
                         ]
+hardnessTable <- aggregate(new_Result_Value ~ Location_ID + Field_Collection_Start_Date + Field_Collection_End_Date + start + end, data = hardnessTable, mean)
 
-
+# Add pH, and average repeated values in the same day & location
 phTable <- Storm[which(Storm$Parameter_string == "pH water  (pH)"),
                        c("Location_ID", 
                          "Field_Collection_Start_Date", 
@@ -245,8 +250,12 @@ phTable <- Storm[which(Storm$Parameter_string == "pH water  (pH)"),
                          "end",
                          "new_Result_Value")
                        ]
+phTable <- aggregate(new_Result_Value ~ Location_ID + Field_Collection_Start_Date + Field_Collection_End_Date + start + end, data = phTable, mean)
 
+# Combined the tables
 Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start, end)",
+                "CREATE INDEX s2 ON hardnessTable(Location_ID, start, end)",
+                "CREATE INDEX s3 ON phTable(Location_ID, start, end)",
                 "SELECT Storm.*, 
                    hardnessTable.new_Result_Value AS hardness,
                    phTable.new_Result_Value AS pH
@@ -263,7 +272,14 @@ Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start, end)",
 
 ##### Use the new function & rows to calculate applicable criteria -------------------------
 
-# Storm$acute <- criteria(parameter == Storm$Parameter_string,
-#                         standard  == "acute",
-#                         pH        == Storm$pH,
-#                         hardness  == Storm$hardness)
+test1 <- c()
+#testLead <- Storm[which(Storm$Parameter_string == "Lead water dissolved (ug/L)"),]
+
+for (i in 1:nrow(Storm)) {
+  criterion <- criteria(parameter = Storm[i,"Parameter_string"],
+                        standard  = "acute",
+                        pH        = Storm[i, "pH"],
+                        hardness  = Storm[i, "hardness"]
+                        )
+  test1[i] <- criterion
+}

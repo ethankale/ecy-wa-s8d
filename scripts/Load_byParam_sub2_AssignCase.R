@@ -16,6 +16,7 @@ storm_load$sample.year<-as.numeric(format(storm_load$Field_Collection_End_Date,"
 # Unit conversion note - sample and storm volumes are in m3.  Desired load units are Kg.
 #  All samples should be in ug/L.  Multiply ug/L by 1000 to get ug/m3.  Then divide
 #  the resulting load by 1e9 (1,000,000,000) to convert ug to Kg.
+
 storm_load$sample_loads <- (storm_load$sample_event_flow_volume*(storm_load$new_Result_Value*1000))/1e+09
 storm_load$storm_loads  <- (storm_load$storm_event_flow_volume*(storm_load$new_Result_Value*1000))/1e+09
 storm_load$load_units   <- "Kg"
@@ -45,8 +46,9 @@ write.csv(loadSummary, paste(outputDirectory, "loadSummary.csv", sep="/"))
 ### Compare sample volumes to storm volumes  -------------------------
 events <- sqldf(c("CREATE INDEX s1 ON storm_event_flows(Location_ID, start, end)",
                  "CREATE INDEX s2 ON sample_event_flows(Location_ID, start, end)",
-                 "SELECT storm_event_flows.Location_ID,
-                    storm_event_flows.start, storm_event_flows.end, storm_event_flows.new_Result_Value as storm_volume,
+                 "SELECT storm_event_flows.Location_ID, storm_event_flows.Permittee,
+                    storm_event_flows.start, storm_event_flows.end, storm_event_flows.WetSeason,
+                    storm_event_flows.new_Result_Value as storm_volume,
                     sample_event_flows.new_Result_Value AS sample_volume
                 FROM storm_event_flows
                 LEFT OUTER JOIN sample_event_flows 
@@ -61,7 +63,6 @@ events$endDate    <- as.Date(events$end, origin = "1970-01-01")
 
 events$year       <- as.numeric(format(events$startDate, format="%Y"))
 events$month      <- as.numeric(format(events$startDate, format="%m"))
-events$season     <- ifelse(events$month <= 5 | events$month >= 10, "rainy", "dry")
 
 events$volumePerc <- (events$sample_volume / events$storm_volume) * 100
 
@@ -73,6 +74,7 @@ mar.default = c(5, 4, 4, 2) + 0.1
 plot(x    = events$storm_volume,
      y    = events$volumePerc,
      log  = "xy",
+     col  = events$Permittee,
      xlab = "Storm volume",
      ylab = "Sample volume as percentage of storm volume",
      main = "Sample vs. Storm Volumes (by Storm Volume)"
@@ -88,12 +90,12 @@ boxplot(volumePerc ~ Location_ID,
         )
 
 par(mar = mar.default)
-boxplot(volumePerc ~ season, 
+boxplot(volumePerc ~ WetSeason, 
         data = events, 
         horizontal = TRUE, 
         las  = 1,
         xlab = "Sample volume as percent of storm volume",
-        main = "Sample vs. Storm Volumes (by Season)"
+        main = "Sample vs. Storm Volumes (by Wet Season)"
 )
 
 boxplot(volumePerc ~ year, 
