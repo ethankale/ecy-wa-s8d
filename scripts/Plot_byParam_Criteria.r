@@ -6,7 +6,6 @@
 #####
 
 require(sqldf)
-require(reshape)
 
 # Include the function for calculating criteria
 source(paste(scriptDirectory, "Calculate_Criteria.R", sep="/"))
@@ -81,65 +80,146 @@ Storm$acute   <- acute
 Storm$chronic <- chronic
 Storm$hh      <- hh
 
-Storm$acuteExceedPercent <- Storm$new_Result_Value / Storm$acute
-Storm$chronicExceedPercent <- Storm$new_Result_Value / Storm$chronic
-Storm$hhExceedPercent <- Storm$new_Result_Value / Storm$hh
+Storm$acuteExceedPercent   <- (Storm$new_Result_Value / Storm$acute)   * 100
+Storm$chronicExceedPercent <- (Storm$new_Result_Value / Storm$chronic) * 100
+Storm$hhExceedPercent      <- (Storm$new_Result_Value / Storm$hh)      * 100
 
 ##### Plot out criteria by parameter (per Will Hobbs suggestion)
 pdf(paste(outputDirectory, "concentration_criteria_plots.pdf", sep="/"), width=11, height=8.5)
 
 mar.default = c(5, 4, 4, 2) + 0.1
 
-# Acute values vs. criteria
-par(mar = mar.default + c(0, 12, 0, 0))
-storm.acute <- Storm[-which(is.na(Storm$acute)), ]
-storm.acute$Parameter_string <- factor(storm.acute$Parameter_string)
+for (type in c("acute", "chronic", "hh")) {
 
-ylimits <- c(1, length(levels(storm.acute$Parameter_string)))
-xlimits <- c(min(storm.acute$new_Result_Value), max(storm.acute$new_Result_Value))
-
-plot(storm.acute$new_Result_Value, 
-     storm.acute$Parameter_string,
-     pch  = -124,
-     cex  = 0.5,
-     col  = "darkgray",
-     log  = "x",
-     xlab = "Sampled Concentration (ug/L)",
-     ylab = "",
-     main = "Range of Concentrations with acute criteria",
-     yaxt = "n"
-     )
-
-axis(side = 2, 
-     at   = 1:16, 
-     las  = 1,
-     labels = levels(storm.acute$Parameter_string))
-
-# Add additional labelling/decoration to each data series
-j <- 1
-for (param in levels(storm.acute$Parameter_string)) {
+  # Values vs. criteria
+  par(mar = mar.default + c(0, 12, 0, 0))
+  storm.current <- Storm[-which(is.na(Storm[, type])), ]
+  storm.current$Parameter_string <- factor(storm.current$Parameter_string)
   
-  xMin <- min(storm.acute$new_Result_Value)
-  xMax <- max(storm.acute$new_Result_Value)
-  abline(h   = j,
-         col = "lightgray"
-         )
+  ylimits <- c(1, length(levels(storm.current$Parameter_string)))
+  xlimits <- c(min(storm.current$new_Result_Value), max(storm.current$new_Result_Value))
   
-  # Add min and max labels at the ends of each data series
-  theMin <- min(storm.acute$new_Result_Value[which(storm.acute$Parameter_string == param)])
-  theMax <- max(storm.acute$new_Result_Value[which(storm.acute$Parameter_string == param)])
-   
-  text(theMin, j, labels = c(as.character(theMin)), pos = 2, offset = 0.5, cex = 0.85 )
-  text(theMax, j, labels = c(as.character(theMax)), pos = 4, offset = 0.5, cex = 0.85 )
+  plot(storm.current$new_Result_Value, 
+       storm.current$Parameter_string,
+       pch  = -124,
+       cex  = 0.5,
+       col  = "darkgray",
+       log  = "x",
+       xlab = "Sampled Concentration (ug/L)",
+       ylab = "",
+       main = paste("Range of Concentrations with", type, "criteria"),
+       yaxt = "n",
+       # Print out the background lines, text, etc. underneath the data
+       panel.first = {
+         j <- 1
+         for (param in levels(storm.current$Parameter_string)) {
+           
+           # Create background horizontal lines for each parameter
+           xMin <- min(storm.current$new_Result_Value)
+           xMax <- max(storm.current$new_Result_Value)
+           abline(h   = j,
+                  col = "lightgray",
+                  lty = 2
+           )
+           
+           # Add min and max labels at the ends of each data series
+           theMin <- min(storm.current$new_Result_Value[which(storm.current$Parameter_string == param)])
+           theMax <- max(storm.current$new_Result_Value[which(storm.current$Parameter_string == param)])
+           
+           text(theMin, j, labels = c(as.character(theMin)), pos = 3, offset = 0.5, cex = 0.85 )
+           text(theMax, j, labels = c(as.character(theMax)), pos = 3, offset = 0.5, cex = 0.85 )
+           
+           # Add the min and max of the criteria to each data series
+           acuteMin <- min(storm.current[which(storm.current$Parameter_string == param), type])
+           acuteMax <- max(storm.current[which(storm.current$Parameter_string == param), type])
+           
+           text(acuteMin, j, labels = c("|"))
+           text(acuteMax, j, labels = c("|"))
+           line <- c()
+           line$x <- c(acuteMin, acuteMax)
+           line$y <- c(j, j)
+           lines(x = line)
+           
+           j <- j + 1
+           
+         }
+       }
+       )
   
-  # Add the min and max of the criteria to each data series
-  acuteMin <- min(storm.acute$acute[which(storm.acute$Parameter_string == param)])
-  acuteMax <- max(storm.acute$acute[which(storm.acute$Parameter_string == param)])
+  labelList <- levels(storm.current$Parameter_string)
   
-  text(acuteMin, j, labels = c("|"), col = "blue")
-  text(acuteMax, j, labels = c("|"), col = "red" )
-  
-  j <- j + 1
-  
+  axis(side   = 2, 
+       at     = 1:length(labelList), 
+       las    = 1,
+       labels = labelList
+       )
 }
+
+dev.off()
+
+# Similar plots to above, but as percent exceedence rather than actual values
+pdf(paste(outputDirectory, "criteria_exceedence_plots.pdf", sep="/"), width=11, height=8.5)
+
+mar.default = c(5, 4, 4, 2) + 0.1
+
+for (type in c("acute", "chronic", "hh")) {
+  
+  colName <- paste(type, "ExceedPercent", sep="")
+  
+  # Values vs. criteria
+  par(mar = mar.default + c(0, 12, 0, 0))
+  storm.current <- Storm[-which(is.na(Storm[, type])), ]
+  storm.current$Parameter_string <- factor(storm.current$Parameter_string)
+  
+  ylimits <- c(1, length(levels(storm.current$Parameter_string)))
+  xlimits <- c(min(storm.current[, colName]), max(storm.current[, colName]))
+  
+  plot(storm.current[, colName], 
+       storm.current$Parameter_string,
+       pch  = -124,
+       cex  = 0.5,
+       col  = "darkgray",
+       log  = "x",
+       xlab = "Concentration as Percent of Criteria \n(vertical line = 100%)",
+       ylab = "",
+       main = paste("Percent Exceedance with", type, "criteria"),
+       yaxt = "n",
+       # Print out the background lines, text, etc. underneath the data
+       panel.first = {
+         j <- 1
+         for (param in levels(storm.current$Parameter_string)) {
+           
+           # Create background horizontal lines for each parameter
+           xMin <- min(storm.current[, colName])
+           xMax <- max(storm.current[, colName])
+           abline(h   = j,
+                  col = "lightgray",
+                  lty = 2
+           )
+           
+           # Add min and max labels at the ends of each data series
+           theMin <- min(storm.current[which(storm.current$Parameter_string == param), colName])
+           theMax <- max(storm.current[which(storm.current$Parameter_string == param), colName])
+           
+           text(theMin, j, labels = c(paste(formatC(theMin, format = "f", digits = 2, big.mark = ","), "%", sep = "")), pos = 3, offset = 0.5, cex = 0.85 )
+           text(theMax, j, labels = c(paste(formatC(theMax, format = "f", digits = 2, big.mark = ","), "%", sep = "")), pos = 3, offset = 0.5, cex = 0.85 )
+          
+           # Add a line at 100 (above which = exceedance of criteria)
+           abline(v = 100, col = "gray")
+           
+           j <- j + 1
+           
+         }
+       }
+  )
+  
+  labelList <- levels(storm.current$Parameter_string)
+  
+  axis(side   = 2, 
+       at     = 1:length(labelList), 
+       las    = 1,
+       labels = labelList
+  )
+}
+
 dev.off()

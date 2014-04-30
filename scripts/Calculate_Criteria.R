@@ -39,36 +39,36 @@ criteria <- function(parameter, standard="acute", pH, hardness) {
       
     } else if (parameter == "Cadmium water  (ug/L)"){
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.944*(exp(1.128*(log(hardness))-3.828))/(1.136672 - (log(hardness)*(0.041838)))
+      criterion <- 0.944 * exp((1.128 * log(hardness)) - 3.828)
       
     } else if (parameter == "Cadmium water dissolved (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- (1.136672 - ((log(hardness)) * 0.041838)) * (0.944)*(exp(1.128*(log(hardness))-3.828))
+      criterion <- 1.136672 - ((log(hardness) * 0.041838) * 0.944 * (exp((1.128 * log(hardness)) - 3.828)))
       
     } else if (parameter == "Chloride water  (ug/L)"){
-      criterion <- 860
+      criterion <- 860000
       
     } else if (parameter == "Chlorpyrifos water  (ug/L)"){
       criterion <- 0.083
       
     } else if (parameter == "Copper water  (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- (0.960) * (exp(0.9422 * (log(hardness)) - 1.464))/0.96
+      criterion <- exp((0.9422 * (log(hardness))) - 1.464)
       
     } else if (parameter == "Copper water dissolved (ug/L)"){
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.960 * (exp(0.9422 * (log(hardness)) - 1.464))
+      criterion <- 0.96 * (0.960 * exp((0.9422 * (log(hardness))) - 1.464))
       
     } else if (parameter == "Diazinon water  (ug/L)") {
       criteria <- 0.3397
       
     } else if (parameter == "Lead water  (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.791 * (exp(1.273 * (log(hardness)) - 1.460)) / (1.46203 - (log(hardness) * (0.145712)))
+      criterion <- 0.791 * exp((1.273 * (log(hardness))) - 1.460)
       
     } else if (parameter == "Lead water dissolved (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.791 * (exp(1.273 * (log(hardness)) - 1.460)) 
+      criterion <- (1.46203 - ((log(hardness) * 0.145712))) * 0.791 * (exp(1.273 * (log(hardness)) - 1.460)) 
       
     } else if (parameter == "Mercury water  (ug/L)") {
       criterion <- 2.1
@@ -79,6 +79,7 @@ criteria <- function(parameter, standard="acute", pH, hardness) {
     } else if (parameter == "Pentachlorophenol water  (ug/L)") {
       if(missing(pH)) {stop(missingpH)}
       criterion <- exp((1.005 * pH) - 4.830)
+      
       
     } else if (parameter == "Total PCB water  (ug/L)") {
       criterion <- 2
@@ -101,11 +102,11 @@ criteria <- function(parameter, standard="acute", pH, hardness) {
       
     } else if (parameter == "Cadmium water  (ug/L)"){
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.909 * (exp(0.7852 * (log(hardness)) - 3.490))
+      criterion <- 0.909 * exp((0.7852 * log(hardness)) - 3.490)
       
     } else if (parameter == "Cadmium water dissolved (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 1.101672 - (log(hardness)*0.041838) * (0.909 * (exp(0.7852 * (log(hardness)) - 3.490)))
+      criterion <- 1.101672 - ((log(hardness) * 0.041838) * 0.909 * (exp((0.7852 * log(hardness)) - 3.490)))
       
     } else if (parameter == "Chloride water  (ug/L)"){
       criterion <- 230000
@@ -115,11 +116,11 @@ criteria <- function(parameter, standard="acute", pH, hardness) {
       
     } else if (parameter == "Copper water  (ug/L)") {
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.960 * (exp(0.9422 * (log(hardness)) - 1.464))
+      criterion <- 0.960 * exp((0.8545 * (log(hardness))) - 1.464)
       
     } else if (parameter == "Copper water dissolved (ug/L)"){
       if(missing(hardness)) {stop(missingHard)}
-      criterion <- 0.96 * (0.960 * (exp(0.9422 * (log(hardness)) - 1.464)))
+      criterion <- 0.96 * (0.960 * exp((0.8545 * (log(hardness))) - 1.465))
       
     } else if (parameter == "Diazinon water  (ug/L)") {
       criterion <- 0.1699
@@ -140,7 +141,7 @@ criteria <- function(parameter, standard="acute", pH, hardness) {
       
     } else if (parameter == "Pentachlorophenol water  (ug/L)") {
       if(missing(pH)) {stop(missingpH)}
-      criterion <- exp(1.005 * pH) - 5.290
+      criterion <- exp((1.005 * pH) - 5.29)
       
     } else if (parameter == "Total PCB water  (ug/L)") {
       criterion <- 0.014
@@ -165,7 +166,7 @@ criteria <- function(parameter, standard="acute", pH, hardness) {
     } else if (parameter == "Anthracene water  (ug/L)") {
       criterion <- 9600
       
-    } else if (parameter == "Aresenic water dissolved (ug/L)") {
+    } else if (parameter == "Arsenic water dissolved (ug/L)") {
       criterion <- 0.018
       
     } else if (parameter == "Benz(a)anthracene water  (ug/L)") {
