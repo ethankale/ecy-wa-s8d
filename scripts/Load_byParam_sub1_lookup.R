@@ -1,6 +1,9 @@
 
 #####
 # Pulls rainfall events out of the raw data.
+#
+# Designed to be run AFTER Plot_byParam_ver9_[date].r, in the SAME workspace.
+#
 # Both sample events (duration of datalogger) and storm events, which should be 
 #  duration from beginning to end of rainfall
 

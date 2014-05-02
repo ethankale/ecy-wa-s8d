@@ -84,15 +84,23 @@ Storm$acuteExceedPercent   <- (Storm$new_Result_Value / Storm$acute)   * 100
 Storm$chronicExceedPercent <- (Storm$new_Result_Value / Storm$chronic) * 100
 Storm$hhExceedPercent      <- (Storm$new_Result_Value / Storm$hh)      * 100
 
-##### Plot out criteria by parameter (per Will Hobbs suggestion)
+Storm$acuteExceeds   <- Storm$acuteExceedPercent > 100
+Storm$chronicExceeds <- Storm$chronicExceedPercent > 100
+Storm$hhExceeds      <- Storm$hhExceedPercent > 100
+
+
+
+
+##### Plot out criteria by parameter (per Will Hobbs suggestion) -------------------------
 pdf(paste(outputDirectory, "concentration_criteria_plots.pdf", sep="/"), width=11, height=8.5)
 
 mar.default = c(5, 4, 4, 2) + 0.1
 
 for (type in c("acute", "chronic", "hh")) {
 
-  # Values vs. criteria
   par(mar = mar.default + c(0, 12, 0, 0))
+  
+  # Values vs. criteria
   storm.current <- Storm[-which(is.na(Storm[, type])), ]
   storm.current$Parameter_string <- factor(storm.current$Parameter_string)
   
@@ -157,17 +165,20 @@ for (type in c("acute", "chronic", "hh")) {
 
 dev.off()
 
-# Similar plots to above, but as percent exceedence rather than actual values
+##### Similar plots to above, but as percent exceedence rather than actual values -------------------------
 pdf(paste(outputDirectory, "criteria_exceedence_plots.pdf", sep="/"), width=11, height=8.5)
 
 mar.default = c(5, 4, 4, 2) + 0.1
 
+# Loop through each type of exceedence
 for (type in c("acute", "chronic", "hh")) {
   
   colName <- paste(type, "ExceedPercent", sep="")
   
-  # Values vs. criteria
   par(mar = mar.default + c(0, 12, 0, 0))
+  
+  # Values vs. criteria
+  
   storm.current <- Storm[-which(is.na(Storm[, type])), ]
   storm.current$Parameter_string <- factor(storm.current$Parameter_string)
   
@@ -220,6 +231,24 @@ for (type in c("acute", "chronic", "hh")) {
        las    = 1,
        labels = labelList
   )
+  
+  
+  # Plot count of exceedences vs. total count of samples.
+  
+  colCountName <- paste(type, "Exceeds", sep="")
+  
+  # Table of exceedance counts.
+  exceedsTbl   <- table(storm.current[, colCountName], storm.current$Parameter_string)
+  
+  barplot(exceedsTbl, 
+          horiz = TRUE,
+          las   = 1,
+          xlab  = "Number of Samples",
+          main  = paste("Samples That Exceed", type, "Criteria")
+          )
+
 }
+
+
 
 dev.off()
