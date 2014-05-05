@@ -54,31 +54,27 @@ Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start, end)",
 
 ##### Use the new function & rows to calculate applicable criteria -------------------------
 
-acute   <- c()
-chronic <- c()
-hh      <- c()
+#acute   <- c()
+#chronic <- c()
+#hh      <- c()
+
+standards <- data.frame(acute = numeric(0), chronic = numeric(0), hh = numeric(0))
 
 for (i in 1:nrow(Storm)) {
-  acute[i] <- criteria(parameter = Storm[i,"Parameter_string"],
-                        standard  = "acute",
+  
+  standards[i, ] <- criteria(parameter = Storm[i,"Parameter_string"],
                         pH        = Storm[i, "pH"],
                         hardness  = Storm[i, "hardness"]
                         )
-  chronic[i] <- criteria(parameter = Storm[i,"Parameter_string"],
-                        standard  = "chronic",
-                        pH        = Storm[i, "pH"],
-                        hardness  = Storm[i, "hardness"]
-                        )
-  hh[i] <- criteria(parameter = Storm[i,"Parameter_string"],
-                        standard  = "hh",
-                        pH        = Storm[i, "pH"],
-                        hardness  = Storm[i, "hardness"]
-                        )
+  
+  #acute[i]   <- standards$acute
+  #chronic[i] <- standards$chronic
+  #hh[i]      <- standards$hh
 }
 
-Storm$acute   <- acute
-Storm$chronic <- chronic
-Storm$hh      <- hh
+Storm$acute   <- standards$acute
+Storm$chronic <- standards$chronic
+Storm$hh      <- standards$hh
 
 Storm$acuteExceedPercent   <- (Storm$new_Result_Value / Storm$acute)   * 100
 Storm$chronicExceedPercent <- (Storm$new_Result_Value / Storm$chronic) * 100
