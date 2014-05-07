@@ -68,14 +68,14 @@ criteria <- function(parameter, pH, hardness) {
   } else if (parameter == "Cadmium water  (ug/L)"){
     if(missing(hardness)) {stop(missingHard)}
     
-    criteriaList[1,"acute"]   <- 0.944 * exp((1.1280 * log(hardness)) - 3.828)
-    criteriaList[1,"chronic"] <- 0.909 * exp((0.7852 * log(hardness)) - 3.490)
+    criteriaList[1,"acute"]   <- exp((1.1280 * log(hardness)) - 3.828)
+    criteriaList[1,"chronic"] <- exp((0.7852 * log(hardness)) - 3.490)
     
   } else if (parameter == "Cadmium water dissolved (ug/L)") {
     if(missing(hardness)) {stop(missingHard)}
     
-    criteriaList[1,"acute"]   <- 1.136672 - ((log(hardness) * 0.041838) * 0.944 * (exp((1.1280 * log(hardness)) - 3.828)))
-    criteriaList[1,"chronic"] <- 1.101672 - ((log(hardness) * 0.041838) * 0.909 * (exp((0.7852 * log(hardness)) - 3.490)))
+    criteriaList[1,"acute"]   <- 1.136672 - ((log(hardness) * 0.041838) * (exp((1.1280 * log(hardness)) - 3.828)))
+    criteriaList[1,"chronic"] <- 1.101672 - ((log(hardness) * 0.041838) * (exp((0.7852 * log(hardness)) - 3.490)))
     
   } else if (parameter == "Chloride water  (ug/L)"){
     
@@ -94,13 +94,13 @@ criteria <- function(parameter, pH, hardness) {
     if(missing(hardness)) {stop(missingHard)}
     
     criteriaList[1,"acute"]   <- exp((0.9422 * (log(hardness))) - 1.464)
-    criteriaList[1,"chronic"] <- 0.960 * exp((0.8545 * (log(hardness))) - 1.464)
+    criteriaList[1,"chronic"] <- exp((0.8545 * (log(hardness))) - 1.465)
     
   } else if (parameter == "Copper water dissolved (ug/L)"){
     if(missing(hardness)) {stop(missingHard)}
     
-    criteriaList[1,"acute"]   <- 0.96 * (0.960 * exp((0.9422 * (log(hardness))) - 1.464))
-    criteriaList[1,"chronic"] <- 0.96 * (0.960 * exp((0.8545 * (log(hardness))) - 1.465))
+    criteriaList[1,"acute"]   <- 0.960 * exp((0.9422 * (log(hardness))) - 1.464)
+    criteriaList[1,"chronic"] <- 0.960 * exp((0.8545 * (log(hardness))) - 1.465)
     
   } else if (parameter == "Diazinon water  (ug/L)") {
     
@@ -131,14 +131,14 @@ criteria <- function(parameter, pH, hardness) {
   } else if (parameter == "Lead water  (ug/L)") {
     if(missing(hardness)) {stop(missingHard)}
     
-    criteriaList[1,"acute"]   <- 0.791 * exp((1.273 * (log(hardness))) - 1.460)
-    criteriaList[1,"chronic"] <- 0.791 * exp((1.273 * (log(hardness))) - 4.705)
+    criteriaList[1,"acute"]   <- exp((1.273 * (log(hardness))) - 1.460)
+    criteriaList[1,"chronic"] <- exp((1.273 * (log(hardness))) - 4.705)
     
   } else if (parameter == "Lead water dissolved (ug/L)") {
     if(missing(hardness)) {stop(missingHard)}
     
-    criteriaList[1,"acute"]   <- 1.46203 - (log(hardness) * 0.145712) * 0.791 * exp(1.273 * (log(hardness)) - 1.460)
-    criteriaList[1,"chronic"] <- 1.46203 - (log(hardness) * 0.145712) * 0.791 * exp(1.273 * (log(hardness)) - 4.705)
+    criteriaList[1,"acute"]   <- (1.46203 - (log(hardness) * 0.145712)) * exp(1.273 * (log(hardness)) - 1.460)
+    criteriaList[1,"chronic"] <- (1.46203 - (log(hardness) * 0.145712)) * exp(1.273 * (log(hardness)) - 4.705)
     
   } else if (parameter == "Mercury water  (ug/L)") {
     
@@ -168,8 +168,8 @@ criteria <- function(parameter, pH, hardness) {
   } else if (parameter == "Zinc water  (ug/L)") {
     if(missing(hardness)) {stop(missingHard)}
     
-    criteriaList[1,"acute"]   <- 0.978 * (exp(0.8473 * (log(hardness)) + 0.8604)) / 0.978
-    criteriaList[1,"chronic"] <- exp((0.8473 * (log(hardness))) + 0.7614)
+    criteriaList[1,"acute"]   <- exp((0.8473 * log(hardness)) + 0.8604)
+    criteriaList[1,"chronic"] <- exp((0.8473 * log(hardness)) + 0.7614)
     
   } else if (parameter == "Zinc water dissolved (ug/L)") {
     if(missing(hardness)) {stop(missingHard)}

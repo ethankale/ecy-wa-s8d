@@ -21,6 +21,7 @@ hardnessTable <- Storm[which(Storm$Parameter_string == "Hardness as CaCO3 water 
                           "end",
                           "new_Result_Value")
                         ]
+hardnessTable$new_Result_Value <- hardnessTable$new_Result_Value / 1000
 hardnessTable <- aggregate(new_Result_Value ~ Location_ID + Field_Collection_Start_Date + Field_Collection_End_Date + start + end, data = hardnessTable, mean)
 
 # Add pH, and average repeated values in the same day & location
@@ -54,27 +55,35 @@ Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start, end)",
 
 ##### Use the new function & rows to calculate applicable criteria -------------------------
 
-#acute   <- c()
-#chronic <- c()
-#hh      <- c()
+# We create new lists, rather than adding values directly to Storm,
+#  to avoid subsetting the data.frame (i.e., Storm[,]) as much as possible.
+#  Avoiding subsetting improves performance.
 
-standards <- data.frame(acute = numeric(0), chronic = numeric(0), hh = numeric(0))
+acuteList   <- c()
+chronicList <- c()
+hhList      <- c()
 
-for (i in 1:nrow(Storm)) {
+paramList    <- Storm$Parameter_string
+pHList       <- Storm$pH
+hardnessList <- Storm$hardness
+
+for (j in 1:nrow(Storm)) {
   
-  standards[i, ] <- criteria(parameter = Storm[i,"Parameter_string"],
-                        pH        = Storm[i, "pH"],
-                        hardness  = Storm[i, "hardness"]
+  # The criteria function returns acute, chronic, and human health in a single-row data.frame.
+  #  Standards that aren't applicable get NA values.
+  standards <- criteria(parameter = paramList[j],
+                        pH        = pHList[j],
+                        hardness  = hardnessList[j]
                         )
   
-  #acute[i]   <- standards$acute
-  #chronic[i] <- standards$chronic
-  #hh[i]      <- standards$hh
+  acuteList[j]   <- standards$acute
+  chronicList[j] <- standards$chronic
+  hhList[j]      <- standards$hh
 }
 
-Storm$acute   <- standards$acute
-Storm$chronic <- standards$chronic
-Storm$hh      <- standards$hh
+Storm$acute   <- acuteList
+Storm$chronic <- chronicList
+Storm$hh      <- hhList
 
 Storm$acuteExceedPercent   <- (Storm$new_Result_Value / Storm$acute)   * 100
 Storm$chronicExceedPercent <- (Storm$new_Result_Value / Storm$chronic) * 100
@@ -83,9 +92,6 @@ Storm$hhExceedPercent      <- (Storm$new_Result_Value / Storm$hh)      * 100
 Storm$acuteExceeds   <- Storm$acuteExceedPercent > 100
 Storm$chronicExceeds <- Storm$chronicExceedPercent > 100
 Storm$hhExceeds      <- Storm$hhExceedPercent > 100
-
-
-
 
 ##### Plot out criteria by parameter (per Will Hobbs suggestion) -------------------------
 pdf(paste(outputDirectory, "concentration_criteria_plots.pdf", sep="/"), width=11, height=8.5)
