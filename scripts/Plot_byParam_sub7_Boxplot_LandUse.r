@@ -19,8 +19,8 @@ for (use in lu) {
   detcount <- sum(data$nonDetect_Flag == FALSE)
   nd       <- data[which(data$nonDetect_Flag == TRUE),]
   
-  ndMax[j]    <- max(nd$new_Result_Value)
-  ndMin[j]    <- min(nd$new_Result_Value)
+  ndMax[j]    <- ifelse(length(nd$new_Result_Value) > 0, max(nd$new_Result_Value), 0)
+  ndMin[j]    <- ifelse(length(nd$new_Result_Value) > 0, min(nd$new_Result_Value), -1)
   numRows[j]  <- nrow(nd)
   detCounts[j]<- detcount
   
@@ -58,7 +58,7 @@ if (nrow(BoxData) == 0 ) {
   
   # Plot the maximum non-detect for each land use (gray rectangles)
   for (k in 1:length(ndMax)) {
-    if (is.finite(ndMax[k])) {
+    if (ndMax[k] >= 0) {
       rect(xleft   = -0.5+k, 
            xright  = 0.5+k, 
            ybottom = ylimits[1], 
@@ -90,7 +90,7 @@ if (nrow(BoxData) == 0 ) {
 
   # Plot the non-detect limits
   for (k in 1:length(ndMin)) {
-    if (is.finite(ndMin[k])) {
+    if (ndMin[k] <= -1) {
       
       # Minimum limit
       lines(x   = c(-0.5+k, 0.5+k), 

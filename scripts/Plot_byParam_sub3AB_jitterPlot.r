@@ -73,7 +73,7 @@
       }
       
       # Create the dots that represent the detected values
-      if (nrow(Detects) >0 ) {
+      if (nrow(Detects) > 0 ) {
         jitterX_Det <- jitterX[nrow(nonDetects)+1:nrow(Detects)]
         points(y=Detects$new_Result_Value, x=jitterX_Det, pch=16, cex=1.2, col=1+Detects$WetSeason)
       } 
@@ -81,9 +81,7 @@
       # Create label values
       detCount[j]      <- sum(data$nonDetect_Flag == FALSE)
       nd[j]            <- nrow(data[which(data$nonDetect_Flag == TRUE),])
-      percentCensor[j] <- nrow(nd)
-      
-      nd               <- c()
+      percentCensor[j] <- nd[j]
     }
   }
 
