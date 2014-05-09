@@ -78,21 +78,25 @@
         points(y=Detects$new_Result_Value, x=jitterX_Det, pch=16, cex=1.2, col=1+Detects$WetSeason)
       } 
       
-      # Create label values
-      detCount[j]      <- sum(data$nonDetect_Flag == FALSE)
-      nd[j]            <- nrow(data[which(data$nonDetect_Flag == TRUE),])
-      percentCensor[j] <- nd[j]
     }
+    # Create label values
+    # Count both the non-detects and the detects for each parameter/land use
+    #  subset, then create a dummy list for percent censored values.
+    detCount[j]      <- nrow(data[which(data$nonDetect_Flag == FALSE), ])
+    nd[j]            <- nrow(data[which(data$nonDetect_Flag == TRUE),  ])
+    percentCensor[j] <- nd[j]
   }
 
   box()
   
-
   # Create & apply the labels for each box ####
 
   # Calculate the percent of censored values for each land use type
   percentCensor <- percentCensor / (nd + detCount)
   percentCensor <- round(100*percentCensor, 1)
+  # In the rare case where there are no numbers (neither non-detects nor detects),
+  #  percentCensor will return NaN.  rapply(...) replaces with "-".
+  percentCensor <- lapply( percentCensor, FUN = function(x) ifelse(is.nan(x),"-",x))
 
   axislabels <- paste(c("Ind", "Com", "HRes", "LRes"), 
                       rep("\n Det=",4), detCount,
