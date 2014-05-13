@@ -64,7 +64,7 @@
 "63","Acenaphthene","KICCOMS8D_OUT",30
 "64","Acenaphthylene","KICCOMS8D_OUT",30
 "65","Anthracene","KICCOMS8D_OUT",30
-"66","Aresenic dissolved","KICCOMS8D_OUT",1
+"66","Arsenic dissolved","KICCOMS8D_OUT",1
 "67","Benz(a)anthracene","KICCOMS8D_OUT",30
 "68","Benzo(a)pyrene","KICCOMS8D_OUT",30
 "69","Benzo(b)fluoranthene","KICCOMS8D_OUT",14
@@ -196,7 +196,7 @@
 "195","Acenaphthene","KICLDRS8D_OUT",28
 "196","Acenaphthylene","KICLDRS8D_OUT",28
 "197","Anthracene","KICLDRS8D_OUT",28
-"198","Aresenic dissolved","KICLDRS8D_OUT",15
+"198","Arsenic dissolved","KICLDRS8D_OUT",15
 "199","Benz(a)anthracene","KICLDRS8D_OUT",28
 "200","Benzo(a)pyrene","KICLDRS8D_OUT",28
 "201","Benzo(b)fluoranthene","KICLDRS8D_OUT",16

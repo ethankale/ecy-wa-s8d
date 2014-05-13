@@ -1,7 +1,7 @@
 #####
 # Process the Storm data frame (created by Plot_ByParam_ver9_Apr2014.r
 #  and further proceesed by Load_byParam_sub1_lookup.R)
-#  to make loads for each parameter (parameter group?) per event.
+#  to make loads for each parameter per event.
 #####
 
 require(reshape)
@@ -20,6 +20,12 @@ storm_load$sample.year<-as.numeric(format(storm_load$Field_Collection_End_Date,"
 storm_load$sample_loads <- (storm_load$sample_event_flow_volume*(storm_load$new_Result_Value*1000))/1e+09
 storm_load$storm_loads  <- (storm_load$storm_event_flow_volume*(storm_load$new_Result_Value*1000))/1e+09
 storm_load$load_units   <- "Kg"
+
+### Unit area loads -------------------------
+# Convert to kg per hectare; otherwise simple multiplication.
+storm_load$storm_area_loads  <- storm_load$storm_loads / (storm_load$Acres * 2.47105)
+storm_load$sample_area_loads <- storm_load$sample_loads / (storm_load$Acres * 2.47105)
+storm_load$area_load_units   <- "Kg/hectare"
 
 # Update Parameter_string to remove load units (which should now be identical for all parameters)
 storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
@@ -109,7 +115,8 @@ boxplot(volumePerc ~ year,
 dev.off()
 
 # Tabular format
-eventSummary <- cast(data    = events, 
+tmpEvents    <- subset(events, !is.na(volumePerc))
+eventSummary <- cast(data    = tmpEvents, 
                      formula = Location_ID ~ year, 
                      value   = "volumePerc",
                      fun.aggregate = 
@@ -130,43 +137,46 @@ write.csv(eventSummary, paste(outputDirectory, "eventSummary.csv", sep="/"))
 #plot(x = cuLoad$sample_loads, y = rep(1, nrow(cuLoad)), pch = -124, col = rgb(0,0,0,0.15), log = "x")
 
 
-###THIS IS SIMPLY A COPY OF THE SCRIPT FOR CALCULATING DATA SUMMARIES FROM CONCENTRATIONS AND NEEDS EDITING FOR LOADS -------------------------
-          
-GroupList <- unique(storm_load[,c("Parameter.string", "paramGroup", "Parameter", "new_Fraction_Analyzed", "new_Result_Units")])
-ParamList <- as.vector(sort(unique(storm_load$Parameter.string)))
+###THIS IS A COPY OF THE SCRIPT FOR CALCULATING DATA SUMMARIES FROM CONCENTRATIONS-------------------------
+###All data qualifiers from the concentrations are carried forward to the load value###
+###First remove the entries which don't have a storm or sample event associated with them (mainly grab samples)
+
+storm_load <- storm_load[-which(is.na(storm_load$sample_loads) | is.na(storm_load$storm_loads)), ]          
+GroupList <- unique(storm_load[,c("Parameter_string", "paramGroup", "Parameter", "new_Fraction_Analyzed", "sample_loads")])
+ParamList <- as.vector(sort(unique(storm_load$Parameter_string)))
 
 ### Store Detection counts in a matrix for export.
 Case.list <- data.frame(Parameter=character(),
-                 CaseCode=integer(), 
-                 pctCensor=numeric(), 
-                 nSamples=integer(),
-                 num.Detects=integer(),
-                 num.nonDetects=integer(),
-                 min.Detect=numeric(),
-                 max.Detect=numeric(),
-                 min.nonDetect=numeric(),
-                 max.nonDetect=numeric(),
-                 KM.mean=numeric(),
-                 KM.mean.SE=numeric(),
-                 KM.mean.95LCL=numeric(),
-                 KM.mean.95UCL=numeric(),
-                 KM.median=numeric(),
-                 KM.SD=numeric(),
-                 PetoPrentice.pvalue=numeric(),
-                 PetoPrentice.chisq=numeric(),
-                 PetoPrentice.df=numeric(),
-                 ROS_correlation=numeric(), 
-                 PPCC_test=character())
+                        CaseCode=integer(), 
+                        pctCensor=numeric(), 
+                        nSamples=integer(),
+                        num.Detects=integer(),
+                        num.nonDetects=integer(),
+                        min.Detect=numeric(),
+                        max.Detect=numeric(),
+                        min.nonDetect=numeric(),
+                        max.nonDetect=numeric(),
+                        KM.mean=numeric(),
+                        KM.mean.SE=numeric(),
+                        KM.mean.95LCL=numeric(),
+                        KM.mean.95UCL=numeric(),
+                        KM.median=numeric(),
+                        KM.SD=numeric(),
+                        PetoPrentice.pvalue=numeric(),
+                        PetoPrentice.chisq=numeric(),
+                        PetoPrentice.df=numeric(),
+                        ROS_correlation=numeric(), 
+                        PPCC_test=character())
 
 
-sink(paste(outputDirectory, "PetoPrentice.txt", sep=""))
+sink(paste(outputDirectory, "PetoPrentice_Loads.txt", sep=""))
 
 for (i in c(1:length(ParamList))) {
-###for (i in c(120:133)) {
-  ParamData <- Storm[which(Storm$Parameter.string == ParamList[i]), ]
-  Detects <- ParamData$new_Result_Value[which(ParamData$nonDetect_Flag == FALSE) ]
-  nonDetects <- ParamData$new_Result_Value[which(ParamData$nonDetect_Flag == TRUE) ]
-
+  ###for (i in c(120:133)) {
+  ParamData  <- storm_load[which(storm_load$Parameter_string == ParamList[i]), ]
+  Detects    <- ParamData$sample_loads[which(ParamData$nonDetect_Flag == FALSE) ]
+  nonDetects <- ParamData$sample_loads[which(ParamData$nonDetect_Flag == TRUE) ]
+  
   if (length(nonDetects) == 0) {
     num.nonDetects <- 0
     min.nonDetects <- NA
@@ -176,7 +186,7 @@ for (i in c(1:length(ParamList))) {
     min.nonDetects <- min(nonDetects)
     max.nonDetects <- max(nonDetects)
   }
-
+  
   if (length(Detects) == 0) {
     num.Detects <- 0
     min.Detects <- NA
@@ -186,7 +196,7 @@ for (i in c(1:length(ParamList))) {
     min.Detects <- min(Detects)
     max.Detects <- max(Detects)
   }
-
+  
   nSamples <- c(num.nonDetects + num.Detects)
   pctCensor <- round(100*num.nonDetects / nSamples,1)
   if (pctCensor <= 50) {
@@ -196,12 +206,12 @@ for (i in c(1:length(ParamList))) {
   } else {
     case.code <- "C"  
   }
-
+  
   cat(paste("Row:  ", i, "      Parameter=", ParamList[i], sep=""))
   cat("\n")
-
+  
   if (case.code == "A") {
-    KM.fit <- cenfit(ParamData$new_Result_Value, ParamData$nonDetect_Flag)
+    KM.fit <- cenfit(ParamData$sample_loads, ParamData$nonDetect_Flag)
     print(KM.fit)
     print(mean(KM.fit))
     cat("\n")
@@ -220,10 +230,10 @@ for (i in c(1:length(ParamList))) {
     KM.median <- NA
     KM.SD <- NA
   }
-
-  nGroups <- length(unique(ParamData$useCode))
+  
+  nGroups <- length(unique(ParamData$Type))
   if( case.code == "A" & num.Detects > 9 & nGroups > 2) {
-    PetoPrentice <- cendiff(ParamData$new_Result_Value, ParamData$nonDetect_Flag, groups=ParamData$Type)
+    PetoPrentice <- cendiff(ParamData$sample_loads, ParamData$nonDetect_Flag, groups=ParamData$Type)
     print(PetoPrentice)
     cat("\n\n\n")
     PetoPrentice.chisq <- PetoPrentice$chisq
@@ -233,19 +243,25 @@ for (i in c(1:length(ParamList))) {
     } else {
       PetoPrentice.pvalue <- -expm1(pchisq(PetoPrentice$chisq, df=PetoPrentice.df, log.p=TRUE))
     }
-
+    
   } else {
     PetoPrentice.chisq <- NA
     PetoPrentice.df <- NA
     PetoPrentice.pvalue <- NA
   }
-
-
-  ROS_correlation <- NA
+  
+  if (case.code %in% c("A", "B") &  num.Detects >= 5) {
+    Param_ROS <- cenros(ParamData$sample_loads, ParamData$nonDetect_Flag)
+    ROS_correlation <- sqrt(summary(Param_ROS)$r.squared)
+  } else {
+    ROS_correlation <- NA
+  }
+  
+  
   PPCC_test <- NA
   
-   if (case.code == "B" & nSamples>50) {
-    MLE.fit <- cenmle(ParamData$new_Result_Value, ParamData$nonDetect_Flag)
+  if (case.code == "B" & nSamples>50) {
+    MLE.fit <- cenmle(ParamData$sample_loads, ParamData$nonDetect_Flag)
     print(MLE.fit)
     print(mean(MLE.fit))
     cat("\n")
@@ -264,15 +280,16 @@ for (i in c(1:length(ParamList))) {
     MLE.median <- NA
     MLE.SD <- NA
   }
-   
+  
   Case.list <- rbind(Case.list, data.frame(ParamList[i], case.code, pctCensor, nSamples, num.Detects, 
-                      num.nonDetects, min.Detects, max.Detects, min.nonDetects, max.nonDetects, 
-                      KM.mean, KM.mean.SE, KM.mean.95LCL, KM.mean.95UCL, KM.median, KM.SD, 
-                      PetoPrentice.pvalue, PetoPrentice.chisq, PetoPrentice.df, ROS_correlation, PPCC_test,
-                      MLE.mean,MLE.mean.SE,MLE.mean.95LCL,MLE.mean.95UCL,MLE.median,MLE.SD))
-
+                                           num.nonDetects, min.Detects, max.Detects, min.nonDetects, max.nonDetects, 
+                                           KM.mean, KM.mean.SE, KM.mean.95LCL, KM.mean.95UCL, KM.median, KM.SD, 
+                                           PetoPrentice.pvalue, PetoPrentice.chisq, PetoPrentice.df, ROS_correlation, PPCC_test,
+                                           MLE.mean,MLE.mean.SE,MLE.mean.95LCL,MLE.mean.95UCL,MLE.median,MLE.SD))
+  
 }
 sink()
 
 print(table(Case.list$case.code))
 
+write.csv(Case.list, paste(outputDirectory, "Param_Summary_Loads.csv", sep="/"))
