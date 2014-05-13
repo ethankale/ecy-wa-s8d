@@ -11,7 +11,8 @@ scriptDirectory <- paste(dataDirectory, "scripts", sep="/")
 outputDirectory <- paste(dataDirectory, "output", sep="/")
 
 ### set up name of the input csv file.
-csvFile <- paste(dataDirectory, "FinalMasterFile_4-28-2014.csv", sep="/")
+csvFile  <- paste(dataDirectory, "FinalMasterFile_4-28-2014.csv", sep="/")
+siteFile <- paste(dataDirectory, "Outfall_locations.csv", sep="/")
 
 ### set a flag to decide whether to generate a pdf file.  If this flag is false, then create emf files instead.
 output_types <- c("Screen", "PDF", "EMF")  ### recognized output types, don't change these please
@@ -27,10 +28,13 @@ options(width=200)
 ### Read the data and summarize - (this will execute the commands in a separate script file).
 source( paste(scriptDirectory, "Plot_byParam_sub1_ReadData.r", sep="/"))
 
+### Add site info to the newly created Storm dataset.
+sites <- read.csv(siteFile)
+Storm <- merge(Storm, sites, by.x = "Location_ID", by.y = "LocationID", all.x = TRUE)
+
 ### Assign parameters to cases A, B, C and calculate K-M stats, MLE and PetoPrentice
 source( paste(scriptDirectory, "Plot_byParam_sub2_AssignCase.r", sep="/"))
 
-#####
 ### Either open the console window or the pdf file if option selected:
 
 windowHeight <-  7.25
@@ -46,7 +50,8 @@ if (output_selected == "Screen") {
   layout(matrix(c(1:6), 2, 3, byrow=TRUE))
 }
 
-### Set up information for the lab-color-key:
+### Set up information for the lab-color-key, and fix
+###  misspelled lab names:
 Storm$LabAbbv <- as.vector(abbreviate(Storm$Result_Lab_Name,minlength=4))
 Storm$LabAbbv[which(Storm$LabAbbv=="")]                <- "Unk"
 Storm$LabAbbv[which(Storm$LabAbbv=="ARI(SW")]          <-"ARI-SW"
@@ -72,10 +77,11 @@ colnames(Det_Store) <- c("#Det_Ind", "#Det_Com", "#Det_HRes", "#Det_LowRes",
                          "#ND_Ind",  "#ND_Com",  "#ND_HRes",  "#ND_LowRes",  
                           "PctDet_Ind", "PctDet_Com", "PctDet_HRes", "PctDet_LowRes")
 
-##i <- 56  ## dissolved copper Case A example
-##i <- 50  ## Chlorpyrifos water Case C example
-##i <- 69  ## %gravel
-##i <- 5   ## 2-Nitrophenol sediment  (ug/Kg)
+#i <- 56  ## dissolved copper Case A example
+#i <- 50  ## Chlorpyrifos water Case C example
+#i <- 69  ## %gravel
+#i <- 5   ## 2-Nitrophenol sediment  (ug/Kg)
+
 for (i in 1:length(ParamList)) {
   # VERY IMPORTANT - the value of "i" refers to the parameter being plotted throughout
   #  this loop.  DO NOT set the value of "i" within any of the subscripts.

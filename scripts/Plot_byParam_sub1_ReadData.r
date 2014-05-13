@@ -1,4 +1,12 @@
 
+##### Read Stormwater Data -------------
+
+# This file is called by Plot_byParam_ver9_[date].r.
+#  It assumes the data have been pre-processed in MS Access.
+# The file "FinalMasterFile_4-28-2014.csv" should be included
+#  with this script, and used as the data source.
+
+
 ### Read the data from the csv file:
 print("Reading the data...")
 Storm <- read.csv(csvFile) 
@@ -54,6 +62,7 @@ Storm$Permittee <- factor(Storm$Permittee)
 
 ### copy the new_Result_Reported_Value_Number column over to the old one to make sure
 ### we never accidentally use the numbers with mixed units of measurement.
+
 #Storm$new_Result_Reported_Value_Number <- Storm$new_Result_Reported_Value                  
 
 #####
