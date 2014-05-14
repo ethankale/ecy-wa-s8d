@@ -23,7 +23,7 @@ storm_load$load_units   <- "Kg"
 
 ### Unit area loads -------------------------
 # Convert to kg per hectare; otherwise simple multiplication.
-storm_load$storm_area_loads  <- storm_load$storm_loads / (storm_load$Acres * 2.47105)
+storm_load$storm_area_loads  <- storm_load$storm_loads  / (storm_load$Acres * 2.47105)
 storm_load$sample_area_loads <- storm_load$sample_loads / (storm_load$Acres * 2.47105)
 storm_load$area_load_units   <- "Kg/hectare"
 
@@ -128,6 +128,63 @@ eventSummary <- cast(data    = tmpEvents,
                      )
 
 write.csv(eventSummary, paste(outputDirectory, "eventSummary.csv", sep="/"))
+
+# Summarize unit area loads of each parameter.
+loadParamNames <- unique(storm_load$Parameter_string)
+
+pdf(paste(outputDirectory, "area_loads.pdf", sep="/"), width=11, height=8.5)
+
+for (name in loadParamNames) {
+    
+  # While we're selecting specific parameters, eliminate parameters with no data points
+  tmpData <- subset(storm_load, (Parameter_string == name) & (!is.na(sample_area_loads)))
+  tmpData$LanduseCode <- factor(tmpData$LanduseCode, c("IND","COM","HDR", "LDR"))
+  
+  # Figure out the data quality (A, B, or C), and determine whether to plot
+  case    <- subset(Case.list, ParamList.i. == name)
+  quality <- case$case.code
+  
+  #cat(name, "| Rows:", nrow(tmpData), "\n")
+  
+  if (nrow(tmpData) > 0 && !quality == "C") {
+    
+    # Required to create a new page every time; also to make the title visible.
+    par(mfrow = c(2,2))
+  
+    plot(tmpData$sample_event_flow_volume, 
+         tmpData$sample_area_loads, 
+         col  = tmpData$Location_ID,
+         ylab = "Area Loads (Kg/Hectare)",
+         xlab = "Flow Volume (m3)"
+         )
+    
+    boxplot(tmpData$sample_area_loads ~ tmpData$LanduseCode,
+            ylab = "",
+            xlab = "Land Uses",
+            yaxt = "n"
+            )
+    
+    plot(tmpData$TIAPercent, 
+         tmpData$sample_area_loads, 
+         col  = tmpData$Location_ID,
+         ylab = "Area Loads (Kg/Hectare)",
+         xlab = "Percent Impervious"
+         )
+    
+    plot(tmpData$new_Result_Value, 
+         tmpData$sample_area_loads, 
+         col  = tmpData$Location_ID,
+         ylab = "",
+         xlab = "Concentration (ug/L)",
+         yaxt = "n"
+         )
+    
+    title(name, outer = TRUE, line = -2)
+  }
+  
+}
+
+dev.off()
 
 ### Future reference - plots
 
