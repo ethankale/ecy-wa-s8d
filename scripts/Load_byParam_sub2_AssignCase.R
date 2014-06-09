@@ -27,9 +27,6 @@ storm_load$storm_area_loads  <- storm_load$storm_loads  / (storm_load$Acres * 2.
 storm_load$sample_area_loads <- storm_load$sample_loads / (storm_load$Acres * 2.47105)
 storm_load$area_load_units   <- "Kg/hectare"
 
-# Update Parameter_string to remove load units (which should now be identical for all parameters)
-storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
-
 ### Get various summaries of data, including missing loads  -------------------------
 noStorm <- storm_load[which(is.na(storm_load$sample_loads) | is.na(storm_load$storm_loads)), ]
 
@@ -130,7 +127,7 @@ eventSummary <- cast(data    = tmpEvents,
 write.csv(eventSummary, paste(outputDirectory, "eventSummary.csv", sep="/"))
 
 # Summarize unit area loads of each parameter.
-loadParamNames <- unique(storm_load$Parameter_string)
+loadParamNames <- sort(unique(storm_load$Parameter_string))
 
 pdf(paste(outputDirectory, "area_loads.pdf", sep="/"), width=11, height=8.5)
 
@@ -141,8 +138,8 @@ for (name in loadParamNames) {
   tmpData$LanduseCode <- factor(tmpData$LanduseCode, c("IND","COM","HDR", "LDR"))
   
   # Figure out the data quality (A, B, or C), and determine whether to plot
-  case    <- subset(Case.list, ParamList.i. == name)
-  quality <- case$case.code
+  case       <- subset(Case.list, ParamList.i. == name)
+  quality    <- case$case.code
   
   #cat(name, "| Rows:", nrow(tmpData), "\n")
   
