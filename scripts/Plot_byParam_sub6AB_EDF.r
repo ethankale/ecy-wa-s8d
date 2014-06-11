@@ -1,3 +1,10 @@
+#####
+#
+# Exceedence curves by land use.
+#
+# This script called by Plot_byParam_ver9_Apr2014.r.
+#
+#####
 
 require(NADA)
 
@@ -46,7 +53,7 @@ if (ncol(plot_data) > 3) {
 
   # set up parameters for the lines representing each land use
   landuseLines <- data.frame(
-    lu  = c("COM", "IND", "HDR", "LDR"),
+    lu  = c("IND", "COM", "HDR", "LDR"),
     col = c("orange", "black", "blue", "deeppink"),
     lty = c("dashed", "solid", "dotdash", "dotted")
     )
@@ -70,12 +77,28 @@ if (ncol(plot_data) > 3) {
   ymin_legend <- 10^(ymax + 0.01*(ymax-ymin))
   ymax_legend <- 10^(ymax + 0.225*(ymax-ymin))
 
-  legend(x=c(0.8,1.1), y=c(ymin_legend, ymax_legend), legend=c("Ind", "Com", "HRes", "LRes"),
-            lty=c("dashed", "solid", "dotdash", "dotted"), 
-            col=c("orange", "black", "blue", "deeppink"), xpd=NA, cex=0.8, bty="o", bg="white")
+  legend(x = c(0.8,1.1), 
+         y = c(ymin_legend, ymax_legend), 
+         legend = c("Ind", "Com", "HRes", "LRes"),
+         lty = c("dashed", "solid", "dotdash", "dotted"), 
+         col = c("orange", "black", "blue", "deeppink"), 
+         xpd = NA, 
+         cex = 0.8, 
+         bty = "o", 
+         bg  = "white"
+         )
 } else {
-  plot(x=c(1:10), y=c(1:10), type="n", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
-  text(x=5,y=5,"Not Plotted\n(Too few detects)")
+  plot(x = c(1:10), 
+       y = c(1:10), 
+       type = "n", 
+       xaxt = "n", 
+       yaxt = "n", 
+       xlab = "", 
+       ylab = "", 
+       bty  = "n"
+       )
+
+  text(x = 5, y=5, "Not Plotted\n(Too few detects)")
 
 }
 
