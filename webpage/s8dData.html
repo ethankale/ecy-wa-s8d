@@ -1,9 +1,6 @@
 <html>
 <head>
 
-<script src="js/crossfilter.min.js"></script>
-<script src="js/d3.min.js"></script>
-
 <style>
 
 .bar {
@@ -27,6 +24,30 @@
 
 .x.axis path {
   display: none;
+  
+}
+
+td {
+  vertical-align: top;
+}
+
+td h1 {
+  horizontal-align: middle;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li.param {
+    color: gray;
+    cursor: pointer;
+}
+
+li.selected {
+    color: black;
+    background-color: AliceBlue;
+
 }
 
 </style>
@@ -34,6 +55,17 @@
 </head>
 
 <body>
+
+<table>
+    <tr>
+        <td class="chart"><h1>Average Concentrations</h1></td>
+        <td class="parameters"><h1>List of Parameters</h1></td>
+    </tr>
+</table>
+
+<script src="js/crossfilter.min.js"></script>
+<script src="js/d3.min.js"></script>
+<script src="js/jquery.min.js"></script>
 
 <script>
 
@@ -44,14 +76,16 @@
 //  http://bl.ocks.org/mbostock/3885304 (basic D3 bar chart example)
 //  https://github.com/square/crossfilter/issues/102 (custom reduce functions for Crossfilter)
 
-var data = [];
+var data    = [];
+var dim1    = [];
+var dim2    = []; 
 
 //----------------------------------------------------
 // Create the bar chart DOM elements w/ D3.
 //----------------------------------------------------
 
 var margin = {top: 20, right: 20, bottom: 30, left: 80},
-width = 960 - margin.left - margin.right,
+width = 800 - margin.left - margin.right,
 height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.ordinal()
@@ -69,12 +103,27 @@ var yAxis = d3.svg.axis()
     .orient("left");
     //.ticks(10, "%");
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select(".chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var list = d3.select(".parameters").append("ul");
+
+svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")");
+
+svg.append("g")
+  .attr("class", "y axis")
+  .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", ".71em")
+    .style("text-anchor", "end")
+    .text("Average");
+    
 //----------------------------------------------------
 // Read in the CSV data w/ D3.
 //----------------------------------------------------
@@ -85,6 +134,7 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
     var mdyFormat = d3.time.format("%m/%d/%Y");
     
     samples.forEach(function(d) {
+        d.parameter = d.Parameter + " (" + d.new_Result_Units + ")";
         d.result    = +d.new_Result_Value;
         d.TIA       = +d.TIA;
         d.acres     = +d.Acres;
@@ -97,58 +147,160 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
     //----------------------------------------------------
     
     var sample = crossfilter(samples);
+    
     // For debugging.
     data = sample;
     
-    var parameter   = sample.dimension(function(d) { return d.Parameter}),
+    var parameter   = sample.dimension(function(d) { return d.parameter}),
         tia         = sample.dimension(function(d) { return d.TIA}),
-        season      = sample.dimension(function(d) { return d.season}),
         type        = sample.dimension(function(d) { return d.Type}),
-        result      = sample.dimension(function(d) { return d.result}),
-        index       = sample.dimension(function(d) { return d.index}),
-        indexCount  = index.group().reduceCount(),
-        resultCount = result.group().reduceCount(),
-        resultSum   = result.group().reduceSum();
+        result      = sample.dimension(function(d) { return d.result});
+    
+    // Debugging
+    dim1 = parameter;
     
     // This returns a list of each unique type (COM, IND, etc.) with the sum of associated results.
     //   What we need is a similar function, but one (or three) that returns max, median, and min.
     //   We should be able to further filter that result by 
     var types = type.group().reduceSum( function(d) { return d.result; }).top(Infinity);
     
+    // With any luck these functions & the associated measure will return averages of values, rather
+    //  than sums or counts.
+    function reduceAddAvg(attr) {
+      return function(p,v) {
+        ++p.count
+        p.sum += v[attr];
+        p.avg = p.sum/p.count;
+        return p;
+      };
+    }
+    
+    function reduceRemoveAvg(attr) {
+      return function(p,v) {
+        --p.count
+        if (p.count > 0) {
+            p.sum -= v[attr];
+            p.avg = p.sum/p.count;
+        } else {
+            p.avg = 0;
+            p.sum = 0;
+        }
+        return p;
+      };
+    }
+    
+    function reduceInitAvg() {
+      return {count:0, sum:0, avg:0};
+    }
+    
+        
     //----------------------------------------------------
     // Create the bar chart w/ D3.
     //----------------------------------------------------
     
+    var typesAvg = type.group().reduce(reduceAddAvg('result'), reduceRemoveAvg('result'), reduceInitAvg).top(Infinity);
     
-    x.domain(types.map(function(d) { return d.key; }));
-    y.domain([0, d3.max(types, function(d) { return d.value; })]);
-
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-    svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis)
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Sum");
-
-    svg.selectAll(".bar")
-      .data(types)
-    .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d.key); })
-      .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.value); })
-      .attr("height", function(d) { return height - y(d.value); });
-
+    dim2 = typesAvg;
     
+    function update(results, parameters, param) {
+        
+        // Set the filter first thing.
+        parameter.filter(param);
+        
+        x.domain(results.map(function(d) { return d.key; }));
+        y.domain([0, d3.max(results, function(d) { return d.value["avg"]; })]);
+
+        // Update the axes
+        svg.selectAll("g.x.axis")
+          .transition()
+            .duration(750)
+            .call(xAxis);
+          
+        svg.selectAll("g.y.axis")
+          .transition()
+            .duration(750)
+            .call(yAxis);
+        
+        var bars = svg.selectAll(".bar")
+          .data(results, function(v) { return v.key; });
+          
+        // Update
+        bars
+          .transition()
+            .duration(750)
+              .attr("y", function(d) { return y(d.value["avg"]); })
+              .attr("height", function(d) { return height - y(d.value["avg"]); });
+        
+        // Enter
+        bars.enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", function(d) { return x(d.key); })
+          .attr("width", x.rangeBand())
+          .attr("y", function(d) { return y(d.value["avg"]); })
+          .attr("height", function(d) { return height - y(d.value["avg"]); });
+          
+        // Exit (really, none of these bars should ever exit)
+        bars.exit()
+          .transition()
+            .duration(750)
+              .attr("y", function(d) { return y(0); })
+              .attr("height", function(d) { return y(0); })
+              .remove();
+        
+        //----------------------------------------------------
+        // Create the list of parameters by grouping w/ Crossfilter.
+        //----------------------------------------------------
+        
+        var params = list.selectAll("li.param")
+            .data(parameters, function(v) { return v.key; });
+        
+        // Update
+        params
+            .attr("class", function(d) { 
+                if (d.key == param) {
+                    return "param selected"
+                } else { 
+                    return "param"} 
+            });
+        
+        // Enter
+        params.enter().append("li")
+            .attr("class", function(d) { 
+                if (d.key == param) {
+                    return "param selected"
+                } else { 
+                    return "param"} 
+            })
+            .text(function(d) {return d.key});
+        
+    };
+    
+    //----------------------------------------------------
+    // Filter and display data
+    //----------------------------------------------------
+    
+    var parameters = parameter.group().top(Infinity);
+    //parameter.filter("Lead (ug/L)");
+    
+    update(typesAvg, parameters, "Lead (ug/L)");
+    
+    
+    //----------------------------------------------------
+    // Function(s)  for adding filters
+    //----------------------------------------------------
+    
+    $("li.param").click(function () {
+        //$(".parameters li.selected").removeClass("selected");
+        //$(this).addClass("selected");
+        
+        var param = $(this).text();
+        update(typesAvg, parameters, param);
     });
+
+    
+
+    
+});
 
 </script>
 
