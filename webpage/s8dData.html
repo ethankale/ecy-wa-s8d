@@ -1,0 +1,157 @@
+<html>
+<head>
+
+<script src="js/crossfilter.min.js"></script>
+<script src="js/d3.min.js"></script>
+
+<style>
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<script>
+
+// Pulling these concepts from the following walkthroughs/examples:
+//  http://blog.rusty.io/2012/09/17/crossfilter-tutorial/ (basic crossfilter concepts)
+//  http://eng.wealthfront.com/2012/09/explore-your-multivariate-data-with-crossfilter.html (simple d3 + crossfilter example)
+//  http://square.github.io/crossfilter/ (Crossfilter primary example - complicated)
+//  http://bl.ocks.org/mbostock/3885304 (basic D3 bar chart example)
+//  https://github.com/square/crossfilter/issues/102 (custom reduce functions for Crossfilter)
+
+var data = [];
+
+//----------------------------------------------------
+// Create the bar chart DOM elements w/ D3.
+//----------------------------------------------------
+
+var margin = {top: 20, right: 20, bottom: 30, left: 80},
+width = 960 - margin.left - margin.right,
+height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+    //.ticks(10, "%");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+//----------------------------------------------------
+// Read in the CSV data w/ D3.
+//----------------------------------------------------
+    
+d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
+    
+    // Assume standard EIM date output = 01/31/2001.
+    var mdyFormat = d3.time.format("%m/%d/%Y");
+    
+    samples.forEach(function(d) {
+        d.result    = +d.new_Result_Value;
+        d.TIA       = +d.TIA;
+        d.acres     = +d.Acres;
+        d.season    = +d.Season;
+        d.start     = mdyFormat.parse(d.Field_Collection_Start_Date);
+    });
+    
+    //----------------------------------------------------
+    // Dimension, group, & filter data w/ Crossfilter.
+    //----------------------------------------------------
+    
+    var sample = crossfilter(samples);
+    // For debugging.
+    data = sample;
+    
+    var parameter   = sample.dimension(function(d) { return d.Parameter}),
+        tia         = sample.dimension(function(d) { return d.TIA}),
+        season      = sample.dimension(function(d) { return d.season}),
+        type        = sample.dimension(function(d) { return d.Type}),
+        result      = sample.dimension(function(d) { return d.result}),
+        index       = sample.dimension(function(d) { return d.index}),
+        indexCount  = index.group().reduceCount(),
+        resultCount = result.group().reduceCount(),
+        resultSum   = result.group().reduceSum();
+    
+    // This returns a list of each unique type (COM, IND, etc.) with the sum of associated results.
+    //   What we need is a similar function, but one (or three) that returns max, median, and min.
+    //   We should be able to further filter that result by 
+    var types = type.group().reduceSum( function(d) { return d.result; }).top(Infinity);
+    
+    //----------------------------------------------------
+    // Create the bar chart w/ D3.
+    //----------------------------------------------------
+    
+    
+    x.domain(types.map(function(d) { return d.key; }));
+    y.domain([0, d3.max(types, function(d) { return d.value; })]);
+
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Sum");
+
+    svg.selectAll(".bar")
+      .data(types)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.key); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); });
+
+    
+    });
+
+</script>
+
+</body>
+
+</html>
