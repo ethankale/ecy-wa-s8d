@@ -11,6 +11,11 @@
   fill: brown;
 }
 
+.line {
+  stroke: steelblue;
+  stroke-width: 2;
+}
+
 .axis {
   font: 10px sans-serif;
 }
@@ -75,10 +80,18 @@ li.selected {
 //  http://square.github.io/crossfilter/ (Crossfilter primary example - complicated)
 //  http://bl.ocks.org/mbostock/3885304 (basic D3 bar chart example)
 //  https://github.com/square/crossfilter/issues/102 (custom reduce functions for Crossfilter)
+//  http://bl.ocks.org/mbostock/5779682 (chaining transitions in D3)
 
+// For debugging purposes only - pull some of the Crossfilter dimensions & other
+//  info into the global scope.
 var data    = [];
 var dim1    = [];
 var dim2    = []; 
+var dim3    = []; 
+var filt    = [];
+
+//Transition duration.
+var duration = 500;
 
 //----------------------------------------------------
 // Create the bar chart DOM elements w/ D3.
@@ -91,7 +104,7 @@ height = 500 - margin.top - margin.bottom;
 var x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1);
 
-var y = d3.scale.linear()
+var y = d3.scale.log()
     .range([height, 0]);
 
 var xAxis = d3.svg.axis()
@@ -100,8 +113,9 @@ var xAxis = d3.svg.axis()
 
 var yAxis = d3.svg.axis()
     .scale(y)
-    .orient("left");
-    //.ticks(10, "%");
+    .orient("left")
+    //.tickFormat(d3.format(",.2f"))
+    .ticks(10,d3.format(",.2f"));
 
 var svg = d3.select(".chart").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -158,14 +172,16 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
     
     // Debugging
     dim1 = parameter;
+    dim2 = type;
+    dim3 = result;
     
     // This returns a list of each unique type (COM, IND, etc.) with the sum of associated results.
     //   What we need is a similar function, but one (or three) that returns max, median, and min.
     //   We should be able to further filter that result by 
     var types = type.group().reduceSum( function(d) { return d.result; }).top(Infinity);
     
-    // With any luck these functions & the associated measure will return averages of values, rather
-    //  than sums or counts.
+    // Returns averages.  p is the overall value for the grouping, v is the current
+    //  value being iterated over.
     function reduceAddAvg(attr) {
       return function(p,v) {
         ++p.count
@@ -198,53 +214,126 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
     // Create the bar chart w/ D3.
     //----------------------------------------------------
     
-    var typesAvg = type.group().reduce(reduceAddAvg('result'), reduceRemoveAvg('result'), reduceInitAvg).top(Infinity);
-    
-    dim2 = typesAvg;
     
     function update(results, parameters, param) {
         
         // Set the filter first thing.
         parameter.filter(param);
         
+        // Now pull the min & max for each land use type (good thing filtering is fast)
+        //   and append the min/max values to the "value" object for each type.
+        var minmax = [Infinity, -Infinity];
+        for (var i in results) {
+            type.filter(results[i].key);
+            if (result.top(1).length > 0) {
+                // Calling .top() and .bottom() on a dimension returns an array of raw objects
+                var max = result.top(1)[0].result;
+                var min = result.bottom(1)[0].result;
+                results[i].value["max"] = max;
+                results[i].value["min"] = min;
+                
+                if (max > minmax[1]) { minmax[1] = max };
+                if (min < minmax[0]) { minmax[0] = min };
+                
+                // The "empty" value controls whether to display or not
+                results[i].value["empty"] = 0;
+                
+            } else {
+                // If a land use type is empty, that can screw things up.
+                //   We're using a log scale, so we can't have zeros.  This way
+                //   d3.js draws the line, but the distance between x1 & x2 is 0.
+                results[i].value["max"] = minmax[0];
+                results[i].value["min"] = minmax[0];
+                
+                // The "empty" value controls whether to display or not
+                results[i].value["empty"] = 1;
+            }
+        }
+        
+        
+        // Remove the last "type" filter applied.
+        type.filterAll();
+        
+        // Update the title.
+        $(".chart h1").text("Average Concentrations for " + param);
+        
         x.domain(results.map(function(d) { return d.key; }));
-        y.domain([0, d3.max(results, function(d) { return d.value["avg"]; })]);
+        y.domain(minmax);
+        //y.domain([0.0000001, d3.max(results, function(d) { return d.value["max"]; })]);
 
         // Update the axes
         svg.selectAll("g.x.axis")
           .transition()
-            .duration(750)
+            .duration(duration)
             .call(xAxis);
           
         svg.selectAll("g.y.axis")
           .transition()
-            .duration(750)
+            .duration(duration)
             .call(yAxis);
         
-        var bars = svg.selectAll(".bar")
+        // Circles are the average; lines extend from min to max.
+        var circles = svg.selectAll(".circle")
           .data(results, function(v) { return v.key; });
-          
-        // Update
-        bars
-          .transition()
-            .duration(750)
-              .attr("y", function(d) { return y(d.value["avg"]); })
-              .attr("height", function(d) { return height - y(d.value["avg"]); });
         
-        // Enter
-        bars.enter().append("rect")
-          .attr("class", "bar")
-          .attr("x", function(d) { return x(d.key); })
-          .attr("width", x.rangeBand())
-          .attr("y", function(d) { return y(d.value["avg"]); })
-          .attr("height", function(d) { return height - y(d.value["avg"]); });
-          
-        // Exit (really, none of these bars should ever exit)
-        bars.exit()
+        var lines = svg.selectAll(".line")
+          .data(results, function(v) { return v.key; });
+        
+        //----------------------------------------------------
+        // Update
+        //----------------------------------------------------
+        lines
           .transition()
-            .duration(750)
-              .attr("y", function(d) { return y(0); })
-              .attr("height", function(d) { return y(0); })
+            .duration(duration)
+              .delay(!lines.exit().empty() * duration)
+              .attr("y1", function(d) { return y(d.value["max"]); })
+              // Somewhat confusingly, the "height" attribute is the difference between the max & min values,
+              //  as calculated from the TOP of the graph (hence subtracting height).
+              //.attr("y2", function(d) { return (height - y(d.value["max"])) - (height - y(d.value["min"])); });
+              .attr("y2", function(d) { return y(d.value["min"]); });
+        
+        circles
+          .transition()
+            .duration(duration)
+              .delay(!lines.exit().empty() * duration)
+              .attr("cy", function(d) { return y(d.value["avg"]); });
+
+        //----------------------------------------------------
+        // Enter
+        //----------------------------------------------------
+        lines.enter().append("line")
+            .attr("class", "line")
+            .attr("x1", function(d) { return x(d.key) + (x.rangeBand() / 2); })
+            .attr("x2", function(d) { return x(d.key) + (x.rangeBand() / 2); })
+            //.attr("stroke", 2)
+            .attr("y1", function(d) { return y(d.value["max"]); })
+            .attr("y2", function(d) { return y(d.value["min"]); })
+            .attr("opacity", 0)
+          .transition()
+            .duration(duration)
+            .delay((!lines.exit().empty() + !lines.enter().empty()) * duration)
+            .attr("opacity", 1);
+            
+        circles.enter().append("circle")
+            .attr("class", "circle")
+            .attr("cx", function(d) { return x(d.key) + (x.rangeBand() / 2); })
+            .attr("cy", function(d) { return y(d.value["avg"]); })
+            // Set the circle radius to 0 if no data.
+            .attr("r", function(d) { return d.value["empty"] == 1 ? 0 : 8});
+            
+        //----------------------------------------------------
+        // Exit
+        //----------------------------------------------------
+        lines.exit()
+          .transition()
+            .duration(duration)
+              .attr("opacity", 0)
+              .remove();
+              
+        circles.exit()
+          .transition()
+            .duration(duration)
+              .attr("opacity", 0)
               .remove();
         
         //----------------------------------------------------
@@ -279,6 +368,7 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
     // Filter and display data
     //----------------------------------------------------
     
+    var typesAvg = type.group().reduce(reduceAddAvg('result'), reduceRemoveAvg('result'), reduceInitAvg).top(Infinity);
     var parameters = parameter.group().top(Infinity);
     //parameter.filter("Lead (ug/L)");
     
