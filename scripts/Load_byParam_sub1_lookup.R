@@ -22,6 +22,7 @@ Storm$end   <- as.numeric(Storm$Field_Collection_End_Date)
 ### Create a separate table of just storm flows. -------------------------
 fields <- c("Location_ID", 
             "Permittee",
+            "Type",
             "Field_Collection_Start_Date", 
             "Field_Collection_End_Date", 
             "start",
@@ -180,9 +181,9 @@ partStormMatch$partial_match <- "Y"
 # Add the partial (flagged) matches back to the regular matches.
 Storm <- rbind(Storm, partStormMatch)
 
-### print out a check to see if it works
-#Storm[1:100, "storm_event_flow_volume"]
-#Storm[1:100, "sample_event_flow_volume"]
+#Summary table of sample events by site and land use
+sampleTotal<-table(sample_event_flows$Permittee)
+write.csv(sampleTotal,paste(outputDirectory, "Summary_sample_permittee.csv", sep="/"))
+sampleType<-table(sample_event_flows$Type)
+write.csv(sampleType,paste(outputDirectory, "Summary_sample_Land_Use.csv", sep="/"))
 
-### Eventually you'll want to write the results out as a csv I think?
-#write.csv(...

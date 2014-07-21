@@ -21,13 +21,23 @@ Case.list <- data.frame(Parameter=character(),
                  KM.mean.SE=numeric(),
                  KM.mean.95LCL=numeric(),
                  KM.mean.95UCL=numeric(),
+                 KM.25ile=numeric(),
                  KM.median=numeric(),
+                 KM.75ile=numeric(),
+                 KM.90ile=numeric(),
                  KM.SD=numeric(),
+                 ROS.mean=numeric(),
+                 ROS.25ile=numeric(),
+                 ROS.median=numeric(),
+                 ROS.75ile=numeric(),
+                 ROS.90ile=numeric(),
+                 ROS.SD=numeric(),
+                 ROS_correlation=numeric(), 
                  PetoPrentice.pvalue=numeric(),
                  PetoPrentice.chisq=numeric(),
                  PetoPrentice.df=numeric(),
-                 ROS_correlation=numeric(), 
-                 PPCC_test=character())
+                 PPCC_test=character(),
+                 wilcoxon_pvalue=numeric())
 
 
 sink(paste(outputDirectory, "PetoPrentice.txt", sep="/"))
@@ -79,21 +89,29 @@ for (i in c(1:length(ParamList))) {
     KM.fit <- cenfit(ParamData$new_Result_Value, ParamData$nonDetect_Flag)
     print(KM.fit)
     print(mean(KM.fit))
+    print(quantile(KM.fit,c(0.25,0.75,0.9)))
     cat("\n")
     
     KM.mean.data   <- mean(KM.fit)
+    KM.quantile    <- quantile(KM.fit,c(0.25,0.75,0.9))
     KM.mean        <- as.vector(KM.mean.data[1])
     KM.mean.SE     <- as.vector(KM.mean.data[2])
     KM.mean.95LCL  <- as.vector(KM.mean.data[3])
     KM.mean.95UCL  <- as.vector(KM.mean.data[4])
+    KM.25ile       <- as.vector(KM.quantile[1])
     KM.median      <- as.vector(median(KM.fit))
+    KM.75ile       <- as.vector(KM.quantile[2])
+    KM.90ile       <- as.vector(KM.quantile[3])
     KM.SD          <- as.vector(sd(KM.fit))
   } else {
     KM.mean       <- NA
     KM.mean.SE    <- NA
     KM.mean.95LCL <- NA
     KM.mean.95UCL <- NA
+    KM.25ile      <- NA
     KM.median     <- NA
+    KM.75ile      <- NA
+    KM.90ile      <- NA
     KM.SD         <- NA
   }
 
@@ -123,31 +141,40 @@ for (i in c(1:length(ParamList))) {
   PPCC_test <- NA
   
    if (case.code == "B" & nSamples>50) {
-    MLE.fit <- cenmle(ParamData$new_Result_Value, ParamData$nonDetect_Flag)
-    print(MLE.fit)
-    print(mean(MLE.fit))
+    ROS.fit <- ros(ParamData$new_Result_Value, ParamData$nonDetect_Flag)
+    print(ROS.fit)
+    print(quantile(ROS.fit,c(0.25,0.75,0.9)))
     cat("\n")
-    MLE.mean.data <- mean(MLE.fit)
-    MLE.mean <- as.vector(MLE.mean.data[1])
-    MLE.mean.SE <- as.vector(MLE.mean.data[2])
-    MLE.mean.95LCL <- as.vector(MLE.mean.data[3])
-    MLE.mean.95UCL <- as.vector(MLE.mean.data[4])
-    MLE.median <- as.vector(median(MLE.fit))
-    MLE.SD <- as.vector(sd(MLE.fit))
+    ROS.quantile   <- quantile(ROS.fit,c(0.25,0.75,0.9))
+    ROS.mean       <- as.vector(mean(ROS.fit))
+    ROS.25ile      <- as.vector(ROS.quantile[1])
+    ROS.median     <- as.vector(median(ROS.fit))
+    ROS.75ile      <- as.vector(ROS.quantile[2])
+    ROS.90ile      <- as.vector(ROS.quantile[3])
+    ROS.SD         <- as.vector(sd(ROS.fit))
+    
   } else {
-    MLE.mean <- NA
-    MLE.mean.SE <- NA
-    MLE.mean.95LCL <- NA
-    MLE.mean.95UCL <- NA
-    MLE.median <- NA
-    MLE.SD <- NA
+    ROS.mean     <- NA
+    ROS.mean.SE  <- NA
+    ROS.25ile    <-NA
+    ROS.median   <- NA
+    ROS.75ile    <- NA
+    ROS.90ile    <- NA
+    ROS.SD       <- NA
   }
-   
+  
+  if (length(unique(ParamData$WetSeason))>1) {
+  Wilcoxon_season<-cendiff(ParamData$new_Result_Value, ParamData$nonDetect_Flag,as.factor(ParamData$WetSeason))
+     wilcoxon_pvalue<-pchisq(Wilcoxon_season$chisq,1,lower.tail=FALSE)
+  } else {
+    wilcoxon_pvalue<- NA
+  }
+  
   Case.list <- rbind(Case.list, data.frame(ParamList[i], case.code, pctCensor, nSamples, num.Detects, 
                       num.nonDetects, min.Detects, max.Detects, min.nonDetects, max.nonDetects, 
-                      KM.mean, KM.mean.SE, KM.mean.95LCL, KM.mean.95UCL, KM.median, KM.SD, 
-                      PetoPrentice.pvalue, PetoPrentice.chisq, PetoPrentice.df, ROS_correlation, PPCC_test,
-                      MLE.mean,MLE.mean.SE,MLE.mean.95LCL,MLE.mean.95UCL,MLE.median,MLE.SD))
+                      KM.mean, KM.mean.SE, KM.mean.95LCL, KM.mean.95UCL, KM.25ile,KM.median, KM.75ile,KM.90ile, 
+                      KM.SD, ROS.mean,ROS.25ile,ROS.median,ROS.75ile,ROS.90ile,ROS.SD,ROS_correlation, 
+                      PetoPrentice.pvalue, PetoPrentice.chisq,PetoPrentice.df, PPCC_test,wilcoxon_pvalue))
 
 }
 sink()

@@ -74,13 +74,12 @@ Parameter.string <- paste(Storm$Parameter,  " ",
                           sep="")
 
 ###Use the lower Parameter String to group data by parameter and land use for statistical summaries
-# Parameter.string <- paste(Storm$Type," ",Storm$Parameter, " ", tolower(Storm$Sample_Matrix), " ", tolower(Storm$new_Fraction_Analyzed),
-# " (", Storm$new_Result_Units, ")", sep="")     
+#Parameter.string <- paste(Storm$Type," ",Storm$Parameter, " ", tolower(Storm$Sample_Matrix), " ", tolower(Storm$new_Fraction_Analyzed), " (", Storm$new_Result_Units, ")", sep="")     
 
 ###Use the lower Parameter String to group data by parameter and season for statistical summaries
-# Storm$WetSeason[which(Storm$WetSeason=="TRUE")]<-"wet"
-# Storm$WetSeason[which(Storm$WetSeason=="FALSE")]<-"dry"
-# Parameter.string <- paste(Storm$WetSeason," ",Storm$Parameter, " ", tolower(Storm$Sample_Matrix), " ", tolower(Storm$new_Fraction_Analyzed),
+#Storm$WetSeason[which(Storm$WetSeason=="TRUE")]<-"wet"
+#Storm$WetSeason[which(Storm$WetSeason=="FALSE")]<-"dry"
+#Parameter.string <- paste(Storm$WetSeason," ",Storm$Parameter, " ", tolower(Storm$Sample_Matrix), " ", tolower(Storm$new_Fraction_Analyzed),
 #                          " (", Storm$new_Result_Units, ")", sep="") 
 
 Storm <- droplevels(cbind(Storm, Parameter.string))

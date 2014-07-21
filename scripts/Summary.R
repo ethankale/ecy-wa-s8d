@@ -41,6 +41,10 @@ legend(x = "bottomright",
        col = unique(sites$LanduseCode)
        )
 
+# trim the Storm data set.
+Storm<-Storm[-which(Storm$paramGroup=="Precipitation"),]                ### Remove precipitation data
+Storm<-Storm[-which(Storm$paramGroup=="Flow"),]                         ### Remove volume data
+
 # List the most commonly sampled parameters.
 theSum <- summary(Storm$Parameter)
 theSum <- sort(theSum, decreasing = TRUE)
@@ -50,9 +54,26 @@ theSum[c(1:15)]
 qualifiedDataSum <- summary(Storm$Result_Data_Qualifier)
 qualifiedDataSum <- sort(qualifiedDataSum, decreasing = TRUE)
 
+numberQualify<-table(paste(Storm$Parameter,Storm$Sample_Matrix),Storm$Result_Data_Qualifier)
+write.csv(numberQualify,paste(outputDirectory, "Summary_Qualifiers_by_Parameter.csv", sep="/"))
+
+water<-Storm[-which(Storm$Sample_Matrix=="Sediment"),]
+qualifySeason<-table(paste(water$Parameter,water$WetSeason),water$Result_Data_Qualifier)
+write.csv(qualifySeason,paste(outputDirectory, "Summary_Qualifiers_by_Season.csv", sep="/"))
+
+qualifyLanduse<-table(paste(water$Parameter,water$Type),water$Result_Data_Qualifier)
+write.csv(qualifyLanduse,paste(outputDirectory, "Summary_Qualifiers_by_Landuse.csv", sep="/"))
+
 # Count Labs
 labSum <- summary(Storm$Result_Lab_Name)
 labSum <- sort(labSum, decreasing = TRUE)
 
 # Count of samples by site owner & landuse type
 locationType <- aggregate(TIAPercent ~ SiteOwner + Type, data = Storm, mean)
+Storm$Year<-as.numeric(format(as.Date(Storm$Field_Collection_Start_Date,format="%m/%d/%Y"),format="%Y"))
+siteRecords<-table(paste(Storm$Permittee,Storm$Type),Storm$Year)
+write.csv(siteRecords,paste(outputDirectory, "Summary_Records.csv", sep="/"))
+
+#Count of sample events by site and media
+sampleTotal<-table(Storm$SiteOwner,Storm$Sample_Matrix)
+write.csv(sampleTotal,paste(outputDirectory, "Summary_sample_matrix.csv", sep="/"))

@@ -17,8 +17,8 @@ storm_load$sample.year<-as.numeric(format(storm_load$Field_Collection_End_Date,"
 #  All samples should be in ug/L.  Multiply ug/L by 1000 to get ug/m3.  Then divide
 #  the resulting load by 1e9 (1,000,000,000) to convert ug to Kg.
 
-storm_load$sample_loads <- (storm_load$sample_event_flow_volume*(storm_load$new_Result_Value*1000))/1e+09
-storm_load$storm_loads  <- (storm_load$storm_event_flow_volume*(storm_load$new_Result_Value*1000))/1e+09
+storm_load$sample_loads <- storm_load$sample_event_flow_volume*(storm_load$new_Result_Value*1e-06)
+storm_load$storm_loads  <- storm_load$storm_event_flow_volume*(storm_load$new_Result_Value*1e-06)
 storm_load$load_units   <- "Kg"
 
 ### Unit area loads -------------------------
@@ -26,6 +26,18 @@ storm_load$load_units   <- "Kg"
 storm_load$storm_area_loads  <- storm_load$storm_loads  / (storm_load$Acres * 2.47105)
 storm_load$sample_area_loads <- storm_load$sample_loads / (storm_load$Acres * 2.47105)
 storm_load$area_load_units   <- "Kg/hectare"
+
+# Update Parameter_string to remove load units (which should now be identical for all parameters)
+storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
+
+####IMPORTANT####################
+##Use variations on the Parameter_string to group by Parameter and land use or season###
+storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Type," ", storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
+
+storm_load$WetSeason[which(storm_load$WetSeason=="TRUE")]<-"wet"
+storm_load$WetSeason[which(storm_load$WetSeason=="FALSE")]<-"dry"
+storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$WetSeason," ", storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
+#################################
 
 ### Get various summaries of data, including missing loads  -------------------------
 noStorm <- storm_load[which(is.na(storm_load$sample_loads) | is.na(storm_load$storm_loads)), ]
@@ -70,6 +82,7 @@ events$month      <- as.numeric(format(events$startDate, format="%m"))
 events$volumePerc <- (events$sample_volume / events$storm_volume) * 100
 
 # Summarize by location, year, etc.
+#   We need a way to be able to switch this over to .png or (preferably) .emf output
 pdf(paste(outputDirectory, "event_percents.pdf", sep="/"), width=11, height=8.5)
 
 mar.default = c(5, 4, 4, 2) + 0.1
@@ -127,7 +140,7 @@ eventSummary <- cast(data    = tmpEvents,
 write.csv(eventSummary, paste(outputDirectory, "eventSummary.csv", sep="/"))
 
 # Summarize unit area loads of each parameter.
-loadParamNames <- sort(unique(storm_load$Parameter_string))
+loadParamNames <- unique(storm_load$Parameter_string)
 
 pdf(paste(outputDirectory, "area_loads.pdf", sep="/"), width=11, height=8.5)
 
@@ -138,8 +151,8 @@ for (name in loadParamNames) {
   tmpData$LanduseCode <- factor(tmpData$LanduseCode, c("IND","COM","HDR", "LDR"))
   
   # Figure out the data quality (A, B, or C), and determine whether to plot
-  case       <- subset(Case.list, ParamList.i. == name)
-  quality    <- case$case.code
+  case    <- subset(Case.list, ParamList.i. == name)
+  quality <- case$case.code
   
   #cat(name, "| Rows:", nrow(tmpData), "\n")
   
@@ -155,10 +168,9 @@ for (name in loadParamNames) {
          xlab = "Flow Volume (m3)"
          )
     
-    boxplot(tmpData$sample_area_loads ~ tmpData$LanduseCode,
+    cenboxplot(tmpData$sample_area_loads,tmpData$nonDetect_Flag,tmpData$LanduseCode,
             ylab = "",
             xlab = "Land Uses",
-            yaxt = "n"
             )
     
     plot(tmpData$TIAPercent, 
@@ -214,16 +226,28 @@ Case.list <- data.frame(Parameter=character(),
                         KM.mean.SE=numeric(),
                         KM.mean.95LCL=numeric(),
                         KM.mean.95UCL=numeric(),
+                        KM.25ile=numeric(),
                         KM.median=numeric(),
+                        KM.75ile=numeric(),
+                        KM.90ile=numeric(),
                         KM.SD=numeric(),
+                        ROS.mean=numeric(),
+                        ROS.25ile=numeric(),
+                        ROS.median=numeric(),
+                        ROS.75ile=numeric(),
+                        ROS.90ile=numeric(),
+                        ROS.SD=numeric(),
+                        ROS_correlation=numeric(),
                         PetoPrentice.pvalue=numeric(),
                         PetoPrentice.chisq=numeric(),
                         PetoPrentice.df=numeric(),
-                        ROS_correlation=numeric(), 
-                        PPCC_test=character())
+                        PPCC_test=character(),
+                        wilcoxon_pvalue=numeric())
 
 
-sink(paste(outputDirectory, "PetoPrentice_Loads.txt", sep=""))
+#sink(paste(outputDirectory, "PetoPrentice_Loads.txt", sep=""))
+#sink(paste(outputDirectory, "PetoPrentice_Loads_landuse.txt", sep=""))   ###use for parameter + landuse summary
+sink(paste(outputDirectory, "PetoPrentice_Loads_season.txt", sep=""))   ###use for parameter + season summary
 
 for (i in c(1:length(ParamList))) {
   ###for (i in c(120:133)) {
@@ -268,21 +292,30 @@ for (i in c(1:length(ParamList))) {
     KM.fit <- cenfit(ParamData$sample_loads, ParamData$nonDetect_Flag)
     print(KM.fit)
     print(mean(KM.fit))
+    print(quantile(KM.fit,c(0.25,0.75,0.9)))
     cat("\n")
-    KM.mean.data <- mean(KM.fit)
-    KM.mean <- as.vector(KM.mean.data[1])
-    KM.mean.SE <- as.vector(KM.mean.data[2])
-    KM.mean.95LCL <- as.vector(KM.mean.data[3])
-    KM.mean.95UCL <- as.vector(KM.mean.data[4])
-    KM.median <- as.vector(median(KM.fit))
-    KM.SD <- as.vector(sd(KM.fit))
+    
+    KM.mean.data   <- mean(KM.fit)
+    KM.quantile    <- quantile(KM.fit,c(0.25,0.75,0.9))
+    KM.mean        <- as.vector(KM.mean.data[1])
+    KM.mean.SE     <- as.vector(KM.mean.data[2])
+    KM.mean.95LCL  <- as.vector(KM.mean.data[3])
+    KM.mean.95UCL  <- as.vector(KM.mean.data[4])
+    KM.25ile       <- as.vector(KM.quantile[1])
+    KM.median      <- as.vector(median(KM.fit))
+    KM.75ile       <- as.vector(KM.quantile[2])
+    KM.90ile       <- as.vector(KM.quantile[3])
+    KM.SD          <- as.vector(sd(KM.fit))
   } else {
-    KM.mean <- NA
-    KM.mean.SE <- NA
+    KM.mean       <- NA
+    KM.mean.SE    <- NA
     KM.mean.95LCL <- NA
     KM.mean.95UCL <- NA
-    KM.median <- NA
-    KM.SD <- NA
+    KM.25ile      <- NA
+    KM.median     <- NA
+    KM.75ile      <- NA
+    KM.90ile      <- NA
+    KM.SD         <- NA
   }
   
   nGroups <- length(unique(ParamData$Type))
@@ -315,31 +348,39 @@ for (i in c(1:length(ParamList))) {
   PPCC_test <- NA
   
   if (case.code == "B" & nSamples>50) {
-    MLE.fit <- cenmle(ParamData$sample_loads, ParamData$nonDetect_Flag)
-    print(MLE.fit)
-    print(mean(MLE.fit))
+    ROS.fit <- ros(ParamData$sample_loads, ParamData$nonDetect_Flag)
+    print(ROS.fit)
+    print(quantile(ROS.fit,c(0.25,0.75,0.9)))
     cat("\n")
-    MLE.mean.data <- mean(MLE.fit)
-    MLE.mean <- as.vector(MLE.mean.data[1])
-    MLE.mean.SE <- as.vector(MLE.mean.data[2])
-    MLE.mean.95LCL <- as.vector(MLE.mean.data[3])
-    MLE.mean.95UCL <- as.vector(MLE.mean.data[4])
-    MLE.median <- as.vector(median(MLE.fit))
-    MLE.SD <- as.vector(sd(MLE.fit))
+    ROS.quantile   <- quantile(ROS.fit,c(0.25,0.75,0.9))
+    ROS.mean       <- as.vector(mean(ROS.fit))
+    ROS.25ile      <- as.vector(ROS.quantile[1])
+    ROS.median     <- as.vector(median(ROS.fit))
+    ROS.75ile      <- as.vector(ROS.quantile[2])
+    ROS.90ile      <- as.vector(ROS.quantile[3])
+    ROS.SD         <- as.vector(sd(ROS.fit))
+    
   } else {
-    MLE.mean <- NA
-    MLE.mean.SE <- NA
-    MLE.mean.95LCL <- NA
-    MLE.mean.95UCL <- NA
-    MLE.median <- NA
-    MLE.SD <- NA
+    ROS.mean     <- NA
+    ROS.mean.SE  <- NA
+    ROS.25ile    <-NA
+    ROS.median   <- NA
+    ROS.75ile    <- NA
+    ROS.90ile    <- NA
+    ROS.SD       <- NA
   }
-  
+ 
+  if (length(unique(ParamData$WetSeason))>1) {
+    Wilcoxon_season<-cendiff(ParamData$sample_loads, ParamData$nonDetect_Flag,as.factor(ParamData$WetSeason))
+    wilcoxon_pvalue<-pchisq(Wilcoxon_season$chisq,1,lower.tail=FALSE)
+  } else {
+    wilcoxon_pvalue<- NA
+  }
   Case.list <- rbind(Case.list, data.frame(ParamList[i], case.code, pctCensor, nSamples, num.Detects, 
                                            num.nonDetects, min.Detects, max.Detects, min.nonDetects, max.nonDetects, 
-                                           KM.mean, KM.mean.SE, KM.mean.95LCL, KM.mean.95UCL, KM.median, KM.SD, 
-                                           PetoPrentice.pvalue, PetoPrentice.chisq, PetoPrentice.df, ROS_correlation, PPCC_test,
-                                           MLE.mean,MLE.mean.SE,MLE.mean.95LCL,MLE.mean.95UCL,MLE.median,MLE.SD))
+                                           KM.mean, KM.mean.SE, KM.mean.95LCL, KM.mean.95UCL, KM.25ile,KM.median, KM.75ile,KM.90ile, 
+                                           KM.SD,PetoPrentice.pvalue, PetoPrentice.chisq, PetoPrentice.df,ROS.mean,ROS.25ile,ROS.median,
+                                           ROS.75ile,ROS.90ile,ROS.SD,ROS_correlation, PPCC_test,wilcoxon_pvalue))
   
 }
 sink()
@@ -347,3 +388,5 @@ sink()
 print(table(Case.list$case.code))
 
 write.csv(Case.list, paste(outputDirectory, "Param_Summary_Loads.csv", sep="/"))
+write.csv(Case.list, paste(outputDirectory, "Param_Summary_Loads_Landuse.csv", sep="/"))
+write.csv(Case.list, paste(outputDirectory, "Param_Summary_Loads_Season.csv", sep="/"))

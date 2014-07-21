@@ -32,7 +32,7 @@ source( paste(scriptDirectory, "Plot_byParam_sub1_ReadData.r", sep="/"))
 sites <- read.csv(siteFile)
 Storm <- merge(Storm, sites, by.x = "Location_ID", by.y = "LocationID", all.x = TRUE)
 
-### Assign parameters to cases A, B, C and calculate K-M stats, MLE and PetoPrentice
+### Assign parameters to cases A, B, C and calculate K-M stats, ROS and PetoPrentice
 source( paste(scriptDirectory, "Plot_byParam_sub2_AssignCase.r", sep="/"))
 
 ### Either open the console window or the pdf file if option selected:
@@ -169,7 +169,7 @@ if (output_selected == "PDF") {
 } 
 
 write.csv(Case.list, paste(outputDirectory, "Param_Summary.csv", sep="/"))
-# write.csv(Case.list, paste(outputDirectory, "Param_Summary_landuse.csv", sep=""))
-# write.csv(Case.list, paste(outputDirectory, "Param_Summary_season.csv", sep=""))
+write.csv(Case.list, paste(outputDirectory, "Param_Summary_landuse.csv", sep="/"))
+write.csv(Case.list, paste(outputDirectory, "Param_Summary_season.csv", sep="/"))
 
 

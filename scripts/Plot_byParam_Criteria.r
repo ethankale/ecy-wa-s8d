@@ -6,6 +6,7 @@
 #####
 
 require(sqldf)
+require(devEMF)
 
 # Include the function for calculating criteria
 source(paste(scriptDirectory, "Calculate_Criteria.R", sep="/"))
@@ -67,6 +68,11 @@ paramList    <- Storm$Parameter_string
 pHList       <- Storm$pH
 hardnessList <- Storm$hardness
 
+# Need to update this so that for results where the concentration is at the 
+#  detection limit (nondetect flag is True) and new_Result_Value > criteria, 
+#  that should not be an exceedence (should be NA).  On the other hand, if the
+#  criterion exceeds the detection level, leave the result in as a non-exceedence.
+
 for (j in 1:nrow(Storm)) {
   
   # The criteria function returns acute, chronic, and human health in a single-row data.frame.
@@ -93,7 +99,14 @@ Storm$acuteExceeds   <- Storm$acuteExceedPercent > 100
 Storm$chronicExceeds <- Storm$chronicExceedPercent > 100
 Storm$hhExceeds      <- Storm$hhExceedPercent > 100
 
+Crit_acute<-table(Storm$Parameter_string, Storm$acuteExceeds)
+Crit_chronic<-table(Storm$Parameter_string, Storm$chronicExceeds)
+Crit_hh<-table(Storm$Parameter_string, Storm$hhExceeds)
+Crit_exceed<-data.frame(Crit_acute,Crit_chronic,Crit_hh)
+write.csv(Crit_exceed,paste(outputDirectory, "Criteria_exceedance.csv", sep="/"))
+
 ##### Plot out criteria by parameter (per Will Hobbs suggestion) -------------------------
+#   We need a way to be able to switch this over to .png or (preferably) .emf output
 pdf(paste(outputDirectory, "concentration_criteria_plots.pdf", sep="/"), width=11, height=8.5)
 
 mar.default = c(5, 4, 4, 2) + 0.1
@@ -101,7 +114,7 @@ mar.default = c(5, 4, 4, 2) + 0.1
 for (type in c("acute", "chronic", "hh")) {
 
   par(mar = mar.default + c(0, 12, 0, 0))
-  
+
   # Values vs. criteria
   storm.current <- Storm[-which(is.na(Storm[, type])), ]
   storm.current$Parameter_string <- factor(storm.current$Parameter_string)
@@ -250,7 +263,5 @@ for (type in c("acute", "chronic", "hh")) {
           )
 
 }
-
-
 
 dev.off()
