@@ -5,6 +5,7 @@
 #####
 
 require(reshape)
+#require(devEMF)
 
 storm_load <- Storm[-which(Storm$paramClass=="Measurement"),]                ### remove all the flow data and conventional parameters
 storm_load <- storm_load[-which(storm_load$Sample_Matrix=="Sediment"),]      ### remove sediment samples
@@ -82,11 +83,16 @@ events$month      <- as.numeric(format(events$startDate, format="%m"))
 events$volumePerc <- (events$sample_volume / events$storm_volume) * 100
 
 # Summarize by location, year, etc.
-#   We need a way to be able to switch this over to .png or (preferably) .emf output
-pdf(paste(outputDirectory, "event_percents.pdf", sep="/"), width=11, height=8.5)
+# To switch to PDF, uncomment the line below, then comment out
+#  all of the "png()" lines and all but the last "dev.off()" lines.
 
+#pdf(paste(outputDirectory, "event_percents.pdf", sep="/"), width=11, height=8.5)
+
+png.width   = 480 #pixels
+png.height  = 480 #pixels
 mar.default = c(5, 4, 4, 2) + 0.1
 
+png(file = paste(outputDirectory, "stormVolumePercent.png", sep="/"), width = png.width, height = png.width)
 plot(x    = events$storm_volume,
      y    = events$volumePerc,
      log  = "xy",
@@ -95,7 +101,9 @@ plot(x    = events$storm_volume,
      ylab = "Sample volume as percentage of storm volume",
      main = "Sample vs. Storm Volumes (by Storm Volume)"
      )
+dev.off()
 
+png(file = paste(outputDirectory, "sampleVolumePercent.png", sep="/"), width = png.width, height = png.width)
 par(mar = mar.default + c(0, 8, 0, 0))
 boxplot(volumePerc ~ Location_ID, 
         data = events, 
@@ -104,7 +112,9 @@ boxplot(volumePerc ~ Location_ID,
         xlab = "Sample volume as percent of storm volume",
         main = "Sample vs. Storm Volumes (by Location)"
         )
+dev.off()
 
+png(file = paste(outputDirectory, "sampleVsStormVolumeSeason.png", sep="/"), width = png.width, height = png.width)
 par(mar = mar.default)
 boxplot(volumePerc ~ WetSeason, 
         data = events, 
@@ -113,7 +123,9 @@ boxplot(volumePerc ~ WetSeason,
         xlab = "Sample volume as percent of storm volume",
         main = "Sample vs. Storm Volumes (by Wet Season)"
 )
+dev.off()
 
+png(file = paste(outputDirectory, "sampleVsStormVolumeYear.png", sep="/"), width = png.width, height = png.width)
 boxplot(volumePerc ~ year, 
         data = events, 
         horizontal = TRUE, 
@@ -152,7 +164,15 @@ for (name in loadParamNames) {
   
   # Figure out the data quality (A, B, or C), and determine whether to plot
   case    <- subset(Case.list, ParamList.i. == name)
-  quality <- case$case.code
+  quality <- ""
+  
+  # slightly hacky - if there is a code to assign, assign the value to "quality".
+  #  Otherwise, make quality = "C", which will avoid the conditional below.
+  if (nrow(case) > 0) {
+    quality = case$case.code
+  } else {
+    quality = "C"
+  }
   
   #cat(name, "| Rows:", nrow(tmpData), "\n")
   
