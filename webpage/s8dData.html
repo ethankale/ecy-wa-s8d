@@ -40,21 +40,6 @@ td h1 {
   horizontal-align: middle;
 }
 
-ul {
-  list-style-type: none;
-}
-
-li.param {
-    color: gray;
-    cursor: pointer;
-}
-
-li.selected {
-    color: black;
-    background-color: AliceBlue;
-
-}
-
 </style>
 
 </head>
@@ -123,7 +108,8 @@ var svg = d3.select(".chart").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var list = d3.select(".parameters").append("ul");
+var list = d3.select(".parameters").append("select")
+    .attr("class", "params");
 
 svg.append("g")
   .attr("class", "x axis")
@@ -340,7 +326,7 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
         // Create the list of parameters by grouping w/ Crossfilter.
         //----------------------------------------------------
         
-        var params = list.selectAll("li.param")
+        var params = list.selectAll("option.param")
             .data(parameters, function(v) { return v.key; });
         
         // Update
@@ -353,13 +339,14 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
             });
         
         // Enter
-        params.enter().append("li")
+        params.enter().append("option")
             .attr("class", function(d) { 
                 if (d.key == param) {
                     return "param selected"
                 } else { 
                     return "param"} 
             })
+            .attr("value", function(d) {return d.key})
             .text(function(d) {return d.key});
         
     };
@@ -370,20 +357,18 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
     
     var typesAvg = type.group().reduce(reduceAddAvg('result'), reduceRemoveAvg('result'), reduceInitAvg).top(Infinity);
     var parameters = parameter.group().top(Infinity);
-    //parameter.filter("Lead (ug/L)");
     
+    $("select.params").val("Lead (ug/L)");
     update(typesAvg, parameters, "Lead (ug/L)");
-    
+
     
     //----------------------------------------------------
     // Function(s)  for adding filters
     //----------------------------------------------------
     
-    $("li.param").click(function () {
-        //$(".parameters li.selected").removeClass("selected");
-        //$(this).addClass("selected");
+    $("select.params").change(function () {
         
-        var param = $(this).text();
+        var param = $("select.params option:selected").text();
         update(typesAvg, parameters, param);
     });
 
