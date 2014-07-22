@@ -88,8 +88,8 @@ events$volumePerc <- (events$sample_volume / events$storm_volume) * 100
 
 #pdf(paste(outputDirectory, "event_percents.pdf", sep="/"), width=11, height=8.5)
 
-png.width   = 480 #pixels
-png.height  = 480 #pixels
+png.width   = 800 #pixels
+png.height  = 800 #pixels
 mar.default = c(5, 4, 4, 2) + 0.1
 
 png(file = paste(outputDirectory, "stormVolumePercent.png", sep="/"), width = png.width, height = png.width)

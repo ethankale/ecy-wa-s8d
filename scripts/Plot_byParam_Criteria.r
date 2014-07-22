@@ -106,13 +106,20 @@ Crit_exceed<-data.frame(Crit_acute,Crit_chronic,Crit_hh)
 write.csv(Crit_exceed,paste(outputDirectory, "Criteria_exceedance.csv", sep="/"))
 
 ##### Plot out criteria by parameter (per Will Hobbs suggestion) -------------------------
-#   We need a way to be able to switch this over to .png or (preferably) .emf output
-pdf(paste(outputDirectory, "concentration_criteria_plots.pdf", sep="/"), width=11, height=8.5)
+#   Either output in PDF (using line below, & commenting out "png()" lines) or png.
+#pdf(paste(outputDirectory, "concentration_criteria_plots.pdf", sep="/"), width=11, height=8.5)
 
+png.width   = 1200 #pixels
+png.height  = 800 #pixels
 mar.default = c(5, 4, 4, 2) + 0.1
 
 for (type in c("acute", "chronic", "hh")) {
 
+  # File output values.  Comment out next two lines for PDF output.
+  # This line has to be BEFORE you specify the margins.
+  filename = paste("concentration", type, ".png", sep="")
+  png(file = paste(outputDirectory, filename, sep="/"), width = png.width, height = png.width)
+  
   par(mar = mar.default + c(0, 12, 0, 0))
 
   # Values vs. criteria
@@ -121,6 +128,8 @@ for (type in c("acute", "chronic", "hh")) {
   
   ylimits <- c(1, length(levels(storm.current$Parameter_string)))
   xlimits <- c(min(storm.current$new_Result_Value), max(storm.current$new_Result_Value))
+  
+
   
   plot(storm.current$new_Result_Value, 
        storm.current$Parameter_string,
@@ -176,9 +185,10 @@ for (type in c("acute", "chronic", "hh")) {
        las    = 1,
        labels = labelList
        )
+  dev.off()
 }
 
-dev.off()
+#dev.off()
 
 ##### Similar plots to above, but as percent exceedence rather than actual values -------------------------
 pdf(paste(outputDirectory, "criteria_exceedence_plots.pdf", sep="/"), width=11, height=8.5)
