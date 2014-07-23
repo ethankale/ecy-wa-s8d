@@ -1,6 +1,7 @@
 #####
 # Determine the criteria level for each measured parameter
 #  for which there exist criteria.
+#
 # Depends on Plot_byParam_ver9_Apr2014.r (or newer),
 #  and on Load_byParam_sub1_lookup.r.
 #####
@@ -109,18 +110,35 @@ write.csv(Crit_exceed,paste(outputDirectory, "Criteria_exceedance.csv", sep="/")
 #   Either output in PDF (using line below, & commenting out "png()" lines) or png.
 #pdf(paste(outputDirectory, "concentration_criteria_plots.pdf", sep="/"), width=11, height=8.5)
 
-png.width   = 1200 #pixels
-png.height  = 800 #pixels
+png.width   = 8.5 #inches
+png.height  = 11  #inches
 mar.default = c(5, 4, 4, 2) + 0.1
 
 for (type in c("acute", "chronic", "hh")) {
 
+  # Set values specific to each type
+  if (type == "acute") {
+    exceedCol <- "acuteExceeds"
+    typeTitle <- "Acute"
+  } else if (type == "chronic") {
+    exceedCol <- "chronicExceeds"
+    typeTitle <- "Chronic"
+  } else if (type == "hh") {
+    exceedCol <- "hhExceeds"
+    typeTitle <- "Human Health"
+  }
+  
   # File output values.  Comment out next two lines for PDF output.
   # This line has to be BEFORE you specify the margins.
   filename = paste("concentration", type, ".png", sep="")
-  png(file = paste(outputDirectory, filename, sep="/"), width = png.width, height = png.width)
+  png(file = paste(outputDirectory, filename, sep="/"), 
+      width  = png.width, 
+      height = png.width,
+      units  = "in",
+      res    = 1200
+  )
   
-  par(mar = mar.default + c(0, 12, 0, 0))
+  par(mar = mar.default + c(0, 12, 0, 3) )
 
   # Values vs. criteria
   storm.current <- Storm[-which(is.na(Storm[, type])), ]
@@ -129,54 +147,64 @@ for (type in c("acute", "chronic", "hh")) {
   ylimits <- c(1, length(levels(storm.current$Parameter_string)))
   xlimits <- c(min(storm.current$new_Result_Value), max(storm.current$new_Result_Value))
   
-
+  # List of exceedence percents, for the right-hand axis
+  exceeds   <- array()
   
+  # Shift the data down slightly, so that the values show up below the horizontal line
+  storm.current$y <- as.numeric(storm.current$Parameter_string) - 0.15
+    
   plot(storm.current$new_Result_Value, 
-       storm.current$Parameter_string,
+       storm.current$y,
        pch  = -124,
        cex  = 0.5,
        col  = "darkgray",
        log  = "x",
        xlab = "Sampled Concentration (ug/L)",
        ylab = "",
-       main = paste("Range of Concentrations with", type, "criteria"),
-       yaxt = "n",
-       # Print out the background lines, text, etc. underneath the data
-       panel.first = {
-         j <- 1
-         for (param in levels(storm.current$Parameter_string)) {
-           
-           # Create background horizontal lines for each parameter
-           xMin <- min(storm.current$new_Result_Value)
-           xMax <- max(storm.current$new_Result_Value)
-           abline(h   = j,
-                  col = "lightgray",
-                  lty = 2
-           )
-           
-           # Add min and max labels at the ends of each data series
-           theMin <- min(storm.current$new_Result_Value[which(storm.current$Parameter_string == param)])
-           theMax <- max(storm.current$new_Result_Value[which(storm.current$Parameter_string == param)])
-           
-           text(theMin, j, labels = c(as.character(theMin)), pos = 3, offset = 0.5, cex = 0.85 )
-           text(theMax, j, labels = c(as.character(theMax)), pos = 3, offset = 0.5, cex = 0.85 )
-           
-           # Add the min and max of the criteria to each data series
-           acuteMin <- min(storm.current[which(storm.current$Parameter_string == param), type])
-           acuteMax <- max(storm.current[which(storm.current$Parameter_string == param), type])
-           
-           text(acuteMin, j, labels = c("|"))
-           text(acuteMax, j, labels = c("|"))
-           line <- c()
-           line$x <- c(acuteMin, acuteMax)
-           line$y <- c(j, j)
-           lines(x = line)
-           
-           j <- j + 1
-           
-         }
-       }
-       )
+       main = paste("Range of Concentrations with", typeTitle, "Criteria"),
+       yaxt = "n"
+  )
+
+   j <- 1
+   for (param in levels(storm.current$Parameter_string)) {
+     
+     # Create background horizontal lines for each parameter
+     xMin <- min(storm.current$new_Result_Value)
+     xMax <- max(storm.current$new_Result_Value)
+     abline(h   = j,
+            col = "lightgray",
+            lty = 2
+     )
+     
+     # Add min, max, and censored count labels at the ends of each data series
+     #theMin      <- min(storm.current$new_Result_Value[which(storm.current$Parameter_string == param)])
+     #theMax      <- max(storm.current$new_Result_Value[which(storm.current$Parameter_string == param)])
+     exceedColValues <- storm.current[, exceedCol][which(storm.current$Parameter_string == param)]
+     exceedCount     <- sum(exceedColValues)
+     exceedLength    <- length(exceedColValues)
+     exceedPercent   <- (exceedCount / exceedLength) * 100
+     
+     #text(theMin, j, labels = c(as.character(theMin)), pos = 3, offset = 0.5, cex = 0.85 )
+     #text(theMax, j, labels = c(as.character(theMax)), pos = 3, offset = 0.5, cex = 0.85 )
+     exceeds[j] <- as.character(round(exceedPercent))
+     
+     # Add the min and max of the criteria to each data series
+     acuteMin <- min(storm.current[which(storm.current$Parameter_string == param), type])
+     acuteMax <- max(storm.current[which(storm.current$Parameter_string == param), type])
+     
+     #text(acuteMin, j, labels = c("|"))
+     #text(acuteMax, j, labels = c("|"))
+     line <- c()
+     line$x <- c(acuteMin, acuteMin, acuteMax, acuteMax)
+     line$y <- c(j - 0.3, j, j, j - 0.3)
+     lines(x   = line,
+           lwd = 2)
+     
+     j <- j + 1
+     
+   }
+  
+  # Parameter name labels
   
   labelList <- levels(storm.current$Parameter_string)
   
@@ -185,6 +213,22 @@ for (type in c("acute", "chronic", "hh")) {
        las    = 1,
        labels = labelList
        )
+  
+  # Censored value labels (second Y axis)
+  
+  axis(side   = 4, 
+       at     = 1:length(exceeds), 
+       las    = 1,
+       labels = exceeds,
+       hadj   = 1,
+       lwd    = 0,
+       lwd.ticks = 0,
+       line   = 1.5
+
+  )
+  
+  mtext(side = 4, line = 3, "Percent of Values that Exceed Criteria")
+  
   dev.off()
 }
 
