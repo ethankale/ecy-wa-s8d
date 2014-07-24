@@ -23,7 +23,7 @@ rainfall <- rainfall[, c("new_Result_Value", "storm_event_flow_volume", "year", 
 runoffAgg <- aggregate(. ~ year + Location_ID + m2 + TIAPercent + LanduseCode, data = rainfall, sum)
 
 # Clean up the aggregated data (remove empty factor levels, etc.)
-runoffAgg$LanduseCode <- factor(runoffAgg$LanduseCode)
+runoffAgg$LanduseCode <- factor(runoffAgg$LanduseCode, levels = c("LDR", "HDR", "COM", "IND"))
 
 # Unit conversion - inches to meters, precip depth to volume
 runoffAgg$precipm   <- runoffAgg$new_Result_Value * 0.0254
@@ -35,27 +35,37 @@ runoffAgg$coeff <- (runoffAgg$storm_event_flow_volume / runoffAgg$precipVol)
 ##### Plotting the Result -----------------------------
 
 mar.default = c(5, 4, 4, 2) + 0.1
-par(mfrow = c(2,2),
-    mar   = mar.default
-    )
 
-plot(runoffAgg$storm_event_flow_volume, 
-     runoffAgg$coeff,
-     xlab = "Storm Volume",
-     ylab = "Runoff Coefficient")
+# Prettier colors than the default
+library(RColorBrewer)
+palette(brewer.pal(4, "Set1"))
+
+png(file = paste(outputDirectory, "runoffCoeff.png", sep="/"), 
+    width  = 11, 
+    height = 8.5,
+    units  = "in",
+    res    = 800
+)
+
+par(mfrow = c(1,1),
+    mar   = mar.default
+)
 
 plot(runoffAgg$TIAPercent, 
      runoffAgg$coeff,
+     main = "Runoff Coefficient",
      xlab = "Impervious Percent",
-     ylab = "Runoff Coefficient")
+     ylab = "Runoff Coefficient",
+     pch  = as.numeric(runoffAgg$LanduseCode),
+     col  = runoffAgg$LanduseCode
+)
 
-plot(runoffAgg$LanduseCode, 
-     runoffAgg$coeff,
-     xlab = "Land Use",
-     ylab = "Runoff Coefficient")
+legend("topleft", 
+       legend = levels(runoffAgg$LanduseCode),
+       pch    = c(1,2,3,4),
+       col    = 1:length(runoffAgg$LanduseCode)
+)
+dev.off()
 
-plot(runoffAgg$m2, 
-     runoffAgg$coeff,
-     xlab = "Basin Size (m2)",
-     ylab = "Runoff Coefficient")
+
 
