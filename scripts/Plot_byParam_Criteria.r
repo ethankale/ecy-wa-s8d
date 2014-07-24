@@ -13,57 +13,65 @@ require(devEMF)
 source(paste(scriptDirectory, "Calculate_Criteria.R", sep="/"))
 
 ##### Add columns to "Storm" dataframe for pH and hardness. -------------------------
+# Helper for multiple runs - skip these steps if already complete
 
-# Add hardness, and average repeated values in the same day & location
-hardnessTable <- Storm[which(Storm$Parameter_string == "Hardness as CaCO3 water  (ug/L)"),
-                        c("Location_ID", 
-                          "Field_Collection_Start_Date", 
-                          "Field_Collection_End_Date", 
-                          "start",
-                          "end",
-                          "new_Result_Value")
-                        ]
-hardnessTable$new_Result_Value <- hardnessTable$new_Result_Value / 1000
-hardnessTable <- aggregate(new_Result_Value ~ Location_ID + Field_Collection_Start_Date + Field_Collection_End_Date + start + end, data = hardnessTable, mean)
+if (length(Storm$hardness) == 0) {
+  # Add hardness, and average repeated values in the same day & location
+  hardnessTable <- Storm[which(Storm$Parameter_string == "Hardness as CaCO3 water  (ug/L)"),
+                          c("Location_ID", 
+                            "Field_Collection_Start_Date", 
+                            "Field_Collection_End_Date", 
+                            "start",
+                            "end",
+                            "new_Result_Value")
+                          ]
+  hardnessTable$new_Result_Value <- hardnessTable$new_Result_Value / 1000
+  hardnessTable <- aggregate(new_Result_Value ~ Location_ID + Field_Collection_Start_Date + Field_Collection_End_Date + start + end, data = hardnessTable, mean)
+  
+  # Add pH, and average repeated values in the same day & location
+  phTable <- Storm[which(Storm$Parameter_string == "pH water  (pH)"),
+                         c("Location_ID", 
+                           "Field_Collection_Start_Date", 
+                           "Field_Collection_End_Date", 
+                           "start",
+                           "end",
+                           "new_Result_Value")
+                         ]
+  phTable <- aggregate(new_Result_Value ~ Location_ID + Field_Collection_Start_Date + Field_Collection_End_Date + start + end, 
+                       data = phTable, 
+                       mean)
 
-# Add pH, and average repeated values in the same day & location
-phTable <- Storm[which(Storm$Parameter_string == "pH water  (pH)"),
-                       c("Location_ID", 
-                         "Field_Collection_Start_Date", 
-                         "Field_Collection_End_Date", 
-                         "start",
-                         "end",
-                         "new_Result_Value")
-                       ]
-phTable <- aggregate(new_Result_Value ~ Location_ID + Field_Collection_Start_Date + Field_Collection_End_Date + start + end, data = phTable, mean)
 
-# Combined the tables
-Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start, end)",
-                "CREATE INDEX s2 ON hardnessTable(Location_ID, start, end)",
-                "CREATE INDEX s3 ON phTable(Location_ID, start, end)",
-                "SELECT Storm.*, 
-                   hardnessTable.new_Result_Value AS hardness,
-                   phTable.new_Result_Value AS pH
-                 FROM Storm
-                 LEFT OUTER JOIN hardnessTable 
-                  ON Storm.Location_ID = hardnessTable.Location_ID
-                    AND Storm.start >= hardnessTable.start
-                    AND Storm.end <= hardnessTable.end
-                 LEFT OUTER JOIN phTable 
-                  ON Storm.Location_ID = phTable.Location_ID
-                    AND Storm.start >= phTable.start
-                    AND Storm.end <= phTable.end")
-)
+  # Combined the tables
+  Storm <- sqldf(c("CREATE INDEX s1 ON Storm(Location_ID, start, end)",
+                  "CREATE INDEX s2 ON hardnessTable(Location_ID, start, end)",
+                  "CREATE INDEX s3 ON phTable(Location_ID, start, end)",
+                  "SELECT Storm.*, 
+                     hardnessTable.new_Result_Value AS hardness,
+                     phTable.new_Result_Value AS pH
+                   FROM Storm
+                   LEFT OUTER JOIN hardnessTable 
+                    ON Storm.Location_ID = hardnessTable.Location_ID
+                      AND Storm.start >= hardnessTable.start
+                      AND Storm.end <= hardnessTable.end
+                   LEFT OUTER JOIN phTable 
+                    ON Storm.Location_ID = phTable.Location_ID
+                      AND Storm.start >= phTable.start
+                      AND Storm.end <= phTable.end")
+  )
+}
 
 ##### Use the new function & rows to calculate applicable criteria -------------------------
 
 # We create new lists, rather than adding values directly to Storm,
 #  to avoid subsetting the data.frame (i.e., Storm[,]) as much as possible.
-#  Avoiding subsetting improves performance.
+#  Avoiding subsetting improves performance.  Or so I've heard.
 
-acuteList   <- c()
-chronicList <- c()
-hhList      <- c()
+acuteList     <- c()
+chronicList   <- c()
+hhList        <- c()
+cleanupList   <- c()
+screeningList <- c()
 
 paramList    <- Storm$Parameter_string
 pHList       <- Storm$pH
@@ -83,22 +91,30 @@ for (j in 1:nrow(Storm)) {
                         hardness  = hardnessList[j]
                         )
   
-  acuteList[j]   <- standards$acute
-  chronicList[j] <- standards$chronic
-  hhList[j]      <- standards$hh
+  acuteList[j]     <- standards$acute
+  chronicList[j]   <- standards$chronic
+  hhList[j]        <- standards$hh
+  cleanupList[j]   <- standards$cleanup
+  screeningList[j] <- standards$screening
 }
 
-Storm$acute   <- acuteList
-Storm$chronic <- chronicList
-Storm$hh      <- hhList
+Storm$acute     <- acuteList
+Storm$chronic   <- chronicList
+Storm$hh        <- hhList
+Storm$cleanup   <- cleanupList
+Storm$screening <- screeningList
 
-Storm$acuteExceedPercent   <- (Storm$new_Result_Value / Storm$acute)   * 100
-Storm$chronicExceedPercent <- (Storm$new_Result_Value / Storm$chronic) * 100
-Storm$hhExceedPercent      <- (Storm$new_Result_Value / Storm$hh)      * 100
+Storm$acuteExceedPercent     <- (Storm$new_Result_Value / Storm$acute)     * 100
+Storm$chronicExceedPercent   <- (Storm$new_Result_Value / Storm$chronic)   * 100
+Storm$hhExceedPercent        <- (Storm$new_Result_Value / Storm$hh)        * 100
+Storm$cleanupExceedPercent   <- (Storm$new_Result_Value / Storm$cleanup)   * 100
+Storm$screeningExceedPercent <- (Storm$new_Result_Value / Storm$screening) * 100
 
-Storm$acuteExceeds   <- Storm$acuteExceedPercent > 100
-Storm$chronicExceeds <- Storm$chronicExceedPercent > 100
-Storm$hhExceeds      <- Storm$hhExceedPercent > 100
+Storm$acuteExceeds     <- Storm$acuteExceedPercent > 100
+Storm$chronicExceeds   <- Storm$chronicExceedPercent > 100
+Storm$hhExceeds        <- Storm$hhExceedPercent > 100
+Storm$cleanupExceeds   <- Storm$cleanupExceedPercent > 100
+Storm$screeningExceeds <- Storm$screeningExceedPercent > 100
 
 Crit_acute<-table(Storm$Parameter_string, Storm$acuteExceeds)
 Crit_chronic<-table(Storm$Parameter_string, Storm$chronicExceeds)
@@ -114,9 +130,13 @@ png.width   = 8.5 #inches
 png.height  = 11  #inches
 mar.default = c(5, 4, 4, 2) + 0.1
 
-for (type in c("acute", "chronic", "hh")) {
+# Just two colors - exceed and do not exceed
+palette(c("darkgray","#FEE090"))
+
+for (type in c("acute", "chronic", "hh", "cleanup", "screening")) {
 
   # Set values specific to each type
+  # Water
   if (type == "acute") {
     exceedCol <- "acuteExceeds"
     typeTitle <- "Acute"
@@ -126,6 +146,14 @@ for (type in c("acute", "chronic", "hh")) {
   } else if (type == "hh") {
     exceedCol <- "hhExceeds"
     typeTitle <- "Human Health"
+  
+  # Sediment
+  } else if (type == "cleanup") {
+    exceedCol <- "cleanupExceeds"
+    typeTitle <- "Sediment Cleanup"
+  } else if (type == "screening") {
+    exceedCol <- "screeningExceeds"
+    typeTitle <- "Sediment Screening"
   }
   
   # File output values.  Comment out next two lines for PDF output.
@@ -135,10 +163,10 @@ for (type in c("acute", "chronic", "hh")) {
       width  = png.width, 
       height = png.width,
       units  = "in",
-      res    = 1200
+      res    = 1000
   )
   
-  par(mar = mar.default + c(0, 12, 0, 3) )
+  par(mar = mar.default + c(0, 15, 0, 3) )
 
   # Values vs. criteria
   storm.current <- Storm[-which(is.na(Storm[, type])), ]
@@ -156,12 +184,12 @@ for (type in c("acute", "chronic", "hh")) {
   plot(storm.current$new_Result_Value, 
        storm.current$Parameter_string,
        pch  = -124,
-       cex  = 0.5,
-       col  = "darkgray",
+       cex  = 0.75,
        log  = "x",
        xlab = "Sampled Concentration (ug/L)",
        ylab = "",
        main = paste("Range of Concentrations with", typeTitle, "Criteria"),
+       col  = as.numeric(storm.current[, exceedCol])+1,
        yaxt = "n"
   )
 
@@ -196,7 +224,7 @@ for (type in c("acute", "chronic", "hh")) {
      #text(acuteMax, j, labels = c("|"))
      line <- c()
      line$x <- c(acuteMin, acuteMin, acuteMin, acuteMax, acuteMax, acuteMax)
-     line$y <- c(j - 0.5, j - 0.3, j - 0.4, j - 0.4, j - 0.3, j - 0.5)
+     line$y <- c(j - 0.4, j - 0.2, j - 0.3, j - 0.3, j - 0.2, j - 0.4)
      lines(x   = line,
            lwd = 2)
      
@@ -231,91 +259,3 @@ for (type in c("acute", "chronic", "hh")) {
   
   dev.off()
 }
-
-#dev.off()
-
-##### Similar plots to above, but as percent exceedence rather than actual values -------------------------
-pdf(paste(outputDirectory, "criteria_exceedence_plots.pdf", sep="/"), width=11, height=8.5)
-
-mar.default = c(5, 4, 4, 2) + 0.1
-
-# Loop through each type of exceedence
-for (type in c("acute", "chronic", "hh")) {
-  
-  colName <- paste(type, "ExceedPercent", sep="")
-  
-  par(mar = mar.default + c(0, 12, 0, 0))
-  
-  # Values vs. criteria
-  
-  storm.current <- Storm[-which(is.na(Storm[, type])), ]
-  storm.current$Parameter_string <- factor(storm.current$Parameter_string)
-  
-  ylimits <- c(1, length(levels(storm.current$Parameter_string)))
-  xlimits <- c(min(storm.current[, colName]), max(storm.current[, colName]))
-  
-  plot(storm.current[, colName], 
-       storm.current$Parameter_string,
-       pch  = -124,
-       cex  = 0.5,
-       col  = "darkgray",
-       log  = "x",
-       xlab = "Concentration as Percent of Criteria \n(vertical line = 100%)",
-       ylab = "",
-       main = paste("Percent Exceedance with", type, "criteria"),
-       yaxt = "n",
-       # Print out the background lines, text, etc. underneath the data
-       panel.first = {
-         j <- 1
-         for (param in levels(storm.current$Parameter_string)) {
-           
-           # Create background horizontal lines for each parameter
-           xMin <- min(storm.current[, colName])
-           xMax <- max(storm.current[, colName])
-           abline(h   = j,
-                  col = "lightgray",
-                  lty = 2
-           )
-           
-           # Add min and max labels at the ends of each data series
-           theMin <- min(storm.current[which(storm.current$Parameter_string == param), colName])
-           theMax <- max(storm.current[which(storm.current$Parameter_string == param), colName])
-           
-           text(theMin, j, labels = c(paste(formatC(theMin, format = "f", digits = 2, big.mark = ","), "%", sep = "")), pos = 3, offset = 0.5, cex = 0.85 )
-           text(theMax, j, labels = c(paste(formatC(theMax, format = "f", digits = 2, big.mark = ","), "%", sep = "")), pos = 3, offset = 0.5, cex = 0.85 )
-          
-           # Add a line at 100 (above which = exceedance of criteria)
-           abline(v = 100, col = "gray")
-           
-           j <- j + 1
-           
-         }
-       }
-  )
-  
-  labelList <- levels(storm.current$Parameter_string)
-  
-  axis(side   = 2, 
-       at     = 1:length(labelList), 
-       las    = 1,
-       labels = labelList
-  )
-  
-  
-  # Plot count of exceedences vs. total count of samples.
-  
-  colCountName <- paste(type, "Exceeds", sep="")
-  
-  # Table of exceedance counts.
-  exceedsTbl   <- table(storm.current[, colCountName], storm.current$Parameter_string)
-  
-  barplot(exceedsTbl, 
-          horiz = TRUE,
-          las   = 1,
-          xlab  = "Number of Samples",
-          main  = paste("Samples That Exceed", type, "Criteria")
-          )
-
-}
-
-dev.off()

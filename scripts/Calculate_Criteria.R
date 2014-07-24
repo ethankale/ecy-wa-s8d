@@ -26,9 +26,15 @@ criteria <- function(parameter, pH, hardness) {
   
   missingpH   <- paste("For parameter", parameter, "pH is required.")
   missingHard <- paste("For parameter", parameter, "hardness is required.")
-  criteriaList <- data.frame(acute = numeric(0), chronic = numeric(0), hh = numeric(0))
   
-  # New approach - parameter first, return all criteria
+  criteriaList <- data.frame(acute     = numeric(0), 
+                             chronic   = numeric(0), 
+                             hh        = numeric(0), 
+                             cleanup   = numeric(0), 
+                             screening = numeric(0)
+                             )
+  
+  ##### Water concentration criteria -----------------------
   
   if (parameter == "Acenaphthylene water  (ug/L)") {
     criteriaList[1,"hh"] <- 670
@@ -177,9 +183,66 @@ criteria <- function(parameter, pH, hardness) {
     criteriaList[1,"acute"]   <- 0.978 * exp((0.8473 * log(hardness)) + 0.8604)
     criteriaList[1,"chronic"] <- 0.986 * exp((0.8473 * log(hardness)) + 0.7614)
   
+  ##### Sediment concentration criteria -----------------------
+  
+  } else if (parameter == "Cadmium sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 2100
+    criteriaList[1,"screening"] <- 5400
+    
+  } else if (parameter == "Copper sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 400000
+    criteriaList[1,"screening"] <- 1200000
+    
+  } else if (parameter == "Lead sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 360000
+    criteriaList[1,"screening"] <- 1300000
+    
+  } else if (parameter == "Mercury sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 660
+    criteriaList[1,"screening"] <- 800
+    
+  } else if (parameter == "Zinc sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 3200000
+    criteriaList[1,"screening"] <- 4200000
+
+  } else if (parameter == "Bis(2-ethylhexyl) phthalate sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 500
+    criteriaList[1,"screening"] <- 22000
+    
+  } else if (parameter == "Bis(2-ethylhexyl) phthalate sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 500
+    criteriaList[1,"screening"] <- 22000
+    
+  } else if (parameter == "Di-N-Octyl Phthalate sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 39
+    criteriaList[1,"screening"] <- 1100
+    
+  } else if (parameter == "Pentachlorophenol sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 1200
+    criteriaList[1,"screening"] <- 1200
+    
+  } else if (parameter == "Phenol sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 120
+    criteriaList[1,"screening"] <- 210
+    
+  } else if (parameter == "Total PAH sediment  (ug/Kg)") {
+    
+    criteriaList[1,"cleanup"]   <- 17000
+    criteriaList[1,"screening"] <- 30000
+    
   } else {
     # Return a criteria set of all NA
-    criteriaList[1, ] <- c(NA, NA, NA)
+    criteriaList[1, ] <- c(NA, NA, NA, NA, NA)
     
   }
   
