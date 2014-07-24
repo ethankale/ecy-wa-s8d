@@ -151,10 +151,10 @@ for (type in c("acute", "chronic", "hh")) {
   exceeds   <- array()
   
   # Shift the data down slightly, so that the values show up below the horizontal line
-  storm.current$y <- as.numeric(storm.current$Parameter_string) - 0.15
+  #storm.current$y <- as.numeric(storm.current$Parameter_string) - 0.15
     
   plot(storm.current$new_Result_Value, 
-       storm.current$y,
+       storm.current$Parameter_string,
        pch  = -124,
        cex  = 0.5,
        col  = "darkgray",
@@ -195,8 +195,8 @@ for (type in c("acute", "chronic", "hh")) {
      #text(acuteMin, j, labels = c("|"))
      #text(acuteMax, j, labels = c("|"))
      line <- c()
-     line$x <- c(acuteMin, acuteMin, acuteMax, acuteMax)
-     line$y <- c(j - 0.3, j, j, j - 0.3)
+     line$x <- c(acuteMin, acuteMin, acuteMin, acuteMax, acuteMax, acuteMax)
+     line$y <- c(j - 0.5, j - 0.3, j - 0.4, j - 0.4, j - 0.3, j - 0.5)
      lines(x   = line,
            lwd = 2)
      
