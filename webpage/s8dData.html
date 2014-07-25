@@ -241,7 +241,7 @@ d3.csv("ms4-outfall-data-2013.csv", function(error, samples) {
         type.filterAll();
         
         // Update the title.
-        $(".chart h1").text("Average Concentrations for " + param);
+        $(".chart h1").text("Concentrations of " + param);
         
         x.domain(results.map(function(d) { return d.key; }));
         y.domain(minmax);
