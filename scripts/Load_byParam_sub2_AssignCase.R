@@ -7,26 +7,9 @@
 require(reshape)
 #require(devEMF)
 
-storm_load <- Storm[-which(Storm$paramClass=="Measurement"),]                ### remove all the flow data and conventional parameters
-storm_load <- storm_load[-which(storm_load$Sample_Matrix=="Sediment"),]      ### remove sediment samples
-storm_load <- storm_load[which(storm_load$new_Result_Units=="ug/L"),]        ### ensure all remaining samples are in appropriate units
-
-storm_load$sample.year<-as.numeric(format(storm_load$Field_Collection_End_Date,"%Y"))
-
-### calculate sample event loads -------------------------
-# Unit conversion note - sample and storm volumes are in m3.  Desired load units are Kg.
-#  All samples should be in ug/L.  Multiply ug/L by 1000 to get ug/m3.  Then divide
-#  the resulting load by 1e9 (1,000,000,000) to convert ug to Kg.
-
-storm_load$sample_loads <- storm_load$sample_event_flow_volume*(storm_load$new_Result_Value*1e-06)
-storm_load$storm_loads  <- storm_load$storm_event_flow_volume*(storm_load$new_Result_Value*1e-06)
-storm_load$load_units   <- "Kg"
-
-### Unit area loads -------------------------
-# Convert to kg per hectare; otherwise simple multiplication.
-storm_load$storm_area_loads  <- storm_load$storm_loads  / (storm_load$Acres * 2.47105)
-storm_load$sample_area_loads <- storm_load$sample_loads / (storm_load$Acres * 2.47105)
-storm_load$area_load_units   <- "Kg/hectare"
+# Remove unnecessary data, calculate loads, perform unit conversions
+source(paste(scriptDirectory, "loadCalculate.R", sep="/"))
+storm_load <- loadCalc(Storm)
 
 # Update Parameter_string to remove load units (which should now be identical for all parameters)
 storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))

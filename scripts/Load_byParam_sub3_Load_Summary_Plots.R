@@ -1,37 +1,19 @@
+
 ####Script for creating plot output to summarize contaminant loads by mass and area###
 
 ###IMPORTANT###
-###SHOULD BE RUN AFTER LINES 10-32 IN Load_byParam_sub2_AssignCase.r######
+# Presumes that Plot_byParam_ver9_Apr2014.r and Load_byParam_sub1_lookup.R
+#  have already been run in the same workspace.
 
-require(NADA)
+# Contains a variety of helper functions
+source(paste(scriptDirectory, "loadCalculate.R", sep="/"))
 
-##### Here through line 34 replicated from LoadL_byParam_sub2_AssignCase.R.
 
-storm_load <- Storm[-which(Storm$paramClass=="Measurement"),]                ### remove all the flow data and conventional parameters
-storm_load <- storm_load[-which(storm_load$Sample_Matrix=="Sediment"),]      ### remove sediment samples
-storm_load <- storm_load[which(storm_load$new_Result_Units=="ug/L"),]        ### ensure all remaining samples are in appropriate units
 
-storm_load$sample.year<-as.numeric(format(storm_load$Field_Collection_End_Date,"%Y"))
+##### Data cleaning & analysis -------------------------
 
-### calculate sample event loads -------------------------
-# Unit conversion note - sample and storm volumes are in m3.  Desired load units are Kg.
-#  All samples should be in ug/L.  Multiply ug/L by 1000 to get ug/m3.  Then divide
-#  the resulting load by 1e9 (1,000,000,000) to convert ug to Kg.
-
-storm_load$sample_loads <- storm_load$sample_event_flow_volume*(storm_load$new_Result_Value*1e-06)
-storm_load$storm_loads  <- storm_load$storm_event_flow_volume*(storm_load$new_Result_Value*1e-06)
-storm_load$load_units   <- "Kg"
-
-### Unit area loads -------------------------
-# Convert to kg per hectare; otherwise simple multiplication.
-storm_load$storm_area_loads  <- storm_load$storm_loads  / (storm_load$Acres * 2.47105)
-storm_load$sample_area_loads <- storm_load$sample_loads / (storm_load$Acres * 2.47105)
-storm_load$area_load_units   <- "Kg/hectare"
-
-# Update Parameter_string to remove load units (which should now be identical for all parameters)
-storm_load$Parameter_string <- sub("\\s+$", "", paste(storm_load$Parameter, tolower(storm_load$new_Fraction_Analyzed), sep=" "))
-
-##### New stuff. -------------------------
+# Remove unnecessary data, calculate loads, perform unit conversions
+storm_load <- loadCalc(Storm)
 
 ParamList <- as.vector(sort(unique(storm_load$Parameter_string)))
 
@@ -39,21 +21,19 @@ ParamList <- as.vector(sort(unique(storm_load$Parameter_string)))
 storm_load <- storm_load[-which(is.na(storm_load$sample_loads) | is.na(storm_load$storm_loads)), ]
 
 # create the data summaries for the mass loads
-source(paste(scriptDirectory, "Load_byParam_sub4a_Mass_Load_Summary.r", sep="/"))
-Storm_mass_loads<-Case.list.mass
+Storm_mass_loads <- massLoadSummary(storm_load, ParamList)
 
 # create the data summaries for the aerial loads
-source(paste(scriptDirectory, "Load_byParam_sub4b_Aerial_Load_Summary.r", sep="/"))
-Storm_area_loads<-Case.list.area
+#source(paste(scriptDirectory, "Load_byParam_sub4b_Aerial_Load_Summary.r", sep="/"))
+Storm_area_loads <- arealLoadSummary(storm_load, ParamList)
 
-###Produce summary plots
+##### Produce summary plots -------------------------
 
-pdf(file = paste(outputDirectory,"Plots of Load Summaries.pdf",sep="/"),
+pdf(file = paste(outputDirectory, "Plots of Load Summaries.pdf", sep="/"),
     height = 8.5,
     width = 11)
 
-par(mgp=c(2.8,0.5,0),
-    bg = "white")
+par(mgp=c(2.8,0.5,0))
 
 # Set up the display with three plots on top, two on bottom
 
@@ -80,14 +60,18 @@ for (i in 1:length(ParamList)) {
     #Produce boxplots of the aerial loads by land use
     source( paste(scriptDirectory, "Load_byParam_sub5b_Aerial_Boxplot_LandUse.r", sep="/"))
     
-    ylimits <-  c(min(ParamData$storm_area_loads)/2, max(ParamData$storm_area_loads)*2)
+    #ylimits <-  c(min(ParamData$storm_area_loads)/2, max(ParamData$storm_area_loads)*2)
     
     # Produce boxplots of the aerial loads by Wet season
+    source( paste(scriptDirectory, "Load_byParam_sub6_Boxplot_Season.r", sep="/"))
     
     # Produce ECDFs for aerial loads
+    source( paste(scriptDirectory, "Load_byParam_sub7_ECDF_Landuse.R", sep="/"))
     
     # Produce jitter plots of aerial loads vs. binned % impervious surface
+    source( paste(scriptDirectory, "Load_byParam_sub4b_Aerial_Load_Summary.R", sep="/"))
     
+    print(ParamList[i])
     
 }
 
