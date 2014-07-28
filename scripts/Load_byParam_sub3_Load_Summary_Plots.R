@@ -66,6 +66,7 @@ for (i in 1:length(ParamList)) {
     source( paste(scriptDirectory, "Load_byParam_sub6_Boxplot_Season.r", sep="/"))
     
     # Produce ECDFs for aerial loads
+    # There is an error here that is wiping ParamData, ParamList, and killing the whole script.
     source( paste(scriptDirectory, "Load_byParam_sub7_ECDF_Landuse.R", sep="/"))
     
     # Produce jitter plots of aerial loads vs. binned % impervious surface

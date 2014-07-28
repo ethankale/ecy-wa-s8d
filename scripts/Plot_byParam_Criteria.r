@@ -73,6 +73,14 @@ hhList        <- c()
 cleanupList   <- c()
 screeningList <- c()
 
+# Names of new columns to add to Storm w/ associated criteria types
+criteriaColumnNames <- data.frame(exceedPercent = c("acuteExceedPercent", "chronicExceedPercent", "hhExceedPercent", 
+                                                    "cleanupExceedPercent", "screeningExceedPercent"),
+                                  exceeds       = c("acuteExceeds", "chronicExceeds", "hhExceeds", 
+                                                    "cleanupExceeds", "screeningExceeds"),
+                                  row.names     = c("acute", "chronic", "hh", "cleanup", "screening"),
+                                  stringsAsFactors=FALSE)
+
 paramList    <- Storm$Parameter_string
 pHList       <- Storm$pH
 hardnessList <- Storm$hardness
@@ -104,22 +112,26 @@ Storm$hh        <- hhList
 Storm$cleanup   <- cleanupList
 Storm$screening <- screeningList
 
-Storm$acuteExceedPercent     <- (Storm$new_Result_Value / Storm$acute)     * 100
-Storm$chronicExceedPercent   <- (Storm$new_Result_Value / Storm$chronic)   * 100
-Storm$hhExceedPercent        <- (Storm$new_Result_Value / Storm$hh)        * 100
-Storm$cleanupExceedPercent   <- (Storm$new_Result_Value / Storm$cleanup)   * 100
-Storm$screeningExceedPercent <- (Storm$new_Result_Value / Storm$screening) * 100
+# Calculate the exceedence % and
+#  the does/does not exceed columns.
+for (criterion in rownames(criteriaColumnNames)) {
+  
+  percentColumnName <- criteriaColumnNames[criterion, "exceedPercent"]
+  exceedsColumnName <- criteriaColumnNames[criterion, "exceeds"]
+  
+  Storm[, percentColumnName] <- ((Storm$new_Result_Value / Storm[criterion]) * 100)
+  Storm[, exceedsColumnName] <- (Storm[percentColumnName] > 100) && !Storm$nondetect_Flag
+        
+}
 
-Storm$acuteExceeds     <- Storm$acuteExceedPercent > 100
-Storm$chronicExceeds   <- Storm$chronicExceedPercent > 100
-Storm$hhExceeds        <- Storm$hhExceedPercent > 100
-Storm$cleanupExceeds   <- Storm$cleanupExceedPercent > 100
-Storm$screeningExceeds <- Storm$screeningExceedPercent > 100
+Crit_acute     <- table(Storm$Parameter_string, Storm$acuteExceeds)
+Crit_chronic   <- table(Storm$Parameter_string, Storm$chronicExceeds)
+Crit_hh        <- table(Storm$Parameter_string, Storm$hhExceeds)
+Crit_cleanup   <- table(Storm$Parameter_string, Storm$cleanupExceeds)
+Crit_screening <- table(Storm$Parameter_string, Storm$screeningExceeds)
 
-Crit_acute<-table(Storm$Parameter_string, Storm$acuteExceeds)
-Crit_chronic<-table(Storm$Parameter_string, Storm$chronicExceeds)
-Crit_hh<-table(Storm$Parameter_string, Storm$hhExceeds)
-Crit_exceed<-data.frame(Crit_acute,Crit_chronic,Crit_hh)
+Crit_exceed  <- data.frame(Crit_acute,Crit_chronic,Crit_hh)
+
 write.csv(Crit_exceed,paste(outputDirectory, "Criteria_exceedance.csv", sep="/"))
 
 ##### Plot out criteria by parameter (per Will Hobbs suggestion) -------------------------
