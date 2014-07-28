@@ -74,21 +74,36 @@ cleanupList   <- c()
 screeningList <- c()
 
 # Names of new columns to add to Storm w/ associated criteria types
-criteriaColumnNames <- data.frame(exceedPercent = c("acuteExceedPercent", "chronicExceedPercent", "hhExceedPercent", 
-                                                    "cleanupExceedPercent", "screeningExceedPercent"),
-                                  exceeds       = c("acuteExceeds", "chronicExceeds", "hhExceeds", 
-                                                    "cleanupExceeds", "screeningExceeds"),
-                                  row.names     = c("acute", "chronic", "hh", "cleanup", "screening"),
+criteriaColumnNames <- data.frame(exceedPercent = c("acuteExceedPercent", 
+                                                    "chronicExceedPercent", 
+                                                    "hhExceedPercent", 
+                                                    "cleanupExceedPercent", 
+                                                    "screeningExceedPercent"
+                                                    ),
+                                  
+                                  exceeds       = c("acuteExceeds", 
+                                                    "chronicExceeds", 
+                                                    "hhExceeds", 
+                                                    "cleanupExceeds", 
+                                                    "screeningExceeds"
+                                                    ),
+                                  
+                                  row.names     = c("acute", 
+                                                    "chronic", 
+                                                    "hh", 
+                                                    "cleanup", 
+                                                    "screening"
+                                                    ),
+                                  
                                   stringsAsFactors=FALSE)
 
 paramList    <- Storm$Parameter_string
 pHList       <- Storm$pH
 hardnessList <- Storm$hardness
 
-# Need to update this so that for results where the concentration is at the 
-#  detection limit (nondetect flag is True) and new_Result_Value > criteria, 
-#  that should not be an exceedence (should be NA).  On the other hand, if the
-#  criterion exceeds the detection level, leave the result in as a non-exceedence.
+# Calculate all five water quality and sediment criteria for each measurement.
+
+#calculatedCriteria <- apply(X = head(Storm), MARGIN = "Parameter_string", FUN = criteria, pH = Storm$pH, hardness = Storm$hardness )
 
 for (j in 1:nrow(Storm)) {
   
@@ -120,7 +135,7 @@ for (criterion in rownames(criteriaColumnNames)) {
   exceedsColumnName <- criteriaColumnNames[criterion, "exceeds"]
   
   Storm[, percentColumnName] <- ((Storm$new_Result_Value / Storm[criterion]) * 100)
-  Storm[, exceedsColumnName] <- (Storm[percentColumnName] > 100) && !Storm$nondetect_Flag
+  Storm[, exceedsColumnName] <- (Storm[, percentColumnName] > 100) & !Storm$nonDetect_Flag
         
 }
 
@@ -142,8 +157,8 @@ png.width   = 8.5 #inches
 png.height  = 11  #inches
 mar.default = c(5, 4, 4, 2) + 0.1
 
-# Just two colors - exceed and do not exceed
-palette(c("darkgray","#FEE090"))
+# Just two colors - do not exceed and exceed
+palette(c("darkgray","#FF3300"))
 
 for (type in c("acute", "chronic", "hh", "cleanup", "screening")) {
 
