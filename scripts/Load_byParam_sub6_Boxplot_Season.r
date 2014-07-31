@@ -5,22 +5,26 @@ xlimits <- c(0.5,4.5)
 
 BoxData <- ParamData
 
+# count detects by season
 DetCount_Winter <- sum(BoxData[which(BoxData$Season == 1),]$nonDetect_Flag == FALSE)
 DetCount_Spring <- sum(BoxData[which(BoxData$Season == 2),]$nonDetect_Flag == FALSE)
 DetCount_Summer <- sum(BoxData[which(BoxData$Season == 3),]$nonDetect_Flag == FALSE)
 DetCount_Fall <- sum(BoxData[which(BoxData$Season == 4),]$nonDetect_Flag == FALSE)
 
+# Create data frames for each season
 Data_Winter <- BoxData[which(BoxData$Season == 1),] 
 Data_Spring <- BoxData[which(BoxData$Season == 2),]
 Data_Summer <- BoxData[which(BoxData$Season == 3),]
 Data_Fall <- BoxData[which(BoxData$Season == 4),]
 
+# Create data frames with seasonal data that only includes nondetects
 ND_Winter <- Data_Winter[which(Data_Winter$nonDetect_Flag == TRUE),]
 ND_Spring <- Data_Spring[which(Data_Spring$nonDetect_Flag == TRUE),]
 ND_Summer <- Data_Summer[which(Data_Summer$nonDetect_Flag == TRUE),]
 ND_Fall <- Data_Fall[which(Data_Fall$nonDetect_Flag == TRUE),]
 
 
+# Remove data if, in any given season, there are fewer than 5 detects
 if (DetCount_Winter < 5 && any(BoxData$Season == 1)) {
     BoxData <- BoxData[-which(BoxData$Season == 1),]
 }
@@ -34,16 +38,28 @@ if (DetCount_Fall < 5 && any(BoxData$Season == 4)) {
     BoxData <- BoxData[-which(BoxData$Season == 4),]
 }
 
+# Create a data frame of all non-detect data (across all seasons)
 nonDetects <- BoxData[which(BoxData$nonDetect_Flag == TRUE),]
 colorList <- c("blue", "blue", "blue", "blue")
 
+# Only create a plot if at least one season has 5 or more detections
 if (nrow(BoxData) == 0 ) {
   plot(x=c(1:10), y=c(1:10), type="n", xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
   text(x=5,y=5,"Not Plotted\n(No season has 5 or more detections)")
 
 } else if (nrow(nonDetects) > 0 ) {
-  boxplot( new_Result_Value ~ Season, data= BoxData, xaxt="n", border=colorList, 
-           log="y", xlim=xlimits, ylim=ylimits, las=2, cex.axis=0.8, xaxs="i", yaxs="i", main="")
+  boxplot( new_Result_Value ~ Season, 
+           data   = BoxData, 
+           xaxt   = "n", 
+           border = colorList, 
+           log    = "y", 
+           xlim   = xlimits, 
+           ylim   = ylimits, 
+           las    = 2, 
+           cex.axis = 0.8, 
+           xaxs  = "i", 
+           yaxs  = "i", 
+           main  = "")
 
   if (nrow(ND_Winter) > 0 ) {
     max_nonDetect <- max(ND_Winter$new_Result_Value)
@@ -67,9 +83,20 @@ if (nrow(BoxData) == 0 ) {
   }
 
   par(new=TRUE)
-  boxplot( new_Result_Value ~ Season, data= BoxData, xaxt="n", border=colorList, 
-      lty="dashed", log="y", xlim=xlimits, ylim=ylimits, ylab=ParamList[i], las=2, cex.axis=0.8, xaxs="i", yaxs="i", 
-      main="\nBoxplot\nby Season")
+  boxplot( new_Result_Value ~ Season, 
+           data= BoxData, 
+           xaxt="n", 
+           border=colorList, 
+           lty="dashed", 
+           log="y", 
+           xlim=xlimits, 
+           ylim=ylimits, 
+           ylab=ParameterList[i], 
+           las=2, 
+           cex.axis=0.8, 
+           xaxs="i", 
+           yaxs="i", 
+           main="\nBoxplot\nby Season")
 
   if (nrow(ND_Winter) > 0 ) {
     max_nonDetect <- max(ND_Winter$new_Result_Value)
@@ -98,9 +125,21 @@ if (nrow(BoxData) == 0 ) {
 
 
 } else {
-  boxplot( new_Result_Value ~ Season, data= BoxData, xaxt="n", border=colorList, 
-       log="y", xlim=xlimits, ylim=ylimits, ylab=ParamList[i], las=2, cex.axis=0.8, xaxs="i", yaxs="i", 
-       main="\nBoxplot\nby Season", cex.axis=0.8)
+  boxplot( new_Result_Value ~ Season, 
+           data= BoxData, 
+           xaxt="n", 
+           border=colorList, 
+           log="y", 
+           xlim=xlimits, 
+           ylim=ylimits, 
+           ylab=ParameterList[i], 
+           las=2, 
+           cex.axis=0.8, 
+           xaxs="i", 
+           yaxs="i", 
+           main="\nBoxplot\nby Season",
+           cex.axis=0.8
+        )
 }
 
 ### Axis labels and legend:
@@ -134,5 +173,4 @@ if (nrow(BoxData) > 0 ) {
             lty=c("dashed", "solid", NA), border=rep(NA,3),
             col=c("red", "red", NA), fill=c(NA, NA, NA), xpd=NA, cex=0.8, bty="o", bg="white")
   rect(xleft=3.7, xright=4.05, ybottom=10^(ymax + 0.02*(ymax-ymin)), ytop=10^(ymax + 0.07*(ymax-ymin)), col="gray93", border=NA, xpd=NA)
-
 }

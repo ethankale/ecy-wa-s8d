@@ -32,6 +32,9 @@ loadCalc <- function(Storm) {
   storm_load$sample_area_loads <- storm_load$sample_loads / (storm_load$Acres * 2.47105)
   storm_load$area_load_units   <- "Kg/hectare"
   
+  ### Update fields that need updating -------------------------
+  storm_load <- droplevels(storm_load)
+  
   return(storm_load)
 }
 

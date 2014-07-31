@@ -44,35 +44,38 @@ par(mgp=c(2.8,0.5,0))
 #split.screen(c(1,3), 1)
 #split.screen(c(1,2), 2)
 
-layout(matrix(c(1,2,3,4,5,5), nrow = 2, ncol = 3, byrow = TRUE))
+layout(matrix(c(1,2,3,4,4,5), nrow = 2, ncol = 3, byrow = TRUE))
+
+# The original list of parameter strings differs from the list
+#  of parameter strings available in storm_load
+ParameterList <- as.vector(sort(unique(storm_load$Parameter_string)))
 
 #i<-20
 
-for (i in 1:length(ParamList)) {
+for (i in 1:length(ParameterList)) {
   # VERY IMPORTANT - the value of "i" refers to the parameter being plotted throughout
   #  this loop.  DO NOT set the value of "i" within any of the subscripts.
   
-    ParamData <- storm_load[which(storm_load$Parameter_string == ParamList[i]), ]
-      
+    ParamData <- storm_load[which(storm_load$Parameter_string == ParameterList[i]), ]
+    ylimits <-  c(min(ParamData$sample_area_loads)/2, max(ParamData$sample_area_loads)*2)
+
     # Produce boxplots of the mass loads by land use
     source( paste(scriptDirectory, "Load_byParam_sub5a_Mass_Boxplot_LandUse.r", sep="/"))
     
     #Produce boxplots of the aerial loads by land use
     source( paste(scriptDirectory, "Load_byParam_sub5b_Aerial_Boxplot_LandUse.r", sep="/"))
     
-    #ylimits <-  c(min(ParamData$storm_area_loads)/2, max(ParamData$storm_area_loads)*2)
-    
     # Produce boxplots of the aerial loads by Wet season
+    ylimits <-  c(min(ParamData$storm_area_loads)/2, max(ParamData$storm_area_loads)*2)
     source( paste(scriptDirectory, "Load_byParam_sub6_Boxplot_Season.r", sep="/"))
     
     # Produce ECDFs for aerial loads
-    # There is an error here that is wiping ParamData, ParamList, and killing the whole script.
     source( paste(scriptDirectory, "Load_byParam_sub7_ECDF_Landuse.R", sep="/"))
     
-    # Produce jitter plots of aerial loads vs. binned % impervious surface
-    source( paste(scriptDirectory, "Load_byParam_sub4b_Aerial_Load_Summary.R", sep="/"))
+    # Produce jitter plots of areal loads vs. binned % impervious surface
+    plot(ParamData$TIAPercent, ParamData$sample_area_loads)
     
-    print(ParamList[i])
+    print(ParameterList[i])
     
 }
 

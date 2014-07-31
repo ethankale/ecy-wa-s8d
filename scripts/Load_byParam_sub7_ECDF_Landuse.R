@@ -2,19 +2,14 @@
 ###cumulative distribution functions for each land use to visualize significant difference in loads
 
 ##### Plot K-M Curves: ###############################################################################################
-storm_load <- storm_load[-which(is.na(storm_load$sample_area_loads) | is.na(storm_load$storm_area_loads)), ]          
-ParamList <- as.vector(sort(unique(storm_load$Parameter_string)))
+#storm_load <- storm_load[-which(is.na(storm_load$sample_area_loads) | is.na(storm_load$storm_area_loads)), ]          
+#ParamList <- as.vector(sort(unique(storm_load$Parameter_string)))
 
-#i <- 2
+#j <- 2
 
-for (i in 1:length(ParamList)) {
   
-  ParamData  <- storm_load[which(storm_load$Parameter_string == ParamList[i]), ]
-  ParamData<-ParamData[!is.na(ParamData$sample_area_loads),]
-  ylimits <-  c(min(ParamData$sample_area_loads)/2, max(ParamData$sample_area_loads)*2)
-  
-  K_M <- cenfit(obs=ParamData$sample_area_loads, censored=ParamData$nonDetect_Flag, groups=ParamData$Type)
-  KM_data <- summary(K_M)
+K_M <- cenfit(obs=ParamData$sample_area_loads, censored=ParamData$nonDetect_Flag, groups=ParamData$Type)
+KM_data <- summary(K_M)
 
 for (iUse in c(1:length(KM_data))) {
   if (iUse == 1) {
@@ -25,15 +20,17 @@ for (iUse in c(1:length(KM_data))) {
     plot_data_new <- cbind( KM_data[[iUse]], LandUse)
     plot_data <- rbind(plot_data_old, plot_data_new)
     plot_data_old <- plot_data
-  }}
+  }
+}
 
+# May need to move this earlier; cenfit() seems to choke if there are no data whatsoever.
 if (ncol(plot_data) > 3) {
   plot(x=1:10, y=1:10, 
        xlim = c(0,1), 
        ylim = ylimits, 
        type = "n", 
        xlab = "", 
-       ylab = ParamList[i], 
+       ylab = ParameterList[i], 
        log  = "y", 
        xaxs = "i", 
        yaxs = "i", 
@@ -62,14 +59,14 @@ if (ncol(plot_data) > 3) {
   )
   
   # Plot each land use line individually
-  for (j in 1:nrow(landuseLines)) {
+  for (k in 1:nrow(landuseLines)) {
     
-    data <- which(as.character(plot_data$LandUse) == as.character(landuseLines[j,1]))
+    data <- which(as.character(plot_data$LandUse) == as.character(landuseLines[k,1]))
     lines(x = plot_data[data, "prob"],
           y = plot_data[data, "obs"],
           type = "s",
-          lty  = as.character(landuseLines$lty[j]),
-          col  = as.character(landuseLines$col[j]),
+          lty  = as.character(landuseLines$lty[k]),
+          col  = as.character(landuseLines$col[k]),
           lwd  = 1
     )
   }
@@ -102,25 +99,5 @@ if (ncol(plot_data) > 3) {
   )
   
   text(x = 5, y=5, "Not Plotted\n(Too few detects)")
-  
-  }
-}  #end for i
-
-dev.off()
-
-######Seasonal boxplots#######
-storm_load$WetSeason[which(storm_load$WetSeason=="TRUE")]<-"wet"
-storm_load$WetSeason[which(storm_load$WetSeason=="FALSE")]<-"dry"
-ParamList <- as.vector(sort(unique(storm_load$Parameter_string)))
-
-pdf(paste(outputDirectory,"Load seasonal boxplots.pdf",sep="/"))
-#i<-61
-for (i in 1:length(ParamList)) {
-  
-  ParamData  <- storm_load[which(storm_load$Parameter_string == ParamList[i]), ]
-  ParamData<-ParamData[!is.na(ParamData$sample_area_loads),]
-  
-cenboxplot(ParamData$sample_area_loads, ParamData$nonDetect_Flag,ParamData$WetSeason,boxwex=0.5,ylab=ParamList[i])
-
 }
-dev.off()
+
