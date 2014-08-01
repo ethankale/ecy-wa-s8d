@@ -46,7 +46,8 @@ if (nrow(BoxData) == 0 ) {
   boxplot( sample_area_loads ~ Type, 
            data   = BoxData, 
            xaxt   = "n", 
-           border = colorList, 
+           border = colorList,
+           col    = rgb(1,1,1, alpha = 0),
            log    = "y", 
            xlim   = xlimits, 
            ylim   = ylimits, 
@@ -72,26 +73,27 @@ if (nrow(BoxData) == 0 ) {
 
   par(new=TRUE)
   
-  # Now plot over the previous boxplot.  Not sure why.
+  # Now plot over the background rectangles.
   boxplot(sample_area_loads ~ Type, 
            data  = BoxData, 
            xaxt  = "n", 
-           border= colorList, 
+           border= colorList,
+           col    = rgb(1,1,1, alpha = 0),
            lty   = "dashed", 
            log   = "y", 
            xlim  = xlimits, 
            ylim  = ylimits, 
-           ylab  = ParameterList[i], 
+           ylab  = "Kg/Ha", 
            las   = 2, 
            cex.axis=0.8, 
            xaxs  = "i", 
            yaxs  = "i", 
-           main  = "\nBoxplot of Area Loads\nby Land Use (kg/ha)"
+           main  = "\nArea Loads\nby Land Use (kg/ha)"
   )
 
   # Plot the non-detect limits
   for (k in 1:length(ndMin)) {
-    if (ndMin[k] <= -1) {
+    if (ndMin[k] > 0) {
       
       # Minimum limit
       lines(x   = c(-0.5+k, 0.5+k), 
@@ -119,7 +121,7 @@ if (nrow(BoxData) == 0 ) {
            log  = "y", 
            xlim = xlimits, 
            ylim = ylimits, 
-           ylab = ParameterList[i], 
+           ylab = "Kg/Ha", 
            las  = 2, 
            cex.axis=0.8, 
            xaxs = "i", 
@@ -143,21 +145,30 @@ if (nrow(BoxData) > 0 ) {
   axis(side=1, at=c(1:4), labels=rep("",4))
   mtext(side=1, line=3.5, at=c(1:4), text=axislabels, adj=0.5, padj=0, cex=0.6)
 
+  # Legend below plot, for all three boxplots in Load_byParam_sub3_Load_Summary_Plots.R
+
   ymax <- par("usr")[4]
   ymin <- par("usr")[3]
-  ymin_legend <- 10^(ymax + 0.01*(ymax-ymin))
-  ymax_legend <- 10^(ymax + 0.18*(ymax-ymin))
-
-  legend(x   = c(3.5,5), 
-         y   = c(ymin_legend, ymax_legend), legend=c("max-ND", "min-ND", "ND Region"),
+  
+  ymin_legend <- 10^(ymin - 0.3*(ymax-ymin))
+  ymax_legend <- 10^(ymin - 0.5*(ymax-ymin))
+  
+  par(xpd = TRUE)
+  
+  legend(x   = c(1, 4), 
+         y   = c(ymin_legend, ymax_legend), 
+         legend=c("Max", "Min", "Region"),
          lty = c("dashed", "solid", NA),
          border = rep(NA,3),
-         col = c("red", "red", NA), 
-         fill= c(NA, NA, NA), 
+         col = c("red", "red", "NA"), 
+         fill= c(NA, NA, "gray93"), 
          xpd = NA, 
          cex = 0.8, 
-         bty = "o", 
-         bg = "white"
+         bty = "n", 
+         bg  = "white",
+         title = "Non-Detect",
+         horiz = TRUE
   )
-  rect(xleft=3.7, xright=4.05, ybottom=10^(ymax + 0.02*(ymax-ymin)), ytop=10^(ymax + 0.07*(ymax-ymin)), col="gray93", border=NA, xpd=NA)
+  par(xpd = FALSE)
+
 }

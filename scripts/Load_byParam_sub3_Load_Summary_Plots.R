@@ -33,47 +33,60 @@ pdf(file = paste(outputDirectory, "Plots of Load Summaries.pdf", sep="/"),
     height = 8.5,
     width = 11)
 
-par(mgp=c(2.8,0.5,0))
+par(mgp = c(2.8,0.5,0))
+
+mar.default = c(5, 4, 4, 2) + 0.1
 
 # Set up the display with three plots on top, two on bottom
 
-# Would like to do this, but can't figure out how to do
-#  multiple page PDFs using split.screen.  C'mon, Google.
-
-#split.screen(c(2,1))
-#split.screen(c(1,3), 1)
-#split.screen(c(1,2), 2)
-
-layout(matrix(c(1,2,3,4,4,5), nrow = 2, ncol = 3, byrow = TRUE))
+layout(matrix(c(1,1,2,2,3,3,
+                4,4,4,5,5,5), 
+              nrow = 2, 
+              ncol = 6, 
+              byrow = TRUE))
 
 # The original list of parameter strings differs from the list
 #  of parameter strings available in storm_load
 ParameterList <- as.vector(sort(unique(storm_load$Parameter_string)))
 
 #i<-20
+#for (i in c(1, 2, 22, 55)) {
 
 for (i in 1:length(ParameterList)) {
   # VERY IMPORTANT - the value of "i" refers to the parameter being plotted throughout
   #  this loop.  DO NOT set the value of "i" within any of the subscripts.
   
     ParamData <- storm_load[which(storm_load$Parameter_string == ParameterList[i]), ]
-    ylimits <-  c(min(ParamData$sample_area_loads)/2, max(ParamData$sample_area_loads)*2)
-
+    ylimits   <- c(min(ParamData$sample_area_loads)/2, max(ParamData$sample_area_loads)*2)
+    paramName <- sub(" (ug/L)", "", ParameterList[i], fixed=TRUE)
+    
+    # Row 1
+    par(mar = mar.default + c(2,0,4,0))
+    
     # Produce boxplots of the mass loads by land use
     source( paste(scriptDirectory, "Load_byParam_sub5a_Mass_Boxplot_LandUse.r", sep="/"))
     
-    #Produce boxplots of the aerial loads by land use
+    #Produce boxplots of the aerial loads by land use; also include the legend for top three plots
     source( paste(scriptDirectory, "Load_byParam_sub5b_Aerial_Boxplot_LandUse.r", sep="/"))
     
     # Produce boxplots of the aerial loads by Wet season
-    ylimits <-  c(min(ParamData$storm_area_loads)/2, max(ParamData$storm_area_loads)*2)
     source( paste(scriptDirectory, "Load_byParam_sub6_Boxplot_Season.r", sep="/"))
+    
+    
+    # Row 2
+    par(mar = mar.default)
     
     # Produce ECDFs for aerial loads
     source( paste(scriptDirectory, "Load_byParam_sub7_ECDF_Landuse.R", sep="/"))
     
     # Produce jitter plots of areal loads vs. binned % impervious surface
-    plot(ParamData$TIAPercent, ParamData$sample_area_loads)
+    source( paste(scriptDirectory, "Load_byParam_sub8_Jitter_TIA.R", sep="/"))
+    
+    # Title
+    title(paramName, 
+          outer = TRUE, 
+          line  = -2,
+          cex.main   = 1.75)
     
     print(ParameterList[i])
     

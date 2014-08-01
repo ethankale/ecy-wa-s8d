@@ -8,7 +8,7 @@
   plot(x=c(1:10), y=c(1:10), 
        xlim = xlimits, 
        ylim = ylimits, 
-       ylab = ParamList[i], 
+       ylab = "Kg/Ha", 
        type = "n", 
        xaxt = "n", 
        xlab = "", 

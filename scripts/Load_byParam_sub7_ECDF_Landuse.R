@@ -30,7 +30,7 @@ if (ncol(plot_data) > 3) {
        ylim = ylimits, 
        type = "n", 
        xlab = "", 
-       ylab = ParameterList[i], 
+       ylab = "Kg/Ha", 
        log  = "y", 
        xaxs = "i", 
        yaxs = "i", 
@@ -72,13 +72,8 @@ if (ncol(plot_data) > 3) {
   }
   
   # Labels & legend
-  ymax <- par("usr")[4]
-  ymin <- par("usr")[3]
-  ymin_legend <- 10^(ymax + 0.01*(ymax-ymin))
-  ymax_legend <- 10^(ymax + 0.225*(ymax-ymin))
   
-  legend(x = c(0.8,1.1), 
-         y = c(ymin_legend, ymax_legend), 
+  legend(x = "topleft",
          legend = c("Ind", "Com", "HRes", "LRes"),
          lty = c("dashed", "solid", "dotdash", "dotted"), 
          col = c("orange", "black", "blue", "deeppink"), 

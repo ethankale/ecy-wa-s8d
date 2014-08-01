@@ -72,26 +72,28 @@ if (nrow(BoxData) == 0 ) {
 
   par(new=TRUE)
   
-  # Now plot over the previous boxplot.  Not sure why.
+  # Now plot over the previous boxplot, so it shows in front of the grey rectangles.  
+  
   boxplot(sample_loads ~ Type, 
            data  = BoxData, 
            xaxt  = "n", 
-           border= colorList, 
+           border= colorList,
+           col   = rgb(1,1,1, alpha = 0),
            lty   = "dashed", 
            log   = "y", 
            xlim  = xlimits, 
            ylim  = ylimits, 
-           ylab  = ParamList[i], 
+           ylab  = "Kilograms", 
            las   = 2, 
            cex.axis=0.8, 
            xaxs  = "i", 
            yaxs  = "i", 
-           main  = "\nBoxplot of Mass Loads\nby Land Use (kg)"
+           main  = "\nMass Loads\nby Land Use (kg)"
   )
 
   # Plot the non-detect limits
   for (k in 1:length(ndMin)) {
-    if (ndMin[k] <= -1) {
+    if (ndMin[k] > 0) {
       
       # Minimum limit
       lines(x   = c(-0.5+k, 0.5+k), 
@@ -119,7 +121,7 @@ if (nrow(BoxData) == 0 ) {
            log  = "y", 
            xlim = xlimits, 
            ylim = ylimits, 
-           ylab = ParamList[i], 
+           ylab = "Kilograms", 
            las  = 2, 
            cex.axis=0.8, 
            xaxs = "i", 
@@ -143,21 +145,4 @@ if (nrow(BoxData) > 0 ) {
   axis(side=1, at=c(1:4), labels=rep("",4))
   mtext(side=1, line=3.5, at=c(1:4), text=axislabels, adj=0.5, padj=0, cex=0.6)
 
-  ymax <- par("usr")[4]
-  ymin <- par("usr")[3]
-  ymin_legend <- 10^(ymax + 0.01*(ymax-ymin))
-  ymax_legend <- 10^(ymax + 0.18*(ymax-ymin))
-
-  legend(x   = c(3.5,5), 
-         y   = c(ymin_legend, ymax_legend), legend=c("max-ND", "min-ND", "ND Region"),
-         lty = c("dashed", "solid", NA),
-         border = rep(NA,3),
-         col = c("red", "red", NA), 
-         fill= c(NA, NA, NA), 
-         xpd = NA, 
-         cex = 0.8, 
-         bty = "o", 
-         bg = "white"
-  )
-  rect(xleft=3.7, xright=4.05, ybottom=10^(ymax + 0.02*(ymax-ymin)), ytop=10^(ymax + 0.07*(ymax-ymin)), col="gray93", border=NA, xpd=NA)
 }
