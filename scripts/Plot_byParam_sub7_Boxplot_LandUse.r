@@ -90,7 +90,7 @@ if (nrow(BoxData) == 0 ) {
 
   # Plot the non-detect limits
   for (k in 1:length(ndMin)) {
-    if (ndMin[k] <= -1) {
+    if (ndMin[k] >= 0) {
       
       # Minimum limit
       lines(x   = c(-0.5+k, 0.5+k), 
