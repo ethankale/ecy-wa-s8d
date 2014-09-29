@@ -71,12 +71,12 @@ criteria <- function(parameter, pH, hardness) {
   } else if (parameter == "Butyl benzyl phthalate water  (ug/L)") {
     criteriaList[1,"hh"] <- 1500
     
-  } else if (parameter == "Cadmium water  (ug/L)"){
-    if(missing(hardness)) {stop(missingHard)}
-    
-    criteriaList[1,"acute"]   <- exp((1.1280 * log(hardness)) - 3.828)
-    criteriaList[1,"chronic"] <- exp((0.7852 * log(hardness)) - 3.490)
-    
+#   } else if (parameter == "Cadmium water  (ug/L)"){
+#     if(missing(hardness)) {stop(missingHard)}
+#     
+#     criteriaList[1,"acute"]   <- exp((1.1280 * log(hardness)) - 3.828)
+#     criteriaList[1,"chronic"] <- exp((0.7852 * log(hardness)) - 3.490)
+#     
   } else if (parameter == "Cadmium water dissolved (ug/L)") {
     if(missing(hardness)) {stop(missingHard)}
     
@@ -96,12 +96,12 @@ criteria <- function(parameter, pH, hardness) {
   } else if (parameter == "Chrysene water  (ug/L)") {
     criteriaList[1,"hh"] <- 0.0028
     
-  } else if (parameter == "Copper water  (ug/L)") {
-    if(missing(hardness)) {stop(missingHard)}
-    
-    criteriaList[1,"acute"]   <- exp((0.9422 * (log(hardness))) - 1.464)
-    criteriaList[1,"chronic"] <- exp((0.8545 * (log(hardness))) - 1.465)
-    
+#   } else if (parameter == "Copper water  (ug/L)") {
+#     if(missing(hardness)) {stop(missingHard)}
+#     
+#     criteriaList[1,"acute"]   <- exp((0.9422 * (log(hardness))) - 1.464)
+#     criteriaList[1,"chronic"] <- exp((0.8545 * (log(hardness))) - 1.465)
+#     
   } else if (parameter == "Copper water dissolved (ug/L)"){
     if(missing(hardness)) {stop(missingHard)}
     
@@ -134,12 +134,12 @@ criteria <- function(parameter, pH, hardness) {
   } else if (parameter == "Indeno(1,2,3-cd)pyrene water  (ug/L)") {
     criteriaList[1,"hh"] <- 0.0028
     
-  } else if (parameter == "Lead water  (ug/L)") {
-    if(missing(hardness)) {stop(missingHard)}
-    
-    criteriaList[1,"acute"]   <- exp((1.273 * (log(hardness))) - 1.460)
-    criteriaList[1,"chronic"] <- exp((1.273 * (log(hardness))) - 4.705)
-    
+#   } else if (parameter == "Lead water  (ug/L)") {
+#     if(missing(hardness)) {stop(missingHard)}
+#     
+#     criteriaList[1,"acute"]   <- exp((1.273 * (log(hardness))) - 1.460)
+#     criteriaList[1,"chronic"] <- exp((1.273 * (log(hardness))) - 4.705)
+#     
   } else if (parameter == "Lead water dissolved (ug/L)") {
     if(missing(hardness)) {stop(missingHard)}
     
@@ -171,12 +171,12 @@ criteria <- function(parameter, pH, hardness) {
     criteriaList[1,"acute"]   <- 2
     criteriaList[1,"chronic"] <- 0.014
     
-  } else if (parameter == "Zinc water  (ug/L)") {
-    if(missing(hardness)) {stop(missingHard)}
-    
-    criteriaList[1,"acute"]   <- exp((0.8473 * log(hardness)) + 0.8604)
-    criteriaList[1,"chronic"] <- exp((0.8473 * log(hardness)) + 0.7614)
-    
+#   } else if (parameter == "Zinc water  (ug/L)") {
+#     if(missing(hardness)) {stop(missingHard)}
+#     
+#     criteriaList[1,"acute"]   <- exp((0.8473 * log(hardness)) + 0.8604)
+#     criteriaList[1,"chronic"] <- exp((0.8473 * log(hardness)) + 0.7614)
+#     
   } else if (parameter == "Zinc water dissolved (ug/L)") {
     if(missing(hardness)) {stop(missingHard)}
     

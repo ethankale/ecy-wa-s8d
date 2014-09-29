@@ -241,7 +241,7 @@ for (type in c("acute", "chronic", "hh", "cleanup", "screening")) {
      
      #text(theMin, j, labels = c(as.character(theMin)), pos = 3, offset = 0.5, cex = 0.85 )
      #text(theMax, j, labels = c(as.character(theMax)), pos = 3, offset = 0.5, cex = 0.85 )
-     exceeds[j] <- as.character(round(exceedPercent))
+     exceeds[j] <- paste(as.character(round(exceedPercent)), "%", sep="")
      
      # Add the min and max of the criteria to each data series
      acuteMin <- min(storm.current[which(storm.current$Parameter_string == param), type])
