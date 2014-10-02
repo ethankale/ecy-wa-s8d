@@ -4,8 +4,8 @@
 #
 # Designed to be run AFTER Plot_byParam_ver9_[date].r, in the SAME workspace.
 #
-# Both sample events (duration of datalogger) and storm events, which should be 
-#  duration from beginning to end of rainfall
+# Both sample events (duration from first aliquot to last aliquot) and storm events, 
+#  which should be duration from beginning to end of rainfall
 
 require(sqldf)
 

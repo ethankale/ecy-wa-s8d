@@ -148,14 +148,14 @@ criteria <- function(parameter, pH, hardness) {
     
   } else if (parameter == "Mercury water  (ug/L)") {
     
-    criteriaList[1,"acute"]   <- 2.1
+#    criteriaList[1,"acute"]   <- 2.1
     criteriaList[1,"chronic"] <- 0.012
     criteriaList[1,"hh"]      <- 0.14
     
-  } else if (parameter == "Mercury water dissolved (ug/L)") {
-    
-    criteriaList[1,"acute"]   <- 1.785
-    criteriaList[1,"chronic"] <- 0.0102
+   } else if (parameter == "Mercury water dissolved (ug/L)") {
+     
+     criteriaList[1,"acute"]   <- 1.785
+#     criteriaList[1,"chronic"] <- 0.0102
         
   } else if (parameter == "Pentachlorophenol water  (ug/L)") {
     if(missing(pH)) {stop(missingpH)}
