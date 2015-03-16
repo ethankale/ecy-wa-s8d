@@ -270,8 +270,8 @@ arealLoadSummary <- function(storm_load, ParamList) {
   
   for (i in c(1:length(ParamList))) {
     ParamData  <- storm_load[which(storm_load$Parameter_string == ParamList[i]), ]
-    Detects    <- ParamData$sample_loads[which(ParamData$nonDetect_Flag == FALSE) ]
-    nonDetects <- ParamData$sample_loads[which(ParamData$nonDetect_Flag == TRUE) ]
+    Detects    <- ParamData$sample_area_loads[which(ParamData$nonDetect_Flag == FALSE) ]
+    nonDetects <- ParamData$sample_area_loads[which(ParamData$nonDetect_Flag == TRUE) ]
     
     if (length(nonDetects) == 0) {
       num.nonDetects <- 0
