@@ -21,16 +21,16 @@ ND_Summer <- Data_Summer[which(Data_Summer$nonDetect_Flag == TRUE),]
 ND_Fall <- Data_Fall[which(Data_Fall$nonDetect_Flag == TRUE),]
 
 
-if (DetCount_Winter < 5 && any(BoxData$Season == 1)) {
+if (DetCount_Winter < 5 && any(BoxData$Season == 1, na.rm = TRUE)) {
     BoxData <- BoxData[-which(BoxData$Season == 1),]
 }
-if (DetCount_Spring < 5 && any(BoxData$Season == 2)) {
+if (DetCount_Spring < 5 && any(BoxData$Season == 2, na.rm = TRUE)) {
     BoxData <- BoxData[-which(BoxData$Season == 2),]
 }
-if (DetCount_Summer < 5 && any(BoxData$Season == 3)) {
+if (DetCount_Summer < 5 && any(BoxData$Season == 3, na.rm = TRUE)) {
     BoxData <- BoxData[-which(BoxData$Season == 3),]
 }
-if (DetCount_Fall < 5 && any(BoxData$Season == 4)) {
+if (DetCount_Fall < 5 && any(BoxData$Season == 4, na.rm = TRUE)) {
     BoxData <- BoxData[-which(BoxData$Season == 4),]
 }
 

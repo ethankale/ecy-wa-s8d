@@ -25,7 +25,7 @@ for (use in lu) {
   detCounts[j]<- detcount
   
   # Remove land uses with few detections from plotting
-  if (detcount < 5 && any(BoxData$Type == use)) {
+  if (detcount < 5 && any(BoxData$Type == use, na.rm = TRUE)) {
     BoxData <- BoxData[-which(BoxData$Type == use),]
   }
   

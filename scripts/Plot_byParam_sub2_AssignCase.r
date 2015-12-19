@@ -40,6 +40,8 @@ Case.list <- data.frame(Parameter=character(),
                  wilcoxon_pvalue=numeric())
 
 
+
+
 sink(paste(outputDirectory, "PetoPrentice.txt", sep="/"))
 #sink(paste(outputDirectory, "PetoPrentice_landuse.txt", sep=""))   ###use for parameter + landuse summary
 #sink(paste(outputDirectory, "PetoPrentice_season.txt", sep=""))   ###use for parameter + season summary
@@ -71,7 +73,7 @@ for (i in c(1:length(ParamList))) {
 
   # Calculate percent of censored samples for each group, and therefore statistical "grade" of the group (A,B, or C)
   nSamples  <- c(num.nonDetects + num.Detects)
-  pctCensor <- round(100*num.nonDetects / nSamples, 1)
+  pctCensor <- round(100 * num.nonDetects / nSamples, 1)
   if (pctCensor <= 50) {
     case.code <- "A"
   } else if (pctCensor <= 80) {

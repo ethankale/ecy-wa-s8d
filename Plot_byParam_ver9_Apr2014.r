@@ -6,7 +6,7 @@
 #scriptDirectory <- paste(dataDirectory, "R\\", sep="")
 #outputDirectory <- paste(scriptDirectory, "Output\\", sep="")
 
-dataDirectory   <- getwd()
+dataDirectory   <- "Z://ecy-wa-s8d"
 scriptDirectory <- paste(dataDirectory, "scripts", sep="/")
 outputDirectory <- paste(dataDirectory, "output", sep="/")
 
@@ -169,7 +169,7 @@ if (output_selected == "PDF") {
 } 
 
 write.csv(Case.list, paste(outputDirectory, "Param_Summary.csv", sep="/"))
-write.csv(Case.list, paste(outputDirectory, "Param_Summary_landuse.csv", sep="/"))
-write.csv(Case.list, paste(outputDirectory, "Param_Summary_season.csv", sep="/"))
+#write.csv(Case.list, paste(outputDirectory, "Param_Summary_landuse.csv", sep="/"))
+#write.csv(Case.list, paste(outputDirectory, "Param_Summary_season.csv", sep="/"))
 
 
